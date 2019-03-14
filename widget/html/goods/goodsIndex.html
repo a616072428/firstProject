@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name = "format-detection" content = "telephone=no">
+    <title>商品详情</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+            border: 0;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+
+        .sousuo{
+            position: absolute;
+            right:15px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+        }
+
+        .shoppings{
+            position: absolute;
+            right:45px;
+            bottom:13px;
+            width:18px;
+            height:18px;
+        }
+        #name{
+            padding:0 60px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="closePhoto()">
+    </div>
+    <div id="name">百搭时尚女衬上上衣短袖</div>
+    <img onclick="jumpShopping()" class="shoppings" src="../../icon/shopping_1.png" alt="">
+    <img onclick="jumpFeed();" class="sousuo"  src="../../image/feedback.png" alt="">
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+        if(api.pageParam.id){
+            api.pageParam.top = api.safeArea.top;
+            var header = document.querySelector('#topbar');
+            $api.fixStatusBar(header);
+            header.style.paddingTop = api.safeArea.top + 'px';
+            header.style.display = 'block';
+            config.winHeadHeight = header.offsetHeight;
+            quakooApp.openFrameInWin('goodsIndex_body','./goodsIndex_body.html',api.pageParam,{bgColor:'#fff'});
+        }else{
+            api.addEventListener({
+                name:"goodsIndexListener"
+            },function (ret) {
+                if(ret.value){
+                    if(ret.value.id){
+                        var statusBarAppearance = api.statusBarAppearance;//是否支持沉浸式
+                        var header = document.querySelector('#topbar');
+                        $api.fixStatusBar(header);
+                        header.style.paddingTop = api.safeArea.top + 'px';
+                        header.style.display = 'block';
+                        config.winHeadHeight = header.offsetHeight;
+                        quakooApp.openFrameInWin('goodsIndex_body','./goodsIndex_body.html',{id:ret.value.id,top:api.safeArea.top},{bgColor:'#fff'});
+                    }
+                }
+            })
+        }
+
+        api.addEventListener({
+            name:"keyback",
+        },function () {
+            closePhoto();
+        })
+    }
+    function closePhoto() {
+        /*if(quakooDb.getItem('PhotoBrowser_flag')){
+            api.execScript({
+                name:api.winName,
+                frameName:'goodsIndex_body',
+                script:"closePhotoBrowser()"
+            })
+        }else{
+            quakooApp.closeWin();
+        }*/
+        quakooApp.closeWin();
+    }
+    // 搜索跳转
+    function jumpSeek(){
+        quakooApp.openNewWindow('search','../search/search.html',{type:0});
+    }
+    // 购物车跳转
+    function jumpShopping(){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        quakooApp.openNewWindow('shoppings','../shoppings/shoppingBag_body.html',{jumpType:'goods'});
+    }
+//    修改name
+    function editName(name) {
+        document.getElementById('name').innerText = name;
+    }
+    function jumpFeed() {
+        quakooApp.openNewWindow('report','../style/report.html')
+    }
+</script>
+</html>

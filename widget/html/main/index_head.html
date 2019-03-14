@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commonWindow.css" />
+    <title>首页</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        #main{
+            display: none;
+        }
+
+        /*头部搜索*/
+        .home {
+            width: 100%;
+            transition: .3s;
+            padding: 10px 0;
+        }
+
+        .home .home_top {
+            width: 100%;
+            height: 30px;
+            position: relative;
+            transition: .3s;
+            overflow: hidden;
+        }
+
+        .home .home_top>div {
+            width: 154px;
+            height: 100%;
+            line-height: 30px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .home .home_top>div>img {
+            width: 50%;
+            height: 50%
+        }
+
+        .home .home_top>em {
+            width: 19px;
+            height: 19px;
+        }
+        #noRead{
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: red;
+            position: absolute;
+            top: -2px;
+            right: -3px;
+            display: none;
+        }
+
+        .home .home_bottom {
+            width: 100%;
+        }
+
+        .home .home_bottom > div {
+            height: 38px;
+            overflow: hidden;
+            padding-top: 8px;
+            margin:0 5%;
+        }
+
+        .home .home_bottom .input {
+            width: 90%;
+            height: 30px;
+            font-size: 13px;
+            line-height: 30px;
+            background: #ffffff;
+            color: #a7a7a7;
+            padding-left: 19px;
+            border-radius: 0;
+            border:0;
+        }
+
+        .fr1 {
+            background: url('../../icon/saomiao.png') no-repeat;
+            background-size: 100%;
+            position: absolute;
+            top: 5px;
+            right: 19.7%;
+        }
+
+        .fr2 {
+            background: url('../../icon/email.png') no-repeat;
+            background-size: 100%;
+            position: absolute;
+            top: 7px;
+            right: 5.4%;
+        }
+
+        .home .home_bottom em {
+            width: 10%;
+            height: 30px;
+        }
+
+        .fl3 {
+            background: #E5DFD9 url('../../icon/sousuo.png') no-repeat center;
+            background-size: 19px;
+        }
+
+    </style>
+</head>
+
+<body id="body">
+    <div id="main">
+        <!--头部搜索-->
+        <div class="home">
+            <div class="home_top">
+                <div><img src="../../icon/logo.png" alt="" /></div>
+                <em class="fr1" onclick="openShaoyishao();"></em>
+                <em class="fr2" onclick="openMsg()">
+                    <em id="noRead"></em>
+                </em>
+            </div>
+            <div class="home_bottom">
+                <div onclick="toSearch()">
+                    <div class="input fl" >搜索</div>
+                    <em class="fl fl3"></em>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+    <script type="text/javascript" src="../../script/api.js"></script>
+
+
+    <script>
+        apiready = function () {
+            var main = $api.dom('#main');
+            quakooDb.setItem('indexHead',true);
+
+            main.style.display = 'block';
+
+            //监听index_body页面滚动，改变frame高度
+            api.execScript({
+                name:"main",
+                frameName:"home",
+                script:"pageScroll()"
+            })
+            haveNoReadMess()
+        }
+        function changeHome(type) {
+            if(type){
+                document.querySelector('.home_top').style.height = '30px';
+                document.querySelector('.home').style.paddingTop = '10px';
+            }else{
+                document.querySelector('.home_top').style.height = '0';
+                document.querySelector('.home').style.paddingTop = '0';
+            }
+        }
+        //跳转搜索
+        function toSearch() {
+            quakooApp.openNewWindow('search','../search/search.html',{type:0});
+        }
+        //打开扫一扫
+        function openShaoyishao() {
+            if(!quakooUser.isLoginUser()){
+                quakooApp.openNewWindow('login','../login/login.html',{});
+                return ;
+            }
+            quakooApp.scanning(function (ret) {
+                if(ret.value){
+                    var id = ret.value.url;
+                    if(id==quakooUser.getUserInfo().id){
+                        quakooMsg.toast('不能添加自己为好友')
+                    }else{
+                        //跳转搜索结果页
+                        quakooApp.openNewWindow('addFriend','../mine/addFriend.html',{type:"RichScan",id:id})
+                    }
+                }
+            })
+        }
+        //打开消息
+        function openMsg() {
+            if(!quakooUser.isLoginUser()){
+                quakooApp.openNewWindow('login','../login/login.html',{});
+                return ;
+            }
+            quakooApp.openNativePage('msgNotice',{remindUrl:config.getUrl_web_mall_remindAll(),friendUrl:config.getUrl_web_user_friendPager(),deleFriendUrl:config.getUrl_web_user_friendDel()},1)
+        }
+    //    轮询判断有没有新消息
+        function haveNoReadMess() {
+            api.addEventListener({
+                name:"haveNoReadMess"
+            },function (ret) {
+                if(ret){
+                    if(ret.value){
+                        if(ret.value.isHave=='yes'){
+                            document.getElementById('noRead').style.display = 'block';
+                        }else if(ret.value.isHave=='no'){
+                            document.getElementById('noRead').style.display = 'none';
+                        }
+                    }
+                    setTimeout(function () {
+                        haveNoReadMess()
+                    },2000)
+                }else{
+                    setTimeout(function () {
+                        haveNoReadMess()
+                    },2000)
+                }
+            })
+        }
+    </script>
+</body>
+</html>

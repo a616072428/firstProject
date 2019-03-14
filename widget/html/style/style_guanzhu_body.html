@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>时尚圈</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+        }
+        #header{
+            width: 90%;
+            height: 100%;
+            line-height: 44px;
+            font-family: PingFangSC-Regular;
+            font-size: 18px;
+            color: #CACACA;
+            letter-spacing: 0;
+            text-align: center;
+            margin: 0 auto;
+        }
+        #header span{
+            margin-left: 15px;
+        }
+        #header span.active{
+            font-size: 20px;
+            color: #222222;
+            text-decoration:underline;
+            margin-left: 13px;
+        }
+        #header>div{
+            width: 20px;
+            height: 100%;
+            line-height: 44px;
+            float: right;
+        }
+        #header>div img{
+            width: 20px;
+            height: 20px;
+            margin-top: 12px;
+        }
+
+        /*导航*/
+        #style-nav{
+            width: 100%;
+            height: 45px;
+            border-bottom: 1px solid #f2f2f2;
+            display:box;
+            display: -webkit-box;
+            -webkit-box-orient: horizontal;/* 横排显示*/
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #ffffff;
+            z-index: 999;
+        }
+        #style-nav > div{
+            -webkit-box-flex: 1;
+            -webkit-box-align: center;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #9B9B9B;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 45px;
+        }
+        #style-nav > div.active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #424242;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        /*列表*/
+        #style-content{
+            width:100%;
+            padding:25px 19px 0 19px;
+            box-sizing: border-box;
+        }
+        #style-content li{
+            width: 48%;
+            height: 305px;
+            /*margin-right: 5px;*/
+            margin-bottom: 52px;
+        }
+        #style-content li:nth-of-type(2n+1){
+            float: left;
+        }
+        #style-content li:nth-of-type(2n){
+            float: right;
+        }
+        .imgWrap{
+            width: 100%;
+            overflow: hidden;
+        }
+        /*.imgWrap>img{*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*}*/
+        #style-content li> p{
+            width: 100%;
+            height: 40px;
+            line-height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin:14px 0 20px 0;
+            box-sizing: border-box;
+            word-break:break-all;
+            white-space:pre-warp;
+            word-wrapL:break-word;
+        }
+        #style-bottom{
+            width: 100%;
+            height: 25px;
+        }
+        .left{
+            width: 65%;
+            height: 25px;
+            float: left;
+            line-height: 25px;
+            position: relative;
+        }
+        .right{
+            width: 35%;
+            height: 25px;
+            float: right;
+            line-height: 25px;
+        }
+        .bottom-imgWrap{
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+        }
+        .left > span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #444444;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 4px;
+            display: inline-block;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            max-width: 58px;
+            white-space: nowrap;
+        }
+        .left > span > em{
+            position: absolute;
+            top:9px;
+            height: 10px;
+            width: 17px;
+            margin-left: 3px;
+            display: inline-block;
+            background: url('../../image/status.png') no-repeat;
+            background-size: 100%;
+        }
+        .right > span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: right;
+            float: right;
+            margin-top: 2px;
+            margin-right: 8px;
+        }
+        .support{
+            height: 18px;
+            width: 18px;
+            margin-right:4px;
+            display: inline-block;
+            background: url('../../image/dianzan01.png') no-repeat;
+            background-size: 100%;
+            float: right;
+            margin-top: 6px;
+        }
+        .support.active{
+            background: url('../../image/dianzan02.png') no-repeat;
+            background-size: 100%;
+        }
+        .topHeader{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+        }
+        #noContent{
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            color: #CCCCCC;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <!-- 列表 -->
+    <ul id="style-content">
+
+    </ul>
+    <div id="noContent">没有更多内容</div>
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="styleContent">
+    <%for(var i=0;i< list.length;i++){%>
+    <li>
+        <div class="imgWrap" style="height: <%=height%>;" onclick="openInfo(this,'<%=list[i].id%>')">
+            <%if(list[i].url != ""){%>
+            <img data-echo="<%=list[i].url%>" real-style="<%=list[i].style%>" alt="">
+            <%}else{%>
+            <img src="../../image/style01.jpg" style="width: 100%;height: 100%" alt="">
+            <%}%>
+        </div>
+        <p onclick="openInfo(this,'<%=list[i].id%>')"><%=list[i].content%></p>
+        <div id="style-bottom">
+            <div class="left" onclick="openUserInfo('<%=list[i].thirdId%>','<%=list[i].type%>')">
+                <div class="bottom-imgWrap">
+                    <%if(list[i].thirdIcon){%>
+                    <img data-echo="<%=list[i].thirdIcon%>" real-style="<%=list[i].iconStyle%>" alt="">
+                    <%}else{%>
+                    <img src="../../image/styleIcon.png" style="width: 100%;height: 100%;" alt="">
+                    <%}%>
+                </div>
+                <%if(list[i].thirdName){%>
+                <span><%=list[i].thirdName%></span>
+                <%}else{%>
+                <span>暂无昵称</span>
+                <%}%>
+            </div>
+            <div class="right">
+                <span class="supportNum"><%=list[i].supportNum%></span>
+                <%if(list[i].support){%>
+                <em  class="support active" onclick="supportStyle(0,'<%=list[i].id%>',this)"></em>
+                <%}else{%>
+                <em class="support" onclick="supportStyle(1,'<%=list[i].id%>',this)"></em>
+                <%}%>
+            </div>
+        </div>
+    </li>
+    <%}%>
+</script>
+<script>
+    var jumpDom;
+    var jumpId;
+    apiready = function(){
+        new QuakooPage(addTotalMoudal,config.getUrl_web_mall_dynamicFocusPager(),{});
+    }
+    function  addTotalMoudal(results,append) {
+        if(quakooUtils.isNotBlack(results)){
+            var width = api.winWidth*0.48;
+            for(var i =0;i<results.length;i++){
+                if(quakooUtils.isNotBlack(results[i].banners)){
+                    var obj = quakooImg.processImg(results[i].banners[0],width,305);
+                    results[i].url = obj.url;
+                    results[i].style = obj.style;
+                }
+                if(quakooUtils.isNotBlack(results[i].thirdIcon)){
+                    var iconObj = quakooImg.processImg(results[i].thirdIcon,25,25);
+                    results[i].thirdIcon = iconObj.url;
+                    results[i].iconStyle = iconObj.style;
+                }
+            }
+            var data ={list:results,height:width+'px'};
+            var html = template('styleContent',data);
+            if (append) {
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('style-content').appendChild(div);
+            } else {
+                document.getElementById("style-content").innerHTML = html;
+            }
+            setTimeout(function(){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            },100)
+        }
+    }
+    //点赞 0取消点赞 1点赞
+    var tag =true;
+    function supportStyle(type,sId,self){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        if(tag){
+            tag=false;
+            if(type==0){
+                quakooData.ajaxSubmitDataNoProgress(config.getUrl_web_system_supportDelete(),{type:2,typeId:sId},function(ret,err){
+                    if(ret.success){
+                        self.classList.remove('active');
+                        self.onclick = function(){
+                            supportStyle(1,sId,self);
+                        }
+                        quakooMsg.toast('取消点赞成功');
+                        self.previousElementSibling.innerHTML = parseInt(self.previousElementSibling.innerHTML)-1;
+                        tag=true;
+                        api.execScript({
+                            name:'main',
+                            frameName:'style_faxian',
+                            script:'getData()'
+                        });
+                        quakooMsg.hideProgress();
+                    }else{
+                        tag=true;
+                        quakooMsg.hideProgress();
+                    }
+                })
+            }else{
+                quakooData.ajaxSubmitDataNoProgress(config.getUrl_web_system_supportAdd(),{type:2,typeId:sId},function(ret,err){
+                    if(ret.success){
+                        self.classList.add('active');
+                        self.onclick = function(){
+                            supportStyle(0,sId,self);
+                        }
+                        self.previousElementSibling.innerHTML = parseInt(self.previousElementSibling.innerHTML)+1;
+                        tag=true;
+                        api.execScript({
+                            name:'main',
+                            frameName:'style_faxian',
+                            script:'getData()'
+                        });
+                        quakooMsg.toast('点赞成功');
+                        quakooMsg.hideProgress();
+                    }else{
+                        tag=true;
+                        quakooMsg.hideProgress();
+                    }
+                })
+            }
+        }
+    }
+    //跳转详情
+    function openInfo(self,id){
+        jumpDom = self;
+        jumpId = id;
+        quakooApp.openNewWindow('style_index','style_index.html',{id:id,jumpHtml:"guanzhu"},{slidBackEnabled:false});
+    }
+    function changeSupport() {
+        if($(jumpDom).parents('li').find('.support').hasClass('active')){
+            $(jumpDom).parents('li').find('.supportNum').html(parseInt($(jumpDom).parents('li').find('.supportNum').html())-1)
+            $(jumpDom).parents('li').find('.support')[0].onclick = function(){
+                supportStyle(1,jumpId,$(jumpDom).parents('li').find('.support')[0])
+            }
+        }else{
+            $(jumpDom).parents('li').find('.supportNum').html(parseInt($(jumpDom).parents('li').find('.supportNum').html())+1)
+            $(jumpDom).parents('li').find('.support')[0].onclick = function(){
+                supportStyle(0,jumpId,$(jumpDom).parents('li').find('.support')[0])
+            }
+        }
+        $(jumpDom).parents('li').find('.support').toggleClass('active');
+    }
+    //跳转个人主页/店铺主页
+    function openUserInfo(id,type) {
+        if(type==0){
+            quakooApp.openNewWindow('myPage','../mine/myPage.html',{id:id});
+        }else{
+            quakooApp.openNewWindow('store','../store/store.html',{id:id,showDynamic:true});
+        }
+    }
+</script>
+</body>
+</html>

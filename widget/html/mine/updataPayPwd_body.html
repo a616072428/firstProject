@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>设置支付密码</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        .edit{
+            background: #fff;
+            padding:13px 19px 12px 19px;
+            box-sizing: border-box;
+        }
+        .edit > input{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            border:none;
+            background: #fff;
+            height: 20px;
+            line-height: 20px;
+            width: 100%;
+        }
+        #btn{
+            width: 90%;
+            height: 45px;
+            line-height: 45px;
+            background: #222222;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #F9F9F9;
+            letter-spacing: -0.39px;
+            text-align: center;
+            margin:0 auto;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+<div id="body">
+    <div class="edit">
+        <input type="number" id="code" placeholder="请输入验证码"/>
+    </div>
+    <div class="edit">
+        <input type="number" id="pwdVal" style="-webkit-text-security:disc;text-security:disc;" placeholder="请输入支付密码" maxlength="6" minlength="6"/>
+    </div>
+    <div class="edit">
+        <input type="number" id="endPwdVal" style="-webkit-text-security:disc;text-security:disc;" placeholder="请确认支付密码" maxlength="6" minlength="6"/>
+    </div>
+    <div id="btn" onclick="ok();">完成</div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script>
+    apiready = function () {
+        quakooData.ajaxGetData(config.getUrl_web_user_createAuthCodeOnUpdatePassword(),{
+            phone : quakooUser.getUserInfo().phone
+        },function(ret){
+            if(ret && ret.success){
+                quakooMsg.toast('验证码发送成功')
+            } else {
+                var errorMsg="出错了，请稍后。";
+                if(ret && ret.msg){
+                    errorMsg=ret.msg;
+                }
+                api.toast({
+                    msg : errorMsg
+                });
+            }
+        });
+
+    };
+
+    function ok() {
+        var code = document.getElementById('code').value;
+        var p = document.getElementById('pwdVal').value;
+        var np = document.getElementById('endPwdVal').value;
+        if(quakooUtils.isBlack(code)){
+            quakooMsg.toast('请输入验证码');
+            return;
+        }
+        if(p.length!=6){
+            quakooMsg.toast('请输入6位数字的支付密码');
+            return;
+        }
+        if(quakooUtils.isBlack(np)){
+            quakooMsg.toast('请确认支付密码');
+            return;
+        }
+        if(p != np){
+            quakooMsg.toast('两次支付密码不一致');
+            return;
+        }
+        quakooMsg.showProgress()
+        var parme = {};
+        parme.code = code;
+        parme.phone = quakooUser.getUserInfo().phone;
+        parme.newPayPassword = p;
+        quakooData.ajaxSubmitData(config.getUrl_web_user_editPayPwd(),parme,function(ret,err) {
+            quakooMsg.hideProgress()
+            if(ret && ret.success){
+                quakooMsg.toast('设置成功！')
+                setTimeout(function () {
+                    quakooApp.closeWin()
+                },1000)
+            }else{
+                quakooMsg.toast(ret.msg);
+            };
+        });
+    }
+
+
+</script>
+</html>

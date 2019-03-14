@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>商品列表</title>
+    <link rel="stylesheet" href="../../css/api.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css"/>
+    <style type="text/css">
+        body {
+            min-width: 320px;
+            background: #fff;
+        }
+        .list-content{
+            margin-top: 17px;
+            padding:0 19px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .list-content > div{
+            width:48%;
+            /*min-height: 415px;*/
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .list-content > div:nth-of-type(2n){
+            float: right;
+        }
+        .collect{
+            position: absolute;
+            width: 20px;height: 20px;
+            right: 12px;top: 14px;
+            background: url("../../icon/collectno.png") no-repeat center;
+            background-size: 100%;
+        }
+        .collect.active{
+            background: url("../../icon/collectyes.png") no-repeat center;
+            background-size: 100%;
+        }
+        .list-content > div:nth-of-type(2n+1){
+            float: left;
+        }
+        .list-content > div:nth-of-type(2n+0){
+            float: right;
+        }
+
+        .list-content > div .img{
+            width: 170px;
+            height: 170px;
+            overflow: hidden;
+        }
+        .list-content > div  img{
+            display: block;
+        }
+        .list-content > div > p{
+            margin-top: 19px;
+            font-family: TeluguMN-Bold;
+            font-size: 15px;
+            color: #111111;
+            letter-spacing: 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            line-height: 18px;
+            text-overflow: ellipsis;
+        }
+        .list-content > div > span{
+            display: block;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            line-height: 18px;
+            text-overflow: ellipsis;
+        }
+        .list-content > div > i{
+            margin-top: 9px;
+            display: block;
+            font-family: STHeitiSC-Medium;
+            font-size: 17px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="body">
+    </div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="listTmp">
+    <%if(list){%>
+        <div class="list-content">
+            <%for(var i = 0; i < list.length;i++){%>
+                <div onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+                    <div class="img">
+                        <img data-echo="<%=list[i].covers[0]%>" alt="" real-style="<%=list[i].style%>">
+                    </div>
+                    <p><%=list[i].title%></p>
+                    <span><%=list[i].name%></span>
+                    <i>￥<%=list[i].price%></i>
+                    <%if(list[i].favorite){%>
+                    <em class="collect active" onclick="toCollect('<%=list[i].id%>',1,this)"></em>
+                    <%}else{%>
+                    <em class="collect" onclick="toCollect('<%=list[i].id%>',2,this)"></em>
+                    <%}%>
+                </div>
+            <%}%>
+        </div>
+    <%}%>
+</script>
+
+<script>
+    var sort=4;
+    apiready = function () {
+        getData()
+    };
+    function getData(num){
+        if(num){
+            sort = num;
+        }
+        new QuakooPage(addDataToHtml,config.getUrl_web_mall_getStoreOfGoods(),{sid:parseInt(api.pageParam.id),sort:sort})
+    }
+
+    //渲染列表
+    function addDataToHtml(results,append) {
+        if(results){
+            for(var i=0;i<results.length;i++){
+                if(results[i].covers[0]){
+                    var obj = quakooImg.processImg(results[i].covers[0],170,170);
+                    results[i].style = obj.style;
+                    results[i].covers[0] = obj.url;
+                }
+                results[i].price = quakooUtils.formatMoney(results[i].price/100,2);
+            }
+            var data = {list: results};
+            var html = template('listTmp',data);
+            if (append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('body').appendChild(div);
+            } else {
+                document.getElementById('body').innerHTML = html;
+            }
+            document.getElementById("body").style.display = "block";
+            setTimeout(function(){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            },100)
+            // api.parseTapmode();
+
+        }
+    };
+
+    //打开详情
+    function openIndex(id,title) {
+        quakooApp.openNewWindow('goodsIndex','goodsIndex.html',{id:id,title:title});
+    }
+    // 2 收藏     1取消收藏
+    var collectFlag = true;
+    function toCollect(id,favoriteFlag,self,e) {
+        quakooUtils.stopEventBubble(e)
+        if(collectFlag){
+            collectFlag = false;
+            if(!quakooUser.isLoginUser()){
+                collectFlag = true;
+                quakooApp.openNewWindow('login','../login/login.html',{});
+                return ;
+            }
+            if(favoriteFlag==1){
+                quakooMsg.showProgress();
+                quakooData.ajaxGetData(config.getUrl_web_system_favoriteDelete(),{typeId:id,type:1},function (ret,err) {
+                    collectFlag = true;
+                    quakooMsg.hideProgress();
+                    if(ret && ret.success){
+                        quakooMsg.toast('取消成功');
+                        self.classList.toggle('active');
+                        self.onclick = function () {
+                            toCollect(id,2,self)
+                        }
+                        api.execScript({
+                            name:'main',
+                            frameName:'my',
+                            script:'editCollectNum("-")'
+                        });
+                    }else{
+                        quakooMsg.toast(err.msg)
+                    }
+                })
+            }else{
+                quakooMsg.showProgress();
+                quakooData.ajaxGetData(config.getUrl_web_system_favoriteAdd(),{typeId:id,type:1},function (ret,err) {
+                    collectFlag = true;
+                    quakooMsg.hideProgress();
+                    if(ret && ret.success){
+                        quakooMsg.toast('收藏成功');
+                        self.classList.toggle('active');
+                        self.onclick = function () {
+                            toCollect(id,1,self)
+                        }
+                        api.execScript({
+                            name:'main',
+                            frameName:'my',
+                            script:'editCollectNum("+")'
+                        });
+                    }else{
+                        quakooMsg.toast(err.msg)
+                    }
+                })
+            }
+        }
+
+    }
+
+</script>
+</html>

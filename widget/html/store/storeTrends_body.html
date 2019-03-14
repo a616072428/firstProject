@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title></title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body,html{
+            background: #fff;
+            -webkit-overflow-scrolling: touch;
+        }
+        #mainTrends{
+            padding-top: 89px;
+        }
+        .trends-list{
+            padding:6px 19px 0 19px;
+            margin-top: 21px;
+        }
+        .trends-header > div{
+            width: 44px;
+            height: 44px;
+            overflow: hidden;
+            float: left;
+        }
+        .trends-header > div > img{
+            width: 100%;
+            height: 100%;
+        }
+        .trends-header > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-left:12px;
+            margin-top: 6px;
+        }
+        .trends-header > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #BBBBBB;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 56px;
+        }
+        .trends-list > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #505050;
+            letter-spacing: 0;
+            text-align: left;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2;
+            margin: 15px 0 11px 0;
+        }
+
+        .imgBox{
+            overflow: hidden;
+            float: left;
+        }
+        .imgBox1{
+            height: 278px;
+            width: 100%;
+        }
+        .imgBox2{
+            width: 49%;
+            height: 139px;
+        }
+        .imgBox3{
+            height: 139px;
+            width: 32%;
+        }
+        /*.imgBox > img{*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*}*/
+        .imgWrap{
+            width: 100%;
+            height: 139px;
+            margin: 2px 0 2px 0;
+        }
+        .imgWrap > li:nth-child(2){
+            margin:0 2px 0 2px;
+        }
+
+    </style>
+</head>
+
+<body id="body" style="display: none;">
+    <div id="mainTrends">
+
+
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+
+<script type="text/html" id="contentTmp">
+    <%if(list){%>
+        <%for(var i = 0; i < list.length; i++){%>
+            <div class="trends-list">
+                <div class="trends-header">
+                    <div>
+                        <img onerror="this.src='../../icon/myIcon.png'" alt="" src="<%=list[i].icon%>" style="<%=list[i].style%>" >
+                    </div>
+                    <span><%=list[i].subName%></span>
+                    <p><%=list[i].Ctime%></p>
+                </div>
+                <p><%=list[i].content%></p>
+                <%if(list[i].tailorImg.length>0){%>
+                <%if(list[i].tailorImg.length==1){%>
+                <ul class="imgWrap" style="height:278px;">
+                    <li class="imgBox imgBox1">
+                        <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                    </li>
+                </ul>
+                <%}else if(list[i].tailorImg.length==2){%>
+                <ul class="imgWrap" style="height:278px;">
+                    <li class="imgBox imgBox2" style="height:278px;">
+                        <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                    </li>
+                    <li class="imgBox imgBox2" style="height:278px;">
+                        <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                    </li>
+                </ul>
+                <%}else if(list[i].tailorImg.length==3){%>
+                <ul class="imgWrap">
+                    <li class="imgBox imgBox3">
+                        <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                    </li>
+                    <li class="imgBox imgBox3">
+                        <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                    </li>
+                    <li class="imgBox imgBox3">
+                        <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+                    </li>
+                </ul>
+                <%}else if(list[i].tailorImg.length==4){%>
+                <ul class="imgWrap">
+                    <li class="imgBox imgBox2">
+                        <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                    </li>
+                    <li class="imgBox imgBox2">
+                        <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                    </li>
+                </ul>
+                <ul class="imgWrap">
+                    <li class="imgBox imgBox2">
+                        <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+                    </li>
+                    <li class="imgBox imgBox2">
+                        <img src="<%=list[i].tailorImg[3]%>" style="<%=list[i].style[3]%>" alt="">
+                    </li>
+                </ul>
+                <%}else{%>
+                <ul class="imgWrap">
+                    <li class="imgBox imgBox3">
+                        <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                    </li>
+                    <li class="imgBox imgBox3">
+                        <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                    </li>
+                    <li class="imgBox imgBox3">
+                        <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+                    </li>
+                </ul>
+                <ul class="imgWrap">
+                    <%for(var k= 0; k < list[i].tailorImg.length-3; k++){%>
+                    <li class="imgBox imgBox3">
+                        <img src="<%=list[i].tailorImg[3+k]%>" style="<%=list[i].style[3+k]%>" alt="">
+                    </li>
+                    <%}%>
+                </ul>
+                <%}%>
+                <%}%>
+            </div>
+        <%}%>
+    <%}%>
+</script>
+
+<script>
+    apiready = function(){
+        quakooDb.setItem('storeTrends','storeTrends')
+        //根据店铺id 类型获取动态
+        new QuakooPage(addDataToHtmlTrends,config.getUrl_web_mall_getStoreDynamic(),{uid:parseInt(api.pageParam.id)})
+        document.onscroll = function () {
+            pageScroll()
+        }
+    }
+    function pageScroll() {
+        if(quakooUtils.getScrollTop()>150){
+            if(quakooDb.getItem('store_head')){
+                api.execScript({
+                    name:"store",
+                    frameName:"store_head",
+                    script:"changeLayout()"
+                })
+            }
+
+            api.setFrameAttr({
+                name: 'store_head',
+                rect:{
+                    x:0,
+                    marginTop: 0,
+                    w: 'auto',
+                    h: api.pageParam.top + 45 + 44
+                }
+            });
+        }else{
+            if(quakooUtils.getScrollTop()<80){
+                if(quakooDb.getItem('store_head')){
+                    api.execScript({
+                        name:"store",
+                        frameName:"store_head",
+                        script:"changeLayout(true)"
+                    })
+                }
+                api.setFrameAttr({
+                    name: 'store_head',
+                    rect:{
+                        x:0,
+                        marginTop: 0,
+                        w: 'auto',
+                        h: api.pageParam.top + 45 + 91 + 44
+                    }
+                });
+            }
+        }
+    }
+    function addDataToHtmlTrends(results,append){
+        if(results){
+            for(var j = 0; j < results.length;j++){
+                results[j].Ctime = quakooUtils.formatTimeToDayDate(results[j].ctime)
+                //处理头像
+                if(results[j].icon){
+                    var listicon = results[j].icon;
+                    var size = 44;
+                    var obj = quakooImg.processImg(listicon,size,size);
+                    results[j].style = obj.style;
+                    results[j].icon = obj.url;
+                }
+                //处理图片
+                if (results[j].banners.length > 0) {
+                    results[j].tailorImg=[];
+                    results[j].style=[];
+                    if (results[j].banners.length == 1) {
+                        var width = api.winWidth - 38;
+                        var height = 278;
+                        var obj = quakooImg.processImg(results[j].banners[0], width, height)
+                        results[j].tailorImg.push(obj.url);
+                        results[j].style.push(obj.style);
+                    } else if (results[j].banners.length == 2 || results[j].banners.length == 4) {
+                        for (var k = 0; k < results[j].banners.length; k++) {
+                            var width = (api.winWidth - 38-4) * 0.49;
+                            var height ="";
+                            if(results[j].banners.length == 2 ){
+                                height = 278;
+                            }else{
+                                height = 139;
+                            }
+                            var obj = quakooImg.processImg(results[j].banners[k], width, height)
+                            results[j].tailorImg.push(obj.url);
+                            results[j].style.push(obj.style);
+                        }
+                    } else if (results[j].banners.length >= 3 && results[j].banners.length !== 4) {
+                        for (var n = 0; n < results[j].banners.length; n++) {
+                            var width = (api.winWidth - 38-4) * 0.32;
+                            var height = 139;
+                            var obj = quakooImg.processImg(results[j].banners[n], width, height);
+                            results[j].tailorImg.push(obj.url);
+                            results[j].style.push(obj.style);
+                        }
+                    }
+                }
+
+            }
+            var data = {list: results};
+            var html = template('contentTmp',data);
+            if (append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('mainTrends').appendChild(div);
+            } else {
+                document.getElementById('mainTrends').innerHTML = html;
+            }
+            api.parseTapmode();
+            document.getElementById("body").style.display = "block";
+        }
+
+    }
+</script>
+
+</html>

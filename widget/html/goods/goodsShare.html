@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commonWindow.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css" />
+
+    <title>商品详情</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
+        #topbar{
+            position:fixed;
+            width: 100%;
+            /*height: 44px;*/
+            top: 0;left: 0;
+            border: 0;
+            display: block;
+            z-index: 999;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+        #name{
+            padding:0 45px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #main{
+            width: 100%;
+            padding-top: 44px;
+        }
+        /*轮播*/
+        .swiper-goods {
+            width: 100%;
+            height: 414px;
+        }
+        .swiper-goods .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .swiper-goods .swiper-slide div{
+            width: 100%;
+            height: 414px;
+            overflow: hidden;
+        }
+        .swiper-goods .swiper-pagination-bullet {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            opacity: 1;
+            background: #b6b6b6;
+            vertical-align: middle;
+            box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+        }
+        .swiper-goods .swiper-pagination-bullet-active {
+            border: 1px solid #222222;
+            background: #222222;
+        }
+        /*简介 轮播图下面*/
+        #brief{
+            height: 175px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        #brief > :nth-child(1){
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #9E7443;
+            letter-spacing: 0;
+            text-align: center;
+            padding-top: 16px;
+        }
+        #brief > :nth-child(2){
+            font-family: TeluguMN-Bold;
+            font-size: 15px;
+            color: #111111;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 9px;
+        }
+        #brief > :nth-child(3){
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 7px;
+        }
+        #brief > :nth-child(4){
+            font-family: STHeitiSC-Medium;
+            font-size: 18px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 13px;
+        }
+        #size,#synthesize{
+            width: 100%;
+            overflow: hidden;
+            padding:0 19px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        #size > :nth-child(1),
+        #size > :nth-child(3){
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        #size > :nth-child(1) > em,
+        #size > :nth-child(3) > em{
+            font-family: PingFangSC-Light;
+            font-size: 16px;
+            color: #717171;
+            letter-spacing: 0;
+            margin-left: 21px;
+        }
+        #size > div{
+            width: 49px;
+            height: 49px;
+        }
+        #size > :nth-child(2){
+            width: 100%;
+        }
+        #size > :nth-child(2) > div{
+            width:53px;
+            height: 53px;
+            box-sizing: border-box;
+            float: left;
+            margin-right: 4px;
+        }
+        #size #color div.active{
+            border: 3px solid #ccc;
+        }
+        .ColorActive{
+            border: 2px solid #979797;
+        }
+        #size > :nth-child(3){
+            margin-top: 14px;
+            margin-bottom: 12px;
+        }
+        .sizeXS,
+        .sizeS,
+        .sizeM,
+        .sizeL{
+            float: left;
+            text-align: center;
+            line-height: 48px;
+            background: #fff;
+            border: 1px solid #D2D2D2;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #555555;
+            letter-spacing: 0;
+            margin-right: 8px;
+        }
+        .sizeXS.active{
+            background: #282828;
+            color: #fff;
+        }
+        #size div.active{
+            background: #222222;
+            border: 1px solid #222222;
+            font-family: PingFangSC-Semibold;
+            font-size: 16px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+        }
+
+
+        #synthesize > ul > li{
+            clear: both;
+            /*height: 66px;*/
+            line-height: 66px;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        #synthesize > ul > li > em{
+            width: 15px;
+            height: 15px;
+            background: url("../../icon/down.png") no-repeat;
+            background-size: 100%;
+            float: right;
+            margin-top:27px;
+        }
+        #synthesize > ul > li > em.active{
+            background: url("../../icon/up.png") no-repeat;
+            background-size: 100%;
+        }
+        .lookAll{
+            display: none;
+        }
+        .allPinlun{
+            width: 100%;
+            height: 60px;
+            background: #fff;
+        }
+        .allPinlun > div{
+            width: 87px;
+            height: 35px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 35px;
+            float: right;
+            margin-top: 21px;
+        }
+
+        .pinlun > :nth-child(2){
+            clear: both;
+            box-sizing: border-box;
+        }
+        .icon{
+            line-height: 29px;
+        }
+        .icon > .img{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            float: left;
+            overflow: hidden;
+        }
+        .icon  .img img{
+            display: block;
+        }
+        .icon > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #5E5E5E;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 12px;
+            margin-right:6px;
+            float: left;
+            line-height: 29px;
+        }
+        .icon > p > em{
+            width: 17px;
+            height: 10px;
+            background: #9E7443;
+            border-radius: 1.25px;
+            font-family: PingFangSC-Regular;
+            font-size: 5px;
+            color: #FAFAFA;
+            text-align: center;
+            line-height: 10px;
+            vertical-align: top;
+            margin-top: 10px;
+        }
+        .icon > p > span,.icon > p > i{
+            font-family: PingFangSC-Regular;
+            font-size: 10px;
+            color: #5E5E5E;
+            letter-spacing: -0.24px;
+            text-align: center;
+        }
+        .icon > p > span{
+            margin: 0 8px 0 18px;
+        }
+        .pinlun-item{
+            background: #fff;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            padding-top: 16px;
+            border-bottom: 12px solid #F5F5F5;
+            box-sizing: border-box;
+        }
+        .pinlun-item div:nth-of-type(1){
+            margin-bottom: 3px;
+        }
+        .pinlun-item > :nth-child(1) > p{
+            clear: both;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #7F7F7F;
+            letter-spacing: 0;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        .pinlun-size{
+            clear: both;
+            overflow: hidden;
+        }
+        .pinlun-size > p{
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #A3A1A1;
+            letter-spacing: -0.27px;
+            padding-top: 7px;
+            float: left;
+        }
+        .pinlun-item > :nth-child(3) > p > span{
+            margin-left: 26px;
+        }
+        .pinglun-dianzan{
+            padding-bottom: 10px;
+            border-bottom: 1px solid #F5F5F5;
+        }
+       /* .pinglun-dianzan :nth-child(1){
+            float: left;
+            height: 18px;
+            width: 20%;
+            line-height: 18px;
+        }*/
+        .pinglun-dianzan >:nth-child(1) > p,
+        .pinglun-dianzan >:nth-child(2) > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #D2D2D2;
+            letter-spacing: 0;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+
+
+        .pinglun-dianzan >:nth-child(1) > p > span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #C4C4C4;
+            letter-spacing: 0;
+            text-align: right;
+            float: right;
+            width: auto;
+        }
+        .imgList{
+            overflow: hidden;
+        }
+        .imgList .imgImg{
+            width: 32%;
+            height: 109px;
+            overflow: hidden;
+            float: left;
+            margin-bottom: 11px;
+        }
+        .imgList img{
+            display: block;
+        }
+        .imgList > :nth-child(3n+2){
+            margin: 0 2%;
+        }
+
+
+        #recommend{
+            padding:0 19px;
+            box-sizing: border-box;
+            height: 400px;
+        }
+        #recommend > p{
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            padding-top:88px;
+            margin-bottom: 25px;
+        }
+        .recommend-item{
+            width: 100%;
+            height: 215px;
+        }
+        .recommend-item > .item{
+            width: 127px;
+            height: 215px;
+            float: left;
+            box-sizing: border-box;
+        }
+        .item > div{
+            width: 127px;
+            height: 156px;
+            overflow: hidden;
+        }
+        .item p{
+            width: 127px;
+        }
+        .item > :nth-child(2){
+            font-family: TeluguMN-Bold;
+            font-size: 13px;
+            color: #111111;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 16px;
+            margin-bottom:3px;
+            margin-top: 5px;
+        }
+        .item > :nth-child(3){
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 16px;
+            margin-bottom:5px;
+        }
+        .item > :nth-child(4){
+            font-family: STHeitiSC-Medium;
+            font-size: 14px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 14px;
+            margin:0;
+        }
+
+        #buy-bottom{
+            width: 100%;
+            /*height: 48px;*/
+            border-top: 1px solid #BFBFBF;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            background: #fff;
+            z-index: 999;
+        }
+        #buy-bottom > div{
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+        }
+
+        .dianpu,.kefu,.share{
+            width: 25px;
+            height: 25px;
+            background: url('../../icon/storeIcon.png') no-repeat;
+            background-size: 100%;
+            margin-top: 8px;
+            box-sizing: border-box;
+        }
+        .kefu{
+            background: url('../../icon/kefu.png') no-repeat;
+            background-size: 100%;
+        }
+        .share{
+            background: url('../../image/share.png') no-repeat;
+            background-size: 100%;
+        }
+        .bottom-left{
+            display: flex;
+            padding: 0 8px;
+            justify-content: space-around;
+        }
+        .bottom-left > div{
+            height: 49px;
+            text-align: center;
+            float: left;
+        }
+        .bottom-left > div > p{
+            font-family: PingFangSC-Regular;
+            font-size: 9px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: center;
+            margin:0;
+            line-height: 9px;
+        }
+
+        #buy-bottom > div:nth-child(2){
+            background: #222222;
+        }
+        #buy-bottom > div:last-of-type{
+            background: #9E7443;
+        }
+        #buy-bottom > div:nth-child(2),
+        #buy-bottom > div:last-of-type{
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 48px;
+        }
+        #synthesize > ul > li > div{
+            display: none;
+        }
+        .index-detail,
+        .shopingsNeed,
+        .sizeBox,
+        .nurse,
+        .commentBox{
+            width: 100%;
+            display: block;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #7F7F7F;
+            letter-spacing: 0;
+            line-height: 16px;
+            padding-bottom: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        pre img{
+            width: 100%!important;
+            height: auto!important;
+        }
+        .pinlun{
+            display: block;
+        }
+        .pinlun-size .del{
+            width: 25px;
+            height: 21px;
+            float: right;
+            background: url("../../icon/del.png") no-repeat center 7px;
+            background-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="topbar" >
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();">
+    </div>
+    <div id="name">时尚宽松修身大叔</div>
+</div>
+<div id="main" style="display:block !important">
+
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/javascript" src="../../script/swiper-3.3.1.min.js"></script>
+<script type="text/html" id="indexTmp">
+    <%if(list){%>
+        <div class="swiper-container swiper-goods">
+            <div class="swiper-wrapper">
+                <%for(var i = 0; i < list.covers.length; i++){%>
+                <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+                <div class="swiper-slide">
+                    <div>
+                        <img src="<%=list.covers[i]%>" style="<%=list.style[i]%>">
+                    </div>
+                </div>
+                <%}%>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <!--详情-->
+        <div id="brief">
+            <p>包税</p>
+            <p><%=list.name%></p>
+            <p><%=list.title%></p>
+            <p>￥<%=list.price%></p>
+        </div>
+        <!--颜色-->
+        <div id="size">
+            <p>颜色<em id="colorName"></em></p>
+            <div id="color">
+                <%for(var i = 0; i < list.Color.length; i++){%>
+                    <div onclick="callBack('<%=list.Color[i].name%>','<%=list.Color[i].color%>',this)" style="background:<%=list.Color[i].color%>"></div>
+                <%}%>
+            </div>
+
+            <p>尺寸<em id="sName"></em></p>
+            <%for(var i = 0; i < list.Size.length; i++){%>
+                <div class="sizeXS"  onclick="selcts(this,'<%=list.Size[i]%>')"><%=list.Size[i]%></div>
+            <%}%>
+        </div>
+
+        <div id="synthesize">
+            <ul>
+                <li onclick="lookAllIndex(this)">商品描述<em class="active"></em>
+                    <pre class="index-detail"><%=list.detail%></pre>
+                </li>
+                <li onclick="lookAllIndex(this)">尺码<em></em>
+                    <div class="sizeBox"><%=list.size%></div>
+                </li>
+                <li onclick="lookcomment(this)">评论(<span id="commentNumber"><%=list.commentNum%></span>)<em id="commentNum" class="active"></em></li>
+                <div id="pinlun" class="lookAll pinlun">
+                    <div id="commentDom">
+
+                    </div>
+                </div>
+                <li onclick="lookAllIndex(this)">成分与护理<em class="active"></em>
+                    <pre class="nurse"><%=list.elementAndNurse%></pre>
+                </li>
+                <li onclick="lookAllIndex(this)">购物须知<em class="active"></em>
+                    <pre class="shopingsNeed"><%=list.buyReading%></pre>
+                </li>
+            </ul>
+        </div>
+
+        <div id="recommend"  style="display: none; z-index: 1">
+
+        </div>
+    <%}%>
+</script>
+<script type="text/html" id="commentTmp">
+    <%for(var i = 0;i < list.length;i++){%>
+    <div class="pinlun-item">
+        <div>
+            <div class="icon">
+                <div class="img">
+                    <img src="<%=list[i].user.icon%>" alt="" style="<%=list[i].user.style%>">
+                </div>
+                <p><%=list[i].user.name%> <em><%=list[i].userExpenseLevelInfo.levelName%></em> <span>身高 <%=list[i].user.height%></span><i>体重 <%=list[i].user.weight%></i></p>
+            </div>
+            <p><%=list[i].content%></p>
+        </div>
+        <%if(list[i].images){%>
+        <div class="imgList">
+            <%for(var j=0;j< list[i].images.length;j++){%>
+                <div class="imgImg">
+                    <img src="<%=list[i].images[j]%>" alt="" style="<%=list[i].styles[j]%>">
+                </div>
+            <%}%>
+        </div>
+        <%}%>
+        <div class="pinglun-dianzan">
+            <div>
+                <p><span><%=list[i].Ctime%></span></p>
+            </div>
+        </div>
+        <div class="pinlun-size">
+            <%if(list[i].subOrder){%>
+            <p>颜色 <%=list[i].subOrder.goodsInfos[0].color%> &nbsp;<span>尺码 <%=list[i].subOrder.goodsInfos[0].size%></span></p>
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+</script>
+
+<script type="text/javascript">
+    var size;
+    var goodsId;
+    var id;
+    var sid;
+    var serverUrl = 'http://39.107.247.82:19996';
+
+    apiready = function() {
+        id =43;
+        // id = GetRequest().id;
+        //获取商品详情
+        getGoodsIndex();
+    };
+    //获取商品详情
+    function getGoodsIndex() {
+        ajaxData(serverUrl + '/goods/load',{id:id},function (ret) {
+            if(ret.success == true){
+                //显示商品名称
+                document.getElementById('name').innerText = ret.data.title;
+
+                ret.data.style = [];
+                ret.data.price = quakooUtils.formatMoney(ret.data.price / 100, 2);
+                for(var i = 0; i < ret.data.covers.length; i++){
+                    var obj = quakooImg.processImg(ret.data.covers[i],document.body.offsetWidth,414);
+                    ret.data.style.push(obj.style);
+                    ret.data.covers[i] = obj.url;
+                }
+                ret.data.Color = JSON.parse(ret.data.color);
+                ret.data.Size = ret.data.size.split(',');
+                goodsId = ret.data.id;
+                sid = ret.data.sid;
+
+                var data = {list: ret.data};
+                var html = template('indexTmp',data);
+                document.getElementById('main').innerHTML = html;
+
+
+                //延时调取评论及推荐
+                setTimeout(function () {
+                    getComment();
+                })
+                if(ret.data.commentNum != 0){
+                    document.getElementById('commentNum').className = 'active';
+                }else{
+                    document.getElementById('commentNum').classList.remove('active');
+                }
+
+                if(document.querySelector('.swiper-goods')){
+                    var myswiper = new Swiper('.swiper-goods', {
+                        loop: true,
+                        autoplay : 2000,
+                        pagination: '.swiper-pagination'
+                    });
+                }
+
+            }
+        })
+
+    };
+    //得到商品评论
+    function getComment() {
+        ajaxData(serverUrl + '/comment/pager',{type:1,typeId:id},function (ret) {
+            if(ret){
+                if(ret.data.length){
+                    for(var i = 0; i  < ret.data.length; i++){
+                        ret.data[i].Ctime = quakooUtils.getDateDiff(ret.data[i].ctime);
+                        if(ret.data[i].user.icon){
+                            var obj = quakooImg.processImg(ret.data[i].user.icon,29,29)
+                            ret.data[i].user.style = obj.style;
+                            ret.data[i].user.icon = obj.url;
+                        }
+                        if(ret.data[i].user.height==undefined){
+                            ret.data[i].user.height = '未知';
+                        }else{
+                            ret.data[i].user.height += 'cm';
+                        }
+                        if(ret.data[i].user.weight==undefined){
+                            ret.data[i].user.weight = '未知';
+                        }else{
+                            ret.data[i].user.weight += 'kg';
+                        }
+                        if(ret.data[i].user.name==undefined){
+                            ret.data[i].user.name = '暂无昵称';
+                        }
+                        if(ret.data[i].images){
+                            ret.data[i].styles = []
+                            for(var j=0;j<ret.data[i].images.length;j++){
+                                if(ret.data[i].images[j]){
+                                    var obj1 = quakooImg.processImg(ret.data[i].images[j],109,109)
+                                    ret.data[i].styles.push(obj1.style);
+                                    ret.data[i].images[j] = obj1.url;
+                                }
+
+                            }
+                        }
+                    }
+                    var html = template('commentTmp',{list:ret.data})
+                    document.getElementById('commentDom').innerHTML = html;
+                }else{
+                    document.getElementById('commentDom').innerHTML = '';
+                }
+            }else{
+                quakooMsg.toast(err.msg)
+            }
+        })
+
+    };
+
+
+
+    //选中
+    function selcts(self,name){
+        size = name;
+        document.getElementById('sName').innerHTML = name;
+        $(self).addClass('active').siblings('.sizeXS').removeClass('active');
+    };
+    //查看各项详情
+    function lookAllIndex(self){
+        if( self.getElementsByTagName('em')[0].className != 'active'){
+            self.getElementsByTagName('em')[0].className = "active";
+            if(self.getElementsByTagName('div').length>0){
+                self.getElementsByTagName('div')[0].style.display = 'block';
+            }else{
+                self.getElementsByTagName('pre')[0].style.display = 'block';
+            }
+
+        }else{
+            self.getElementsByTagName('em')[0].classList.remove('active');
+            if(self.getElementsByTagName('div').length>0){
+                self.getElementsByTagName('div')[0].style.display = 'none';
+            }else{
+                self.getElementsByTagName('pre')[0].style.display = 'none';
+            }
+
+        }
+    };
+    //打开关闭评论
+    function lookcomment(self) {
+        if( self.getElementsByTagName('em')[0].className == 'active'){
+            self.getElementsByTagName('em')[0].classList.remove('active');
+            document.getElementById('pinlun').style.display = 'none';
+        }else{
+            self.getElementsByTagName('em')[0].className = "active";
+            document.getElementById('pinlun').style.display = 'block';
+        }
+    }
+
+
+    //获得参数
+    function GetRequest() {
+        var url = location.search;
+        url = decodeURIComponent(url);
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1])
+            }
+        }
+        return theRequest;
+    }
+    //请求数据
+    function ajaxData(url,params,successCallback) {
+        // params.token = '6N0P2jEfYecadH2SiJIJ+WTZN7qkQiEmAh/ypHVIEGI=';
+        // params.token = encodeURIComponent('6N0P2jEfYecadH2SiJIJ+WTZN7qkQiEmAh/ypHVIEGI=') ;
+        params.token = quakooUser.getUserInfo().token;
+        $.ajax({
+            url: url,
+            type:"post",
+            dataType:"json",
+            data: params,
+            success:function (data) {
+                if(successCallback){
+                    successCallback(data)
+                }
+            },
+            error:function (e) {
+
+            }
+        })
+    }
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>我的钱包</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+        #topbar > .bill-right > p{
+            position: absolute;
+            bottom:12px;
+            right:19px;
+            height:20px;
+            line-height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222;
+            letter-spacing: 0;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();"></div>
+    <div id="headerName">我的钱包</div>
+    <div class="bill-right">
+        <p id="btn" style="display: block" onclick="openAllForm()">账单</p>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+        quakooApp.initFrameInWin(api.pageParam);
+    }
+    //打开账单
+    function openAllForm(){
+        quakooApp.openNewWindow('allForm','allForm.html')
+    };
+</script>
+</html>

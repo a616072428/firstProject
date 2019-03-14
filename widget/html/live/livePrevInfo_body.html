@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>直播</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        body{
+            width: 100%;height: 100%;
+            background: #fff;
+        }
+
+        /*回放列表*/
+        #liveDom{
+
+        }
+        .live-list{
+            width: 100%;height: 377px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .live-list .img{
+            width: 100%;height: 377px;
+            overflow: hidden;
+        }
+        .live-list .img img{
+            display: block;
+        }
+        .live-top{
+            position: absolute;top: 15px;left: 0;
+            width: 100%;
+            overflow: hidden;
+            padding-left: 19px;
+            box-sizing: border-box;
+        }
+        .live-num{
+            float: left;
+            overflow: hidden;
+            height: 21px;
+            line-height: 22px;
+            background: rgba(0,0,0,0.20);
+        }
+        .live-num p,.live-num span{
+            float: left;
+            padding: 0 7px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+        }
+        .live-num p{
+            background: #222222;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main">
+
+    <ul id="liveDom">
+        <!--<li class="live-list">
+            <div class="img">
+                <img src="../../image/03.png" alt="" style="width:100%;height: 100%">
+            </div>
+            <div class="live-top">
+                <div class="live-num">
+                    <p>直播中</p>
+                    <span>3879看过</span>
+                </div>
+            </div>
+        </li>-->
+    </ul>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="liveTmp">
+    <%for(var i=0;i< list.length;i++){%>
+    <li class="live-list" onclick="openRoom('<%=list[i].playUrl%>')">
+        <div class="img">
+            <img src="<%=list[i].cover%>" alt="" style="<%=list[i].style%>">
+        </div>
+        <div class="live-top">
+            <div class="live-num">
+                <p>回放</p>
+                <!--<span><%=list[i].lookNum%>看过</span>-->
+            </div>
+        </div>
+    </li>
+    <%}%>
+</script>
+<script>
+    var sid;
+    apiready = function () {
+        sid = api.pageParam.sid;
+        new QuakooPage(addHtml,config.getUrl_web_live_getRecords(),{id:api.pageParam.liveId})
+    }
+    function addHtml(results,append) {
+        if(results){
+            for(var i=0;i<results.length;i++){
+                if(results[i].cover && results[i].cover.indexOf('*')>=0 && results[i].cover.indexOf('http')>=0){
+                    var obj = quakooImg.processImg(results[i].cover,api.winWidth,377);
+                    results[i].style = obj.style;
+                    results[i].cover = obj.url;
+                }
+            }
+            var data = {list: results};
+            var html = template('liveTmp',data);
+            if (append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('liveDom').appendChild(div);
+            } else {
+                document.getElementById('liveDom').innerHTML = html;
+            }
+            /*setTimeout(function(){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            },100)*/
+        }
+    }
+    //直播回放
+    function openRoom(playUrl) {
+        /***
+         * id           直播间id
+         * lookNum      观看人数
+         * name         直播间名字
+         * icon         头像
+         * liveRoomUrl  直播地址
+         * liveType     视频类型    0  直播，1 回放
+         * liveRoomGoodsUrl     获取直播推荐商品
+         * liveRoomGoodsParam   获取直播推荐商品 的参数,没有token   格式：{key:value}
+         * selectSKUUrl         获取规格接口
+         * addGoodsUrl          添加商品到购物车接口
+         * chatServerUrl        聊天地址
+         * chatPort             聊天端口
+         */
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        var obj = {
+            id:'',
+            sid:sid,
+            lookNum: '0',
+            name:api.pageParam.name,
+            icon:api.pageParam.icon,
+            liveType:1,
+            liveRoomUrl:playUrl,
+            liveRoomGoodsUrl:'',
+            liveRoomGoodsParam:'',
+            selectSKUUrl:'',
+            addGoodsUrl:'',
+            chatServerUrl:'',
+            chatPort:''
+        }
+        quakooApp.openNativePage('liveRoom',obj,1)
+    }
+</script>
+</html>

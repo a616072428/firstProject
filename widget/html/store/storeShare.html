@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>店铺</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: auto;
+            overflow: scroll;
+            background: #ffffff;
+            position: relative;
+        }
+        /*头部*/
+        #topbar{
+            background: #222;
+            position: fixed;
+            top: 0;left: 0;
+            width: 100%;
+            height: 44px;
+            z-index: 999;
+            overflow: hidden;
+            margin: 0;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+        #topbar #left{
+            /*position: absolute;*/
+            /*left:12px;*/
+            /*bottom:12px;*/
+            /*width:20px;*/
+            /*height:20px;*/
+            background: url('../../icon/fffBack.png') no-repeat center;
+            background-size: 20px;
+
+        }
+        #topbar #right{
+            position: absolute;
+            right:19px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+            background: url('../../icon/calss01.png') no-repeat;
+            background-size: 100%;
+
+        }
+
+        /*搜索框*/
+        #topbar > :nth-child(2) > input{
+            width: 68%;
+            height: 18px;
+            background: #F3F3F3 url("../../icon/search.png") no-repeat !important;
+            background-size: 19px !important;
+            background-position: 7px !important;
+            border-right: none !important;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #A7A7A7;
+            letter-spacing: 0;
+            margin-right: 10px;
+            padding: 6px 0 6px 35px;
+            line-height: 18px;
+            vertical-align: top;
+            margin-top: 6px;
+        }
+
+
+        /*商城信息*/
+        #store-msg{
+            width: 100%;
+            transition: .3s;
+            height: 91px;
+            overflow: hidden;
+            padding-top: 44px;
+        }
+        #store-msg > .list-content{
+            height: 76px;
+            padding: 20px 12px 0 19px;
+            box-sizing: border-box;
+        }
+        #store-msg > .list-content >.imgwrap{
+            width: 57px;
+            height: 57px;
+            overflow: hidden;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 13px;
+            float: left;
+        }
+        #store-msg > .list-content > .imgwrap > img{
+            width: 100%;
+            height: 100%;
+        }
+
+        #store-msg > .list-content > .nameWrap{
+            width: 50%;
+            height: 100%;
+            display: inline-block;
+            float: left;
+        }
+        #store-msg > .list-content > .nameWrap > span{
+            width: 100%;
+            line-height: 22px;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            vertical-align: top;
+            margin-top: 7px;
+
+        }
+        #store-msg > .list-content > .nameWrap > p{
+            width: 100%;
+            line-height: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: PingFangSC-Regular;
+            font-size: 10px;
+            color: #B4B4B4;
+            letter-spacing: 0;
+            text-align: left;
+            margin-top: 7px;
+        }
+        .concern{
+            width: 89px;
+            height: 37px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            float: right;
+            margin-top: 7px;
+        }
+        .concern.active{
+            color: #ffffff;
+            border: 1px solid #D0021B;
+            background: #D0021B;
+        }
+
+
+        /*tab切换*/
+        .switch-tab ul{
+            height:44px;
+            background: #fff;
+            border-bottom: 1px solid #F2F2F2;
+            box-sizing: border-box;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            box-sizing: border-box;
+        }
+        .switch-tab ul li{
+            height:44px;
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+        }
+        .switch-tab ul .active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #505050;
+            letter-spacing: 0;
+            border-bottom: 1px solid #242424;
+            box-sizing: border-box;
+        }
+        .switch-tab ul .active>div{
+            color: #505050 !important;
+        }
+        .switch-tab ul li>div{
+            width:100%;
+            height:45px;
+            font-family: PingFangSC-Regular;
+            line-height:45px;
+            text-align: center;
+            font-size: 14px;
+            color: #9B9B9B;
+            letter-spacing: 0;
+            box-sizing: border-box;
+        }
+
+        /*导航*/
+        .sortBtn{
+            width: 100%;
+            height: 48px;
+            overflow: hidden;
+            /*visibility: hidden;*/
+        }
+        .sortBtn ul{
+            width: 100%;
+            padding: 14px 19px;box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+        }
+        .sortBtn li{
+            padding-bottom: 3px;
+            font-size: 13px;
+            color: #9B9B9B;
+            border-bottom: 1px solid #fff;
+        }
+        .sortBtn li em{
+            width: 6px;height: 13px;
+            margin-left: 2px;
+            background: url("../../icon/sort3.png") no-repeat 0 0;
+            vertical-align: middle;
+            background-size: 100%;
+        }
+
+        .sortBtn li.active{
+            color: #505050;
+            border-bottom: 1px solid #505050;;
+        }
+
+        .main-body{
+            position: relative;
+            overflow: hidden;
+        }
+        /*头部结束*/
+
+        #contentDom{
+            /*padding-top: 136px;*/
+        }
+
+
+        .list-content{
+            overflow: hidden;
+            width: 100%;
+            padding:0 19px;
+            box-sizing: border-box;
+        }
+        .list-content li{
+            width:48%;
+            height: 415px;
+            overflow: hidden;
+            position: relative;
+        }
+        .collect{
+            position: absolute;
+            width: 20px;height: 20px;
+            right: 12px;top: 14px;
+            background: url("../../icon/collectno.png") no-repeat center;
+            background-size: 100%;
+        }
+        .collect.active{
+            background: url("../../icon/collectyes.png") no-repeat center;
+            background-size: 100%;
+        }
+
+
+        .list-content li:nth-of-type(2n+1){
+            float: left;
+        }
+        .list-content li:nth-of-type(2n){
+            float: right;
+        }
+
+        .list-content li .img{
+            width: 160px;
+            height: 278px;
+            overflow: hidden;
+        }
+        .list-content li  img{
+            display: block;
+        }
+        .list-content li  p{
+            margin-top: 19px;
+            font-family: TeluguMN-Bold;
+            font-size: 15px;
+            color: #111111;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .list-content li span{
+            display: block;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .list-content li i{
+            margin-top: 9px;
+            display: block;
+            font-family: STHeitiSC-Medium;
+            font-size: 17px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        /*导航*/
+        .sortBtn{
+            width: 100%;
+            overflow: hidden;
+            background: #fff;
+        }
+        .sortBtn ul{
+            width: 100%;
+            padding: 14px 19px;box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+        }
+        .sortBtn li{
+            padding-bottom: 3px;
+            font-size: 13px;
+            color: #9B9B9B;
+            border-bottom: 1px solid #fff;
+        }
+        .sortBtn li em{
+            width: 6px;height: 13px;
+            margin-left: 2px;
+            background: url("../../icon/sort3.png") no-repeat 0 0;
+            vertical-align: middle;
+            background-size: 100%;
+        }
+
+        .sortBtn li.active{
+            color: #505050;
+            border-bottom: 1px solid #505050;;
+        }
+        #mainTrends{
+            /*padding-top: 89px;*/
+            display: none;
+        }
+        .trends-list{
+            padding:6px 19px 0 19px;
+            margin-top: 21px;
+        }
+        .trends-header > div{
+            width: 44px;
+            height: 44px;
+            overflow: hidden;
+            float: left;
+        }
+        .trends-header > div > img{
+            width: 100%;
+            height: 100%;
+        }
+        .trends-header > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-left:12px;
+            margin-top: 6px;
+        }
+        .trends-header > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #BBBBBB;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 56px;
+        }
+        .trends-list > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #505050;
+            letter-spacing: 0;
+            text-align: left;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2;
+            margin: 15px 0 11px 0;
+        }
+
+        .imgBox{
+            overflow: hidden;
+            float: left;
+        }
+        .imgBox1{
+            height: 278px;
+            width: 100%;
+        }
+        .imgBox2{
+            width: 49%;
+            height: 139px;
+        }
+        .imgBox3{
+            height: 139px;
+            width: 32%;
+        }
+
+        .imgWrap{
+            width: 100%;
+            height: 139px;
+            margin: 2px 0 2px 0;
+        }
+        .imgWrap > li:nth-child(2){
+            margin:0 2px 0 2px;
+        }
+        .fixDivNone{
+            width: 100%;height: 93px;
+            display: none;
+        }
+        #fixDiv{
+            width: 100%;
+        }
+        #fixDiv.active{
+            position: fixed;
+            top: 44px;left: 0;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar" style="display: block">
+    <div id="left" tapmode="itemOn"  onclick="closeStore()"></div>
+    <div>
+        <input type="text" placeholder="连衣裙" id="seek">
+    </div>
+    <div id="right" onclick="openClassify();"></div>
+</div>
+<div class="main-body">
+    <!--商城信息-->
+    <div id="store-msg">
+
+    </div>
+    <!--tab切换-->
+    <div class="fixDivNone"></div>
+    <div id="fixDiv">
+        <div class="switch-tab">
+            <ul>
+                <li class="st-item active" onclick="switchFrameGroupIndex(0)">
+                    <div>商品</div>
+                </li>
+                <li class="st-item" onclick="switchFrameGroupIndex(1)">
+                    <div>动态</div>
+                </li>
+            </ul>
+        </div>
+        <!-- nav -->
+        <div class="sortBtn">
+            <ul>
+                <li class="active" onclick="editStyle(this,4);">新品</li>
+                <li onclick="editStyle(this,2);">综合</li>
+                <li onclick="editStyle(this,3);">销量</li>
+                <li onclick="editStyle(this,1);">价格<em></em></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div id="main">
+    <!-- 列表内容 -->
+    <ul class="list-content" id="contentDom">
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+    </ul>
+    <div id="mainTrends">
+
+    </div>
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<!--店铺信息-->
+<script type="text/html" id="storeMsgTmp">
+    <%if(list){%>
+    <div class="list-content">
+        <div class="imgwrap">
+            <img src="<%=list.icon%>" alt="">
+        </div>
+        <div class="nameWrap">
+            <span><%=list.name%></span>
+            <p><%=list.collectNum%>人关注</p>
+        </div>
+    </div>
+    <%}%>
+</script>
+<!--商品模板-->
+<script type="text/html" id="contentTmp">
+    <%for(var i = 0; i < list.length; i++){%>
+        <li onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img src="<%=list[i].covers[0]%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+        </li>
+    <%}%>
+</script>
+<!--动态模板-->
+<script type="text/html" id="contentTmpTrends">
+    <%if(list){%>
+    <%for(var i = 0; i < list.length; i++){%>
+    <div class="trends-list">
+        <div class="trends-header">
+            <div>
+                <img onerror="this.src='../../icon/myIcon.png'" alt="" src="<%=list[i].thirdIcon%>" style="<%=list[i].style%>" >
+            </div>
+            <span><%=list[i].thirdName%></span>
+            <p><%=list[i].Ctime%></p>
+        </div>
+        <p><%=list[i].content%></p>
+        <%if(list[i].tailorImg.length>0){%>
+        <%if(list[i].tailorImg.length==1){%>
+        <ul class="imgWrap" style="height:278px;">
+            <li class="imgBox imgBox1">
+                <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+            </li>
+        </ul>
+        <%}else if(list[i].tailorImg.length==2){%>
+        <ul class="imgWrap" style="height:278px;">
+            <li class="imgBox imgBox2" style="height:278px;">
+                <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+            </li>
+            <li class="imgBox imgBox2" style="height:278px;">
+                <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+            </li>
+        </ul>
+        <%}else if(list[i].tailorImg.length==3){%>
+        <ul class="imgWrap">
+            <li class="imgBox imgBox3">
+                <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+            </li>
+            <li class="imgBox imgBox3">
+                <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+            </li>
+            <li class="imgBox imgBox3">
+                <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+            </li>
+        </ul>
+        <%}else if(list[i].tailorImg.length==4){%>
+        <ul class="imgWrap">
+            <li class="imgBox imgBox2">
+                <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+            </li>
+            <li class="imgBox imgBox2">
+                <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+            </li>
+        </ul>
+        <ul class="imgWrap">
+            <li class="imgBox imgBox2">
+                <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+            </li>
+            <li class="imgBox imgBox2">
+                <img src="<%=list[i].tailorImg[3]%>" style="<%=list[i].style[3]%>" alt="">
+            </li>
+        </ul>
+        <%}else{%>
+        <ul class="imgWrap">
+            <li class="imgBox imgBox3">
+                <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+            </li>
+            <li class="imgBox imgBox3">
+                <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+            </li>
+            <li class="imgBox imgBox3">
+                <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+            </li>
+        </ul>
+        <ul class="imgWrap">
+            <%for(var k= 0; k < list[i].tailorImg.length-3; k++){%>
+            <li class="imgBox imgBox3">
+                <img src="<%=list[i].tailorImg[3+k]%>" style="<%=list[i].style[3+k]%>" alt="">
+            </li>
+            <%}%>
+        </ul>
+        <%}%>
+        <%}%>
+    </div>
+    <%}%>
+    <%}%>
+</script>
+<script>
+    var nowIndex=0;
+    var id;
+    var serverUrl = 'http://39.107.247.82:19996';
+    /*$(function(){
+        // id = GetRequest().id;
+        // id = 143;
+        // 获得新品商品
+        // navSwitch(4);
+        //获取店铺名称等
+        // getStoreName()
+        document.onscroll = function () {
+            pageScroll()
+        }
+    })*/
+    apiready = function () {
+        id = 143;
+        //获得新品商品
+        navSwitch(4);
+        //获取店铺名称等
+        getStoreName()
+        //获取店铺动态
+        getDynamic()
+        document.onscroll = function () {
+            pageScroll()
+        }
+    }
+    //获取店铺动态
+    function getDynamic() {
+        ajaxData(serverUrl + '/dynamic/getDynamic',{uid:id},function(ret){
+            var results = ret.data;
+            if(results){
+                for(var j = 0; j < results.length;j++){
+                    results[j].Ctime = quakooUtils.formatTimeToDayDate(results[j].ctime)
+                    //处理头像
+                    if(results[j].thirdIcon){
+                        var listicon = results[j].thirdIcon;
+                        var size = 44;
+                        var obj = quakooImg.processImg(listicon,size,size);
+                        results[j].style = obj.style;
+                        results[j].thirdIcon = obj.url;
+                    }
+                    //处理图片
+                    if (results[j].banners.length > 0) {
+                        results[j].tailorImg=[];
+                        results[j].style=[];
+                        if (results[j].banners.length == 1) {
+                            var width = api.winWidth - 38;
+                            var height = 278;
+                            var obj = quakooImg.processImg(results[j].banners[0], width, height)
+                            results[j].tailorImg.push(obj.url);
+                            results[j].style.push(obj.style);
+                        } else if (results[j].banners.length == 2 || results[j].banners.length == 4) {
+                            for (var k = 0; k < results[j].banners.length; k++) {
+                                var width = (api.winWidth - 38-4) * 0.49;
+                                var height ="";
+                                if(results[j].banners.length == 2 ){
+                                    height = 278;
+                                }else{
+                                    height = 139;
+                                }
+                                var obj = quakooImg.processImg(results[j].banners[k], width, height)
+                                results[j].tailorImg.push(obj.url);
+                                results[j].style.push(obj.style);
+                            }
+                        } else if (results[j].banners.length >= 3 && results[j].banners.length !== 4) {
+                            for (var n = 0; n < results[j].banners.length; n++) {
+                                var width = (api.winWidth - 38-4) * 0.32;
+                                var height = 139;
+                                var obj = quakooImg.processImg(results[j].banners[n], width, height);
+                                results[j].tailorImg.push(obj.url);
+                                results[j].style.push(obj.style);
+                            }
+                        }
+                    }
+
+                }
+                var data = {list: results};
+                var html = template('contentTmpTrends',data);
+                document.getElementById('mainTrends').innerHTML = html;
+            }
+        })
+    }
+
+    function changeBody(index) {
+        nowIndex = index;
+        pageScroll()
+        if(index==0){
+            document.getElementById('contentDom').style.display = 'block';
+            document.getElementById('mainTrends').style.display = 'none';
+        }else if(index==1){
+            document.getElementById('contentDom').style.display = 'none';
+            document.getElementById('mainTrends').style.display = 'block';
+        }
+    }
+    //获取店铺名称等
+    function getStoreName(){
+        ajaxData(serverUrl + '/subordinate/load',{id:id},function(ret){
+            if(ret.success == true){
+                var html = template('storeMsgTmp',{list: ret.data});
+                document.getElementById('store-msg').innerHTML = html;
+            }
+        })
+    };
+    //商品动态切换
+    function switchFrameGroupIndex(index){
+        changeBody(index)
+        if(index==0){
+            document.querySelector('.sortBtn').style.display = 'block';
+        }else{
+            document.querySelector('.sortBtn').style.display = 'none';
+        }
+        //选中状态改变
+        var stitem = document.querySelectorAll(".st-item");
+        for (var i = 0; i < stitem.length; i++) {
+            if (i == index) {
+                stitem[i].classList.add("active")
+                stitem[i].style.color = "#505050";
+            } else {
+                stitem[i].classList.remove("active")
+                stitem[i].style.color = "#A3A3A3";
+            }
+        }
+    }
+
+    //导航切换
+    function navSwitch(sort){
+        ajaxData(serverUrl+'/goods/getPagerBySid',{sid:id, sort: sort},function (ret) {
+            var results = ret.data;
+            if(results){
+                for(var i=0;i<results.length;i++){
+                    var obj = quakooImg.processImg(results[i].covers[0],160,278);
+                    results[i].style = obj.style;
+                    results[i].covers[0] = obj.url;
+                    results[i].price = quakooUtils.formatMoney(results[i].price/100,2);
+                }
+                var data = {list: results};
+                var html = template('contentTmp',data);
+                document.getElementById('contentDom').innerHTML = html;
+            }
+        })
+        //根据店铺id 类型获取商品
+        // new QuakooPage(addDataToHtml,config.getUrl_web_mall_getStoreOfGoods(),{sid:parseInt(api.pageParam.id), sort: sort})
+    };
+    //页面滚动
+    function pageScroll() {
+        if(quakooUtils.getScrollTop()>91){
+            document.getElementById('fixDiv').classList.add('active');
+            document.querySelector('.fixDivNone').style.display = 'block';
+            // changeLayout()
+            /*api.setFrameAttr({
+                name: 'store_head',
+                rect:{
+                    x:0,
+                    marginTop: 0,
+                    w: 'auto',
+                    h: api.pageParam.top + 45 + 92
+                }
+            });*/
+        }else{
+            document.getElementById('fixDiv').classList.remove('active');
+            document.querySelector('.fixDivNone').style.display = 'none';
+            /* if(quakooUtils.getScrollTop()<80){
+                 changeLayout(true)
+                 /!*api.setFrameAttr({
+                     name: 'store_head',
+                     rect:{
+                         x:0,
+                         marginTop: 0,
+                         w: 'auto',
+                         h: api.pageParam.top + 45 + 91 + 92
+                     }
+                 });*!/
+             }*/
+        }
+        return ;
+        if(nowIndex==0){
+            if(quakooUtils.getScrollTop()>document.getElementById('fixDiv').offset().top){
+                document.getElementById('fixDiv').classList.add('active');
+                // changeLayout()
+                /*api.setFrameAttr({
+                    name: 'store_head',
+                    rect:{
+                        x:0,
+                        marginTop: 0,
+                        w: 'auto',
+                        h: api.pageParam.top + 45 + 92
+                    }
+                });*/
+            }else{
+                document.getElementById('fixDiv').classList.remove('active');
+               /* if(quakooUtils.getScrollTop()<80){
+                    changeLayout(true)
+                    /!*api.setFrameAttr({
+                        name: 'store_head',
+                        rect:{
+                            x:0,
+                            marginTop: 0,
+                            w: 'auto',
+                            h: api.pageParam.top + 45 + 91 + 92
+                        }
+                    });*!/
+                }*/
+            }
+        }else if(nowIndex==1){
+            if(quakooUtils.getScrollTop()>150){
+                changeLayout()
+                /*api.setFrameAttr({
+                    name: 'store_head',
+                    rect:{
+                        x:0,
+                        marginTop: 0,
+                        w: 'auto',
+                        h: api.pageParam.top + 45 + 44
+                    }
+                });*/
+            }else{
+                if(quakooUtils.getScrollTop()<80){
+                    changeLayout(true)
+                   /* api.setFrameAttr({
+                        name: 'store_head',
+                        rect:{
+                            x:0,
+                            marginTop: 0,
+                            w: 'auto',
+                            h: api.pageParam.top + 45 + 91 + 44
+                        }
+                    });*/
+                }
+            }
+        }
+    }
+
+
+    //改变布局
+    function changeLayout(type) {
+        if(type){
+            document.getElementById('store-msg').style.height = '91px';
+        }else{
+            document.getElementById('store-msg').style.height = '0';
+        }
+    }
+    //改变排序样式
+    function editStyle(self,num) {
+        //价格0降序，1升序，点击改变
+        if(num==1){
+            self.onclick = function () {
+                editStyle(self,0)
+            }
+        }else if(num==0){
+            self.onclick = function () {
+                editStyle(self,1)
+            }
+        }
+        for(var i=0;i<document.querySelectorAll('.sortBtn li').length;i++){
+            document.querySelectorAll('.sortBtn li')[i].classList.remove('active');
+        }
+        self.classList.add('active');
+        navSwitch(num)
+    }
+
+    function openIndex(id,title) {
+        quakooApp.openNewWindow('goodsIndex','../goods/goodsIndex.html',{id:id,title:title});
+    }
+
+    //动态模板渲染
+    function addDataToHtmlTrends(results,append){
+        if(results){
+            for(var j = 0; j < results.length;j++){
+                results[j].Ctime = quakooUtils.formatTimeToDayDate(results[j].ctime)
+                //处理头像
+                if(results[j].icon){
+                    var listicon = results[j].icon;
+                    var size = 44;
+                    var obj = quakooImg.processImg(listicon,size,size);
+                    results[j].style = obj.style;
+                    results[j].icon = obj.url;
+                }
+                //处理图片
+                if (results[j].banners.length > 0) {
+                    results[j].tailorImg=[];
+                    results[j].style=[];
+                    if (results[j].banners.length == 1) {
+                        var width = api.winWidth - 38;
+                        var height = 278;
+                        var obj = quakooImg.processImg(results[j].banners[0], width, height)
+                        results[j].tailorImg.push(obj.url);
+                        results[j].style.push(obj.style);
+                    } else if (results[j].banners.length == 2 || results[j].banners.length == 4) {
+                        for (var k = 0; k < results[j].banners.length; k++) {
+                            var width = (api.winWidth - 38-4) * 0.49;
+                            var height ="";
+                            if(results[j].banners.length == 2 ){
+                                height = 278;
+                            }else{
+                                height = 139;
+                            }
+                            var obj = quakooImg.processImg(results[j].banners[k], width, height)
+                            results[j].tailorImg.push(obj.url);
+                            results[j].style.push(obj.style);
+                        }
+                    } else if (results[j].banners.length >= 3 && results[j].banners.length !== 4) {
+                        for (var n = 0; n < results[j].banners.length; n++) {
+                            var width = (api.winWidth - 38-4) * 0.32;
+                            var height = 139;
+                            var obj = quakooImg.processImg(results[j].banners[n], width, height);
+                            results[j].tailorImg.push(obj.url);
+                            results[j].style.push(obj.style);
+                        }
+                    }
+                }
+
+            }
+            var data = {list: results};
+            var html = template('contentTmpTrends',data);
+            if (append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('mainTrends').appendChild(div);
+            } else {
+                document.getElementById('mainTrends').innerHTML = html;
+            }
+            api.parseTapmode();
+        }
+
+    }
+    //获得参数
+    function GetRequest() {
+        var url = location.search;
+        url = decodeURIComponent(url);
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1])
+            }
+        }
+        return theRequest;
+    }
+    //请求数据
+    function ajaxData(url,params,successCallback) {
+        // params.token = '6N0P2jEfYecadH2SiJIJ+WTZN7qkQiEmAh/ypHVIEGI=';
+        // params.token = encodeURIComponent('6N0P2jEfYecadH2SiJIJ+WTZN7qkQiEmAh/ypHVIEGI=') ;
+        params.token = quakooUser.getUserInfo().token;
+        $.ajax({
+            url: url,
+            type:"post",
+            dataType:"json",
+            data: params,
+            success:function (data) {
+                if(successCallback){
+                    successCallback(data)
+                }
+            },
+            error:function (e) {
+
+            }
+        })
+    }
+</script>
+</body>
+</html>

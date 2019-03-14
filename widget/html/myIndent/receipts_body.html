@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>订单详情</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #ffffff;
+            position: relative;
+        }
+        #status {
+            height: 66px;
+            padding-left: 19px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        #status > p{
+            text-align: left;
+            line-height: 76px;
+        }
+        #indent-wrap{
+            padding:20px 19px 15px 19px;
+            box-sizing: border-box;
+        }
+        .header{
+            height: 47px;
+            line-height: 47px;
+            border-bottom: 1px solid #f2f2f2;
+            box-sizing: border-box;
+            margin-bottom: 8px;
+        }
+        .header > div{
+            width: 20px;
+            height: 20px;
+            border: 1px solid #EAEAEA;
+            border-radius: 2px;
+            box-sizing: border-box;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .header > i{
+            width: 23px;
+            height: 23px;
+            background: url("../../icon/storeIcon.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            vertical-align: middle;
+        }
+        .header > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .header > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #9E7443;
+            letter-spacing: 0;
+            display: inline-block;
+            float: right;
+        }
+
+
+        .indent-indenx{
+            height: auto;
+            margin-bottom: 6px;
+            overflow: hidden;
+        }
+        .indent-indenx > p{
+            width: 20px;
+            height: 20px;
+            border: 1px solid #EAEAEA;
+            border-radius: 2px;
+            box-sizing: border-box;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 40px;
+        }
+        .imgWrap{
+            width: 66px;
+            height: 100px;
+            overflow: hidden;
+            display: inline-block;
+            margin-right: 20px;
+            float: left;
+        }
+        .right{
+            width: 62%;
+            float: left;
+        }
+        .right > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-top: 6px;
+            display: block;
+        }
+        .right > i{
+            font-family: PingFangSC-Light;
+            font-size: 12px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 19px;
+            display: block;
+        }
+        .right > b{
+            font-family: STHeitiSC-Medium;
+            font-size: 16px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+            display: block;
+        }
+        .right > b > i{
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #222222;
+            letter-spacing: 0;
+            float: right;
+            margin-top: 5px;
+        }
+        .money{
+            margin:0 19px;
+            text-align: left;
+            box-sizing: border-box;
+            line-height: 45px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+            border-top: 2px solid #f5f5f5;
+        }
+        .money > span{
+            float: right;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .moneyOff{
+            margin:0 19px;
+            text-align: left;
+            box-sizing: border-box;
+            line-height: 30px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+        }
+        .moneyOff span{
+            float: right;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .indent-num{
+            height: 96px;
+            padding:6px 19px;
+            box-sizing: border-box;
+            margin-bottom: 70px;
+        }
+
+        .indent-num > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 12px;
+            display: block;
+            width: 100%;
+            clear: both;
+        }
+        .indent-num > span > i{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            margin-left: 15px;
+        }
+        .indent-num > span > em{
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: url("../../icon/copy01.png") no-repeat;
+            background-size: 100%;
+            vertical-align: top;
+            margin-top: 3px;
+            margin-left: 4px;
+        }
+        #addr{
+            width: 100%;
+            height: 85px;
+
+        }
+        .icon{
+            width: 29px;
+            height: 29px;
+            display: block;
+            margin-left: 19px;
+            margin-top: 25px;
+            float: left;
+            text-align: center;
+        }
+        .icon>img{
+            height: 100%;
+        }
+        .addrInfo{
+            width: 75%;
+            height: 80%;
+            float: left;
+            margin: 16px 0 0 22px;
+        }
+        .userInfo{
+            line-height: 20px;
+            overflow: hidden;
+        }
+        .userInfo span{
+            float: left;
+            margin-right: 5px;
+        }
+        .userInfo>em{
+            float: left;
+            width: 28px;
+            height: 16px;
+            line-height: 16px;
+            margin-top: 2px;
+            margin-left: 9px;
+            background: #9E7443;
+            border-radius: 2px;
+            text-align: center;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+        }
+        .addrChild{
+            clear: both;
+            width: 90%;
+            margin-top: 4px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #AEAEAE;
+            letter-spacing: 0;
+        }
+        .bottom1{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #ffffff;
+            height: 64px;
+            line-height: 64px;
+            text-align: right;
+            border-top: 2px solid #f5f5f5;
+            box-shadow: inset 0 0 0 0 rgba(0,0,0,0.25);
+        }
+        .bottom1 > :nth-child(1){
+            /*height: 36px;
+            width: 36px;
+            background: url("../../icon/zhuanfa.jpg") no-repeat;
+            background-size: 70%;
+            background-position: center;
+            float: left;
+            margin-top: 14px;*/
+        }
+        .bottom1 > :nth-child(4){
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 64px;
+            margin-right: 10px;
+            float: right;
+        }
+        .bottom1 > :nth-child(3){
+            display: inline-block;
+            width: 89px;
+            height: 37px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            margin-top: 14px;
+            float: right;
+        }
+        .bottom1 > :nth-child(2){
+            display: inline-block;
+            width: 89px;
+            height: 37px;
+            border: 1px solid #9E7443;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #9E7443;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            margin-top: 14px;
+            margin-left: 10px;
+            margin-right: 10px;
+            float: right;
+        }
+        .bottom{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 64px;
+            line-height: 64px;
+            text-align: right;
+            border-top: 2px solid #f5f5f5;
+            box-shadow: inset 0 0 0 0 rgba(0,0,0,0.25);
+            background: #ffffff;
+        }
+        .bottom > :nth-child(1){
+            display: inline-block;
+            width: 89px;
+            height: 37px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            margin-top: 14px;
+            margin-right: 12px;
+        }
+        .bottom > :nth-child(2){
+            display: inline-block;
+            width: 89px;
+            height: 37px;
+            border: 1px solid #9E7443;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #9E7443;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            margin-top: 14px;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+        .geduan{
+            width: 100%;
+            height: 10px;
+            background: #F9F9F9;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+
+</div>
+
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="salesList">
+    <div id="status">
+        <%if( list.status==0 ){%>
+        <p>待付款</p>
+        <%} else if( list.status==1 ) {%>
+        <p>买家已付款</p>
+        <%} else if( list.status==2 ) {%>
+        <p>卖家已发货</p>
+        <%} else if( list.status==3 ) {%>
+        <p>交易成功</p>
+        <%} else if( list.status==4 ) {%>
+        <p>交易完成</p>
+        <%} else {%>
+        <p>交易取消</p>
+        <%}%>
+    </div>
+    <%if(list.status != 0){%>
+    <%if(list.userAddress){%>
+        <div class="geduan"></div>
+        <div id="addr">
+            <em class="icon"><img src="../../icon/addr.png" alt=""/></em>
+            <div class="addrInfo">
+                <div class="userInfo">
+                    <span><%=list.userAddress.name%></span>
+                    <span><%=list.userAddress.phone%></span>
+                    <%if(list.userAddress.def==1){%>
+                    <em>默认</em>
+                    <%}%>
+                </div>
+                <div class="addrChild">
+                    <%=list.userAddress.area%> <%=list.userAddress.address%>
+                </div>
+            </div>
+        </div>
+    <%}%>
+    <%}%>
+    <div class="geduan"></div>
+    <div id="indent-wrap">
+        <div class="header">
+            <!--<div></div>-->
+            <%if(list.sid==0){%>
+            <i></i>
+            <span><%=list.subordinate.name%></span>
+            <%}else{%>
+            <i onclick="openStore('<%=list.sid%>')"></i>
+            <span onclick="openStore('<%=list.sid%>')"><%=list.subordinate.name%></span>
+            <%}%>
+
+            <%if( list.status==0 ){%>
+            <p>等待买家付款</p>
+            <%} else if( list.status==1 ) {%>
+            <p>买家已付款</p>
+            <%} else if( list.status==2 ) {%>
+            <p>卖家已发货</p>
+            <%} else if( list.status==3 ) {%>
+            <p>交易成功</p>
+            <%} else if( list.status==4 ) {%>
+            <p>已结束</p>
+            <%} else {%>
+            <p>买家已取消订单</p>
+            <%}%>
+        </div>
+        <%for(var j=0;j < list.goods.length;j++){%>
+        <div class="indent-indenx" onclick="openIndex('<%=list.goods[j].id%>')">
+            <div class="imgWrap">
+                <img src="<%=list.goods[j].url%>" style="<%=list.goods[j].style%>" alt="">
+            </div>
+            <div class="right">
+                <span><%=list.goods[j].title%></span>
+                <i><%=list.goods[j].colorName%>&nbsp;&nbsp;&nbsp;&nbsp;<%=list.goods[j].size%></i>
+                <b>￥<%=list.goods[j].price%><i>x<%=list.goods[j].num%></i></b>
+            </div>
+        </div>
+        <%}%>
+    </div>
+    <div class="geduan"></div>
+    <%if(list.status == 0 || list.status ==1){%>
+    <div style="margin-bottom: 70px">
+        <div class="moneyOff">
+            <div>
+                商品金额<span>￥<%=list.gtp%></span>
+            </div>
+            <div>
+                积分<span>-<%=list.usP%></span>
+            </div>
+
+        </div>
+        <p class="money">实付款<span>￥<%=list.totlp%></span></p>
+    </div>
+    <%}else{%>
+    <div >
+        <div class="moneyOff">
+            <div>
+                商品金额<span>￥<%=list.gtp%></span>
+            </div>
+            <div>
+                积分<span>-<%=list.usP%></span>
+            </div>
+
+        </div>
+        <p class="money">实付款<span>￥<%=list.totlp%></span></p>
+    </div>
+    <div class="geduan"></div>
+    <div class="indent-num">
+        <span>订单编号<i id="num"><%=list.kuaiDiNum%></i><em onclick="copyToClipboard('num')"></em></span>
+        <span>下单时间<i><%=list.ctime%></i></span>
+        <span>支付方式<i>原支付方式返回</i></span>
+    </div>
+    <%}%>
+
+    <div class="geduan"></div>
+    <%if(list.status==0){%>
+    <div class="bottom">
+        <p onclick="cancel('<%=list.id%>')">取消订单</p>
+        <p onclick="onePay('<%=list.id%>','<%=list.totalPrice%>')">付款</p>
+    </div>
+    <%} else if( list.status==1 ) {%>
+    <div class="bottom">
+        <p onclick="openApplyShouhou('<%=list.sid%>','<%=list.id%>');">申请售后</p>
+        <p onclick="openChat()">联系卖家</p>
+    </div>
+    <%} else if( list.status==2 ) {%>
+    <div class="bottom">
+        <p onclick="showLogistics('<%=list.kuaiDiCom%>','<%=list.kuaiDiNum%>')">查看物流</p>
+        <p onclick="receiving('<%=list.id%>')">确认收货</p>
+    </div>
+    <%} else if( list.status==3 ) {%>
+    <div class="bottom1">
+        <span></span>
+        <p>评价</p>
+        <p onclick="openApplyShouhou('<%=list.sid%>','<%=list.id%>');">申请售后</p>
+        <i onclick="deleComments('<%=list.id%>')">删除</i>
+    </div>
+    <%} else if( list.status==4 ) {%>
+    <div class="bottom1">
+        <span></span>
+        <p onclick="deleComments('<%=list.id%>')">删除订单</p>
+        <p onclick="openApplyShouhou('<%=list.sid%>','<%=list.id%>');">申请售后</p>
+    </div>
+    <%} else {%>
+    <div class="bottom">
+        <p onclick="deleComments('<%=list.id%>')">删除订单</p>
+    </div>
+    <%}%>
+</script>
+<script>
+    var type;
+    var chatId = '';
+    apiready = function () {
+        var parm = api.pageParam.parm;
+        type = api.pageParam.type;
+        chatId = parm.id;
+        receiptsList(parm)
+    }
+
+    //订单详情
+    function receiptsList(parm){
+        if(parm.goods){
+            for(var j=0;j<parm.goods.length;j++){
+                var width = 66;
+                var height = 100;
+                var obj = quakooImg.processImg(parm.goods[j].cover, width, height);
+                parm.goods[j].url = obj.url;
+                parm.goods[j].style = obj.style;
+            }
+        }
+
+        parm.ctime = quakooUtils.formatTimeToDate(parm.ctime)
+        parm.usP = quakooUtils.formatMoney(parm.useScorePrice /100 ,2);
+        var data = {list:parm};
+        var html = template("salesList",data);
+        document.getElementById("main").innerHTML=html
+    }
+
+    //取消订单
+    function cancel(id){
+        api.confirm({
+            title: '',
+            msg: '确认取消订单吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if(ret.buttonIndex==1){
+                quakooData.ajaxSubmitData(config.getUrl_web_mall_cancelIndent(),{id:id},function(data,err){
+                    if(data.success==true){
+                        getTab(type)
+                        quakooApp.closeWin()
+                    }
+                })
+            }
+        });
+    }
+    //单个订单支付
+    function onePay(id,m){
+        var strDM = api.systemType;//系统
+        var strSV = parseFloat(api.systemVersion,10);//版本
+        var titleHeight = 0;
+        if(strDM == 'ios' && strSV > 7){
+            titleHeight = api.safeArea.top;
+        }else if(strDM == 'android' && strSV >= 4.4){
+            titleHeight = api.safeArea.top;
+        }
+        var obj = {
+            animation:{
+                type:"movein",
+                subType:"from_bottom",
+                duration:150
+            },
+            rect:{
+                x:'0',
+                y:0,
+                marginBottom:0,
+                w:'auto'
+            },
+            bgColor : "rgba(0,0,0,0.3)"
+        }
+        quakooApp.openFrame("pay","../shoppings/pay.html",{top:titleHeight,id:id,m:m,payType:1,name:"indent"},0,0,obj);
+        // quakooApp.openFrame('pay','../shoppings/pay.html',{id:id,m:m})
+    }
+    //确认收货
+    function receiving(rid) {
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_receiveSubOrder(), {id: rid}, function (ret, err) {
+            if (ret.success == true) {
+                getTab(type)
+
+                quakooApp.closeWin()
+            }
+        })
+    }
+    //删除订单
+    function deleComments(did){
+        api.confirm({
+            title: '',
+            msg: '确认删除此订单吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1) {
+                quakooData.ajaxSubmitData(config.getUrl_web_mall_delIndent(), {id: did}, function (ret, err) {
+                    if (ret.success == true) {
+                        getTab(type)
+                        quakooApp.closeWin()
+                    }
+                })
+            }
+        });
+    }
+    //打开售后
+    function openApplyShouhou(sid,subOrderId) {
+        quakooApp.openNewWindow('applyShou','../myIndent/applyShou.html',{sid:sid,subOrderId:subOrderId});
+    }
+    //查看物流
+    function showLogistics(kuaidiType,kuaidiNum){
+        quakooApp.openNewWindow('logistics','./logistics.html',{type:kuaidiType,num:kuaidiNum})
+    }
+    //打开商品详情
+    function openIndex(id) {
+        quakooApp.openNewWindow('goodsIndex','../goods/goodsIndex.html',{id:id});
+    }
+    //打开店铺
+    function openStore(sid){
+        quakooApp.openNewWindow('store','../store/store.html',{id:sid});
+    };
+    //页面刷新
+    function getTab(type){
+        api.execScript({
+            name:"main",
+            frameName:"my",
+            script:"getMyOrderMessage()"
+        })
+        api.execScript({
+            name:'myIndent',
+            frameName:'myIndent_quanbu',
+            script:"apiready()"
+        })
+        if(type==0){
+
+        }else if(type==1){
+            api.execScript({
+                name:'myIndent',
+                frameName:'myIndent_fukuan',
+                script:"apiready()"
+            })
+            api.execScript({
+                name:'myIndent',
+                frameName:'myIndent_fahuo',
+                script:"apiready()"
+            })
+        }else if(type==2){
+            api.execScript({
+                name:'myIndent',
+                frameName:'myIndent_fahuo',
+                script:"apiready()"
+            })
+        }else if(type==3){
+            api.execScript({
+                name:'myIndent',
+                frameName:'myIndent_shouhuo',
+                script:"apiready()"
+            })
+            api.execScript({
+                name:'myIndent',
+                frameName:'myIndent_pingjia',
+                script:"apiready()"
+            })
+        }else{
+            api.execScript({
+                name:'myIndent',
+                frameName:'myIndent_pingjia',
+                script:"apiready()"
+            })
+        }
+    }
+
+    //复制
+    function copyToClipboard(elementId) {
+        // 创建元素用于复制
+        var aux = document.createElement("input");
+        // 获取复制内容
+        var content = document.getElementById(elementId).innerHTML || document.getElementById(elementId).value;
+        // 设置元素内容
+        aux.setAttribute("value", content);
+        // 将元素插入页面进行调用
+        document.body.appendChild(aux);
+        // 复制内容
+        aux.select();
+        // 将内容复制到剪贴板
+        document.execCommand("copy");
+        // 删除创建元素
+        document.body.removeChild(aux);
+        quakooMsg.toast("复制成功")
+    }
+    //联系卖家
+    function openChat(){
+        var user = quakooUser.getUserInfo();
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_subordinateLoadChatUidByOrder(),{id:chatId},function(ret,err){
+            if(ret.success){
+                quakooApp.openNativePage('customerChat',{
+                    uid: user.id,
+                    uicon: user.icon,
+                    id: ret.data.id,
+                    name: ret.data.name,
+                    icon: ret.data.icon
+                },1)
+            }
+        })
+    }
+</script>
+</html>

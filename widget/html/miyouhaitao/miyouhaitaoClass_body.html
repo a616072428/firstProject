@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>海淘-分类</title>
+    <link rel="stylesheet" href="../../css/api.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css"/>
+    <style type="text/css">
+        body {
+            min-width: 320px;
+            background: #fff;
+        }
+        .haitao-content div{
+            width: 49.8%;
+            height: 116px;
+            overflow: hidden;
+            border:1px solid #fff;
+        }
+        .haitao-content div:nth-child(2n+1){
+            border-left: none;
+            border-right: none;
+            float: left;
+        }
+        .haitao-content div:nth-child(2n){
+            border-right: none;
+            float: right;
+        }
+        /*.haitao-content div img{*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+        /*}*/
+    </style>
+</head>
+<body id="body">
+    <div class="haitao-content" id="haitaoDom">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="haitaoTmp">
+    <%if(list){%>
+        <%for(var i = 0; i < list.length; i++){%>
+            <div onclick="lookAllIndex('<%=list[i].id%>','<%=list[i].name%>')">
+                <img data-echo="<%=list[i].image%>" real-style="<%=list[i].style%>">
+            </div>
+        <%}%>
+    <%}%>
+</script>
+<script>
+    apiready = function () {
+        // 获取所有二级分类
+        getAllTwoClass();
+    };
+
+    function getAllTwoClass() {
+        quakooMsg.showProgress();
+        quakooData.ajaxGetData(config.getUrl_web_mall_getTwoClass(),{},function(ret,err){
+            quakooMsg.hideProgress();
+            if(ret.success == true){
+                //处理图片
+                for(var i = 0; i < ret.data.length; i++){
+                    if(ret.data[i].image){
+                        var obj = quakooImg.processImg(ret.data[i].image,document.body.offsetWidth * 0.498,118);
+                        ret.data[i].style = obj.style;
+                        ret.data[i].image = obj.url;
+                    }
+                }
+                var html = template("haitaoTmp",{list:ret.data});
+                document.getElementById("haitaoDom").innerHTML = html;
+            }else{
+                document.getElementById("haitaoDom").innerHTML = '';
+            }
+            setTimeout(function(){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            },100)
+        });
+    }
+    //查看商品列表
+    function lookAllIndex(type,name){
+        quakooApp.openNewWindow('goodsList','../goods/goodsList.html',{id:type,name:name,miyouhaitao:true});
+    }
+</script>
+</html>

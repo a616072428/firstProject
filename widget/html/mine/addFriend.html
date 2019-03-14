@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    	<meta name="apple-mobile-web-app-capable" content="yes">
+		<title>添加朋友</title>
+		<link rel="stylesheet" href="../../css/api.css" />
+		<link rel="stylesheet" href="../../css/commonWindow.css" />
+		<style type="text/css">
+			body{
+				min-width: 320px;
+			}
+			#topbar{
+				height: 50px;
+				background: #222222;
+			}
+			#topbar div{
+				position: relative;
+				width: 100%;
+				height: 50px;
+				line-height: 30px;
+				padding: 10px 48px 10px 19px;
+				box-sizing: border-box;
+				overflow: hidden;
+			}
+			#topbar input{
+				float: left;
+				background:#F3F3F3 url('../../icon/sousuo.png') no-repeat 7px center;
+				background-size: 20px;
+				padding-left: 35px;
+				width: 100%;
+				height: 100%;
+				font-size: 13px;
+				letter-spacing: 0;
+				box-sizing: border-box;
+			}
+			#topbar span{
+				position: absolute;
+				bottom: 0;
+				right: 11px;
+				font-family: PingFangSC-Regular;
+				font-size: 13px;
+				color: #A7A7A7;
+				letter-spacing: 0;
+				height: 100%;
+				line-height: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div>
+				<input type="text" placeholder="用户名" id="seek">
+				<span onclick="quakooApp.closeWin()">取消</span>
+			</div>
+        </div>
+	</body>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+
+
+	<script>
+		var keyWord = '';
+		apiready = function () {
+
+            var statusBarAppearance = api.statusBarAppearance;//是否支持沉浸式
+            var header = document.querySelector('#topbar');
+            $api.fixStatusBar(header);
+            header.style.paddingTop = api.safeArea.top + 'px';
+            header.style.display = 'block';
+            config.winHeadHeight = header.offsetHeight;
+            quakooApp.openFrameInWin('addFriend_body','./addFriend_body.html',api.pageParam,{bgColor:'#fff'});
+
+            //按回车，进行搜索
+            document.getElementById('seek').onkeypress = function(e){
+                var keycode = e.keyCode;
+                if(keycode=='13') {
+                    document.getElementById('seek').blur();
+                    e.preventDefault();
+                    keyWord =  document.getElementById('seek').value;
+                    if(quakooUtils.isBlack(keyWord)){
+                        quakooMsg.toast('请输入你想搜索的内容');
+                        return ;
+                    }
+                    api.execScript({
+                        frameName:"addFriend_body",
+                        script:"getDataList('"+keyWord+"')"
+                    })
+                }
+            }
+            $(document).on('input propertychange','#seek',function (e) {
+                if (e.type === "input" || e.orignalEvent.propertyName === "value") {
+                    if(this.value.length == 0){
+                        api.execScript({
+                            frameName:"addFriend_body",
+                            script:"changeLayout()"
+                        })
+                    }
+                }
+            });
+        }
+	</script>
+</html>

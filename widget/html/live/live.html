@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>直播</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+        #topbar > .sousuo > img{
+            position: absolute;
+            right:61px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+        }
+
+        #topbar > .shoppings > img{
+            position: absolute;
+            right:19px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+        }
+        .switch-tab ul{
+            height:44px;
+            background: #fff;
+            box-sizing: border-box;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            box-sizing: border-box;
+        }
+        .switch-tab ul li{
+            height:44px;
+            box-sizing: border-box;
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            border-bottom: 1px solid #F2F2F2;
+            box-flex: 1;
+        }
+        .switch-tab ul .active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #505050;
+            letter-spacing: 0;
+            border-bottom: 1px solid #242424;
+        }
+        .switch-tab ul .active>div{
+            color: #505050 !important;
+        }
+        .switch-tab ul li>div{
+            width:100%;
+            height:45px;
+            font-family: PingFangSC-Regular;
+            line-height:45px;
+            text-align: center;
+            font-size: 14px;
+            color: #9B9B9B;
+            letter-spacing: 0;
+            box-sizing: border-box;
+        }
+        #topbar > p{
+            height: 44px;
+            text-align: left;
+            line-height: 44px;
+            font-family: PingFang-SC-Regular;
+            font-size: 14px;
+            color: #333333;
+            margin-left: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left"  tapmode="itemOn" onclick="quakooApp.closeWin();"></div>
+    <div>直播</div>
+    <div class="switch-tab">
+        <ul>
+            <li class="st-item" onclick="switchFrameGroupIndex(0)">
+                <div>正在直播</div>
+            </li>
+            <li class="st-item" onclick="switchFrameGroupIndex(1)">
+                <div>直播回放</div>
+            </li>
+            <li class="st-item" onclick="switchFrameGroupIndex(2)">
+                <div>直播预告</div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script>
+    apiready = function () {
+
+        var titleHeight = api.safeArea.top;
+        document.getElementById('topbar').style.paddingTop = titleHeight + 'px';
+        document.getElementById('topbar').style.display = "block";
+
+        api.openFrameGroup ({
+            name: 'liveFrame',
+            background:'#fff',
+            scrollEnabled:true,
+            preload:1,
+            rect : {
+                x : 0,
+                y : config.headHeight+titleHeight + document.querySelector('.switch-tab').offsetHeight,
+                w : 'auto',
+                marginBottom : 0
+            },
+            index:0,
+            frames: [{
+                name: 'liveNow',
+                url: 'liveNow.html', //正在直播
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:0}
+            },{
+                name: 'livePrev',
+                url: 'livePrev.html', //直播回放
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:1}
+            },{
+                name: 'liveNext',
+                url: 'liveNext.html', //直播预告
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:2}
+            }]
+        }, function(ret, err){
+            switchFrameCallback(ret.index);
+        })
+    };
+    function switchFrameGroupIndex(index){
+        api.setFrameGroupIndex({
+            name : "liveFrame",
+            index : index,
+            scroll : true
+        });
+    }
+    function switchFrameCallback(index) {
+        var stitem = document.querySelectorAll(".st-item");
+        for (var i = 0; i < stitem.length; i++) {
+            if (i == index) {
+                stitem[i].classList.add("active")
+            } else {
+                stitem[i].classList.remove("active")
+            }
+        }
+    };
+
+
+</script>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>优惠券-不可用</title>
+    <link rel="stylesheet" href="../../css/api.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css"/>
+    <style type="text/css">
+        body {
+            min-width: 320px;
+            height: auto;
+            min-height: 100%;
+            background: #f5f5f5;
+        }
+        #coupons{
+            width: 100%;
+            height: 100%;
+        }
+        .coupons-item{
+            width: 90%;
+            height: 111px;
+            background: #fff;
+            box-sizing: border-box;
+            border-radius: 8px;
+            margin:0px 19px 12px 19px;
+        }
+        #coupons:first-child{
+            padding-top: 12px;
+        }
+        #coupons:first-child{
+            padding-bottom: 12px;
+        }
+        .coupons-item:last-of-type{
+            margin-bottom: 0;
+        }
+        .item-left{
+            width: 31%;
+            border-right: 1px dashed #979797;
+            float: left;
+            margin-top: 16px;
+        }
+        .item-left > p{
+            font-family: PingFangSC-Medium;
+            font-size: 42px;
+            color: #9E9E9E;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .item-left > span{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #8B8B8B;
+            letter-spacing: 0.2px;
+            text-align: center;
+        }
+        .item-content{
+            width: 63%;
+            float: left;
+        }
+        .item-content > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color:  #9E9E9E;
+            letter-spacing: 0;
+            margin-top: 23px;
+            margin-left: 11px;
+        }
+        .item-content > span{
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #AEAEAE;
+            letter-spacing: 0.17px;
+            margin-top: 26px;
+            margin-left: 11px;
+        }
+        .item-right{
+            float: right;
+            width: 5%;
+            height: 111px;
+            background: #9E9E9E;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .no{
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            color:#8B8B8B;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body id="body">
+<div id="coupons">
+
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="couponsTmp">
+    <%if(list){%>
+        <%if(list != ''){%>
+            <%for(var i = 0; i < list.length; i++){%>
+                <div class="coupons-item">
+                    <div class="item-left">
+                        <%if(list[i].type==1){%>
+                        <p><%=list[i].subtractPrice%></p>
+                        <span>满<%=list[i].fullPrice%>可用</span>
+                        <%}else if(list[i].type==2){%>
+                        <p style="line-height: 80px;"><%=list[i].subtractPrice%></p>
+                        <%}%>
+
+                    </div>
+                    <div class="item-content">
+                        <%if(list[i].type==1){%>
+                        <p>满减券(适用于自营)</p>
+                        <%}else if(list[i].type==2){%>
+                        <p>抵扣券(适用于自营)</p>
+                        <%}%>
+                        <span><%=list[i].time%></span>
+                    </div>
+                    <div class="item-right"></div>
+                </div>
+            <%}%>
+        <%}else{%>
+            <div class="no">暂无不可用优惠券</div>
+        <%}%>
+    <%}%>
+
+</script>
+<script>
+    apiready = function () {
+        getNoCoupons();
+    };
+    //我的不可用优惠券
+    function getNoCoupons(){
+        quakooMsg.showProgress()
+        quakooData.ajaxGetData(config.getUrl_web_mall_getMyCoupons(),{handle:2},function(ret,err){
+            quakooMsg.hideProgress()
+            if(ret.success == true){
+                for(var i = 0; i < ret.data.length; i++){
+                    ret.data[i].subtractPrice = ret.data[i].subtractPrice / 100;
+                    ret.data[i].fullPrice = ret.data[i].fullPrice / 100;
+                    ret.data[i].time = quakooUtils.formatTimeToDateDianLY(ret.data[i].startTime) + '-' + quakooUtils.formatTimeToDateDianLY(ret.data[i].endTime);
+                };
+                var data = template('couponsTmp',{list:ret.data})
+                document.getElementById('coupons').innerHTML = data;
+            }else{
+                document.getElementById('coupons').innerHTML = '';
+            }
+        });
+    }
+</script>
+</html>

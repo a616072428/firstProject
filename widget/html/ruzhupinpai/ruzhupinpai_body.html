@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    	<meta name="apple-mobile-web-app-capable" content="yes">
+    	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>入驻品牌</title>
+		<link rel="stylesheet" href="../../css/api.css" />
+		<link rel="stylesheet" href="../../css/commonWindow.css" />
+		<style type="text/css">
+			body{
+				min-width: 320px;
+                background: #fff;
+                position: relative;
+			}
+            .yc-class{
+                width: 20px;
+                height: 69px;
+                background: url('../../image/classify.png') no-repeat;
+                background-size: 100%;
+                position: fixed;
+                right:0;
+                top:148px;
+            }
+
+
+            /*品牌*/
+            .pinpai{
+                width: 100%;
+                height: 150px;
+                transition: .5s;
+                padding: 0 19px;
+                box-sizing: border-box;
+                /*position: fixed;*/
+                /*top: 0;left: 0;*/
+                background: #fff;
+                overflow: hidden;
+            }
+            .pinpai-more{
+                height: 37px;
+            }
+            .pinpai-more > span{
+                font-family: PingFangSC-Medium;
+                font-size: 16px;
+                color: #222222;
+                letter-spacing: 0;
+                text-align: left;
+                margin-top:12px;
+            }
+            .pinpai-more > p{
+                width: 87px;
+                height: 27px;
+                float: right;
+                text-align: center;
+                line-height: 27px;
+                margin-top: 8px;
+                border: 1px solid #EEEEEE;
+                border-radius: 2px;
+                font-family: PingFangSC-Regular;
+                font-size: 12px;
+                color: #C1C1C1;
+                letter-spacing: 0;
+                text-align: center;
+            }
+            .pinpai-content{
+                margin-top: 17px;
+                display: -webkit-box;
+                display: -moz-box;
+                display: box;
+                -webkit-box-orient: horizontal;
+                -moz-box-orient: horizontal;
+                box-orient: horizontal;
+            }
+            .pinpai-content > div{
+                box-sizing: border-box;
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                box-flex: 1;
+                text-align: center;
+                text-align: -webkit-center;
+            }
+            .pinpai-content > div > div{
+                width: 65px;
+                height: 45px;
+            }
+            /*.pinpai-content > div:nth-child(1) > div{*/
+                /*background: url('../../image/moco.png') no-repeat;*/
+                /*background-size: 100%;*/
+                /*background-position: 0px 8px;*/
+            /*}*/
+            /*.pinpai-content > div:nth-child(2) > div{*/
+                /*background: url('../../image/dior.png') no-repeat;*/
+                /*background-size: 88%;*/
+                /*background-position: 8px 10px;*/
+            /*}*/
+            /*.pinpai-content > div:nth-child(3) > div{*/
+                /*background: url('../../image/chanel.png') no-repeat;*/
+                /*background-size: 80%;*/
+                /*background-position: 5px 5px;*/
+            /*}*/
+            /*.pinpai-content > div:nth-child(4) > div{*/
+                /*background: url('../../image/gucci.png') no-repeat;*/
+                /*background-size: 100%;*/
+                /*background-position: 0px -4px;*/
+            /*}*/
+            .pinpai-content > div > span{
+                margin-top: 14px;
+                font-family: PingFangSC-Regular;
+                font-size: 12px;
+                color: #AEAEAE;
+                letter-spacing: 0;
+                text-align: center;
+            }
+
+            /*品牌列表*/
+            /*导航*/
+            #pinpai-nav{
+                height: 45px;
+                border-bottom: 1px solid #f2f2f2;
+                display:box;
+                display: -webkit-box;
+                -webkit-box-orient: horizontal;/* 横排显示*/
+                /*position: fixed;*/
+                /*top: 150px;left: 0;*/
+                width: 100%;
+                background: #fff;
+                transition: .5s;
+            }
+            #pinpai-nav.active{
+                position: fixed;
+                top: 0;left: 0;
+            }
+            #pinpai-nav > div{
+                -webkit-box-flex: 1;
+                  -webkit-box-align: center;
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: #9B9B9B;
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 45px;
+            }
+            #pinpai-nav > div.active{
+                font-family: PingFangSC-Medium;
+                font-size: 14px;
+                color: #424242;
+                letter-spacing: 0;
+                text-align: center;
+                border-bottom:1px solid #242424;
+            }
+            /*品牌分类*/
+            .haitao-content{
+                padding-top: 12px;
+            }
+            .haitao-content div{
+                width: 49.8%;
+                height: 116px;
+                border:1px solid #fff;
+                overflow: hidden;
+            }
+            .haitao-content div > img{
+                display: block;
+                /*width: 187px;*/
+                /*height: 116px;*/
+            }
+            .haitao-content > div:nth-child(2n+1){
+                border-left: none;
+                border-right: none;
+                float: left;
+            }
+            .haitao-content > div:nth-child(2n){
+                border-right: none;
+                float: right;
+            }
+            .haitao-content div img{
+                /*width: 100%;*/
+                /*height: 100%;*/
+            }
+		</style>
+	</head>
+	<body>
+        <div id="body">
+            <!-- 分类 -->
+            <!--<div class="yc-class"></div>-->
+
+            <div id="yc-wrap">
+                <!-- 品牌 -->
+                <div class="pinpai" id="pinpai">
+
+                </div>
+
+                <!-- 品牌列表 nav-->
+                <div id="pinpai-nav">
+
+                </div>
+                <!-- 品牌列表分类 -->
+                <div class="haitao-content" id="haitao-content">
+
+                </div>
+            </div>
+        </div>
+	</body>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/template-native.js"></script>
+    <script type="text/javascript" src="../../script/echo.min.js"></script>
+    <script type="text/html" id="pinpaiTmp">
+        <%if(list){%>
+        <div class="pinpai-more">
+            <span>推荐品牌</span>
+            <p onclick="openAllPinpai();">全部品牌</p>
+        </div>
+        <div class="pinpai-content">
+            <%for(var i = 0; i < list.length; i++){%>
+            <%if(i<4){%>
+            <div onclick="openStoreIndex('<%=list[i].id%>')">
+                <div style=" background: url('<%=list[i].icon%>') no-repeat center/cover;"></div>
+                <span><%=list[i].name%></span>
+            </div>
+            <%}%>
+            <%}%>
+        </div>
+        <%}%>
+    </script>
+    <script type="text/html" id="styleTmp">
+        <%if(list){%>
+            <%for(var i = 0; i < list.length; i++){%>
+                <%if(i==0){%>
+                    <div class="oumei active"><span onclick="navSwitch(this,'<%=list[i].id%>')"><%=list[i].name%></span></div>
+                <%}else{%>
+                    <div class="oumei"><span onclick="navSwitch(this,'<%=list[i].id%>')"><%=list[i].name%></span></div>
+                <%}%>
+            <%}%>
+        <%}%>
+    </script>
+
+    <script type="text/html" id="storeTmp">
+        <%if(list){%>
+            <%for(var i = 0; i < list.length; i++){%>
+                <div onclick="openStoreIndex('<%=list[i].id%>')">
+                    <img alt="" src="<%=list[i].image%>" style="<%=list[i].style%>">
+                </div>
+            <%}%>
+        <%}%>
+    </script>
+    <script>
+        var navTop = document.getElementById('pinpai-nav').offsetTop;
+        var scrollFlag = true;
+		apiready = function () {
+            document.onscroll = function(){
+                if(navTop - quakooUtils.getScrollTop()<=0){
+                    if(scrollFlag){
+                        scrollFlag = false;
+                        document.getElementById('pinpai-nav').classList.add('active');
+                        document.querySelector('.haitao-content').style.paddingTop = 12 + document.getElementById('pinpai-nav').offsetHeight + 'px';
+                    }
+                }else{
+                    if(!scrollFlag){
+                        document.getElementById('pinpai-nav').classList.remove('active');
+                        document.querySelector('.haitao-content').style.paddingTop = '12px';
+                        scrollFlag = true;
+                    }
+                }
+
+            }
+
+            //获取所有分类
+            getStyle();
+            //默认品牌显示
+            navSwitch('',1);
+            //获取推荐品牌
+            getRecommend();
+           /* setTimeout(function () {
+                pageScroll()
+            },1000)*/
+		};
+        //页面滚动
+        function pageScroll() {
+            if(quakooUtils.getScrollTop()>150){
+                document.getElementById('pinpai').style.height = '0';
+                document.getElementById('pinpai-nav').style.top = '0';
+                document.getElementById('haitao-content').style.paddingTop = document.getElementById('pinpai-nav').offsetHeight + 'px'
+            }else{
+                document.getElementById('pinpai').style.height = '150px';
+                document.getElementById('pinpai-nav').style.top = '150px';
+                document.getElementById('haitao-content').style.paddingTop = document.getElementById('pinpai').offsetHeight + 45 + 'px'
+            }
+            setTimeout(function () {
+                pageScroll()
+            })
+        }
+        //获取所有分类
+        function getStyle(){
+            quakooData.ajaxGetData(config.getUrl_web_mall_getStyles(),{},function(ret,err){
+                if(ret.success == true){
+
+                    var html = template('styleTmp',{list: ret.data});
+                    document.getElementById('pinpai-nav').innerHTML = html;
+
+                    var dom = document.querySelector('#pinpai-nav div');
+                    $api.addCls(dom, 'active');
+                    api.parseTapmode();
+                }
+            })
+        };
+
+        //风格导航切换 并切换数据
+        function navSwitch(self,id){
+            quakooMsg.showProgress();
+
+            //根据类型获取店铺
+            quakooData.ajaxGetData(config.getUrl_web_mall_getStyleAll(),{styleId:id,type:3},function(ret,err){
+                quakooMsg.hideProgress();
+                if(ret.success == true){
+                    if(self){
+                        var header = $api.dom('#pinpai-nav .active');
+                        $api.removeCls(header, 'active');
+                        $api.addCls(self.parentNode, 'active');
+                    }
+                    for(var i=0;i<ret.data.length;i++){
+                        if(ret.data[i].image){
+                            var obj = quakooImg.processImg(ret.data[i].image,document.body.offsetWidth*0.498,116);
+                            ret.data[i].style = obj.style;
+                        }
+                    }
+                    var html = template('storeTmp',{list: ret.data});
+                    document.getElementById('haitao-content').innerHTML = html;
+                    document.getElementById("body").style.display = "block";
+                }else{
+                    document.getElementById("body").style.display = "none";
+                }
+
+            })
+        };
+
+
+        //获取推荐品牌
+        function getRecommend(){
+            quakooMsg.showProgress();
+            quakooData.ajaxGetData(config.getUrl_web_mall_getRecommendBrand(),{type:3},function(ret,err){
+                quakooMsg.hideProgress();
+                if(ret.success == true){
+                    var html = template('pinpaiTmp',{list: ret.data});
+                    document.getElementById('pinpai').innerHTML = html;
+                    // document.getElementById("body").style.display = "block";
+                }else{
+                    // document.getElementById("body").style.display = "none";
+                }
+            })
+        };
+
+        //打开店铺详情
+        function openStoreIndex(id){
+            quakooApp.openNewWindow('store','../store/store.html',{id:id});
+        }
+
+        //打开全部品牌
+        function openAllPinpai(){
+            if(!quakooUser.isLoginUser()){
+                quakooApp.openNewWindow('login','../login/login.html',{});
+                return ;
+            }
+            api.accessNative({
+                name: "UserList",
+                extra: {
+                    url:config.getUrl_web_mall_getAllStore(),
+                    type:3,
+                    textTitle:"品牌",
+                    isShowRight:0
+                }
+            }, function (ret, err) {});
+        }
+	</script>
+</html>

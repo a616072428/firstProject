@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>我的二维码</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #2E2E2E;
+            padding-top: 59px;
+            box-sizing: border-box;
+        }
+        #qr-wrap{
+            width: 80%;
+            height: 418px;
+            background: #fff;
+            padding-top: 19px;
+            box-sizing: border-box;
+            margin:0 auto;
+            border-radius: 4px;
+        }
+        .qr-header{
+            width: 100%;
+            height: 63px;
+            padding-left:  28px;
+            box-sizing: border-box;
+            margin-bottom:19px;
+        }
+        .qr-header > div{
+            width: 63px;
+            height: 63px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+        }
+        .qr-header > div > img{
+            display: block;
+        }
+        .qr-header > div  .defultImg{
+            width: 100%;
+            height: 100%;
+        }
+        .qr-header > span{
+            line-height: 63px;
+            margin-left: 12px;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #333333;
+            letter-spacing: -0.41px;
+        }
+        #qr-wrap > #qrcode{
+            width: 257px;
+            height: 254px;
+            margin: auto;
+            box-sizing: border-box;
+        }
+        #qr-wrap > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #333333;
+            letter-spacing: -0.29px;
+            text-align: center;
+            margin-top: 18px;
+        }
+    </style>
+</head>
+<body>
+<div id="body">
+    <div id="qr-wrap">
+        <div class="qr-header">
+            <div>
+                <img id="icon" src="../../image/myIcon.png" alt="" class="defultImg">
+            </div>
+            <span id="name"></span>
+        </div>
+        <div id="qrcode"></div>
+        <p>扫一扫上面的二维码图案，加我为蜜友</p>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/qrcode.min.js"></script>
+
+<script>
+    apiready = function () {
+        if(quakooUser.getUserInfo().icon){
+            var obj = quakooImg.processImg(quakooUser.getUserInfo().icon,63,63);
+            document.getElementById('icon').classList.remove('defultImg')
+            document.getElementById('icon').style.cssText = obj.style;
+            document.getElementById('icon').src = quakooUser.getUserInfo().icon;
+        }
+        if(quakooUser.getUserInfo().name){
+            document.getElementById('name').innerHTML = quakooUser.getUserInfo().name;
+        }else{
+            document.getElementById('name').innerHTML = quakooUser.getUserInfo().phone;
+        }
+
+        // 生成二维码
+        var qrcode = new QRCode('qrcode', {
+            text: ''+quakooUser.getUserInfo().id,
+            width: 257,
+            height: 242,
+            colorDark : '#000000',
+            colorLight : '#ffffff',
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    }
+
+
+
+</script>
+</html>

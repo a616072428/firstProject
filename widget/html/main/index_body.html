@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commonWindow.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css" />
+    <title>首页</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: auto;
+            background: transparent;
+            overflow: scroll;
+        }
+        #main{
+            background: #fff;
+            visibility: hidden;
+        }
+
+        /*头部搜索*/
+        .home {
+            width: 100%;
+            height: 88px;
+            /*background: #000000;*/
+            position:fixed;
+            z-index: 999;
+            transition: .3s;
+        }
+
+        .home .home_top {
+            width: 100%;
+            height: 30px;
+            position: relative;
+            top: 9px;
+        }
+
+        .home .home_top>div {
+            width: 154px;
+            height: 100%;
+            line-height: 30px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .home .home_top>div>img {
+            width: 50%;
+            height: 50%
+        }
+
+        .home .home_top>em {
+            width: 19px;
+            height: 19px;
+        }
+
+        .home .home_bottom {
+            width: 100%;
+            height: 30px;
+            margin: 0 auto;
+            margin-top:8px;
+        }
+
+        .home .home_bottom > div {
+            height: 100%;
+            margin: 0 5%;
+        }
+
+        .home .home_bottom .input {
+            width: 90%;
+            height: 100%;
+            font-size: 13px;
+            line-height: 30px;
+            background: #ffffff;
+            color: #a7a7a7;
+            padding-left: 19px;
+            border-radius: 0;
+            border:0;
+        }
+
+        .fr1 {
+            background: url('../../icon/saomiao.png') no-repeat;
+            background-size: 100%;
+            position: absolute;
+            top: 1px;
+            right: 19.7%;
+        }
+
+        .fr2 {
+            background: url('../../icon/email.png') no-repeat;
+            background-size: 100%;
+            position: absolute;
+            top: 2px;
+            right: 5.4%;
+        }
+
+        .home .home_bottom em {
+            width: 10%;
+            height: 30px;
+        }
+
+        .fl3 {
+            background: #E5DFD9 url('../../icon/sousuo.png') no-repeat center;
+            background-size: 19px;
+        }
+
+        /*轮播*/
+
+        #mui-slider{
+            width: 100%;
+            height: 219px;
+        }
+        #mui-slider{ touch-action: none; }
+
+        #banner .swiper-slide a {
+            display: block
+        }
+
+        #banner .swiper-slide img {
+            width: 100%;
+            height: 219px;
+            vertical-align: middle;
+        }
+        #banner .mui-slider-indicator{
+            bottom: 3px;
+        }
+        /*4个圈*/
+        #miyou-kuaijie{
+            height: 97px;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            box-sizing: border-box;
+        }
+        #miyou-kuaijie > div{
+            box-sizing: border-box;
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+            text-align: center;
+            text-align: -webkit-center;
+        }
+        .sjs > div,
+        .rzpp > div,
+        .myyc > div,
+        .myht > div{
+            width: 51px;
+            height: 51px;
+            margin-top: 24px;
+            margin-bottom: 5px;
+        }
+        .sjs > div{
+            background: #fff url('../../image/sjs.png') no-repeat;
+            background-size: 100%;
+        }
+        .rzpp > div{
+            background: #fff url('../../image/rzpp.png') no-repeat;
+            background-size: 100%;
+        }
+        .myyc > div{
+            background: #fff url('../../image/myyc.png') no-repeat;
+            background-size: 100%;
+        }
+        .myht > div{
+            background: #fff url('../../image/myht.png') no-repeat;
+            background-size: 100%;
+        }
+        .sjs > p,
+        .rzpp > p,
+        .myyc > p,
+        .myht > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #999999;
+            letter-spacing: 0;
+            text-align: center;
+        }
+
+        /*蜜柚直播*/
+        #miyou-zhibo{
+            width:100%;
+        }
+        #miyou-zhibo > h2{
+            font-family: PingFangSC-Semibold;
+            font-size: 20px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: center;
+            padding-top: 63px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        #miyou-zhibo > p{
+            ont-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #6D6D6D;
+            letter-spacing: 0;
+            text-align: center;
+            margin-bottom: 42px;
+        }
+        #liveDom{
+            width: 100%;
+            overflow: hidden;
+        }
+        #liveDom div{
+            box-sizing: border-box;
+        }
+        .live-img11{
+            width: 67%;
+            height: 139px;
+            overflow: hidden;
+            float: left;
+            border-right: 1px solid #fff;
+        }
+        .live-img12{
+            width: 33%;
+            height: 139px;
+            overflow: hidden;
+            float: right;
+        }
+        .live-img21{
+            width: 67%;
+            height: 279px;
+            overflow: hidden;
+            float: left;
+            border-right: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+        }
+        .live-img22{
+            width: 33%;
+            height: 139px;
+            overflow: hidden;
+            float: right;
+            border-bottom: 1px solid #fff;
+        }
+        .live-img23{
+            width: 33%;
+            height: 139px;
+            overflow: hidden;
+            float: right;
+        }
+        .live-img31,.live-img33{
+            width: 67%;
+            height: 139px;
+            overflow: hidden;
+            float: left;
+            border-right: 1px solid #fff;
+        }
+        .live-img31,.live-img32{
+            border-bottom: 1px solid #fff;
+        }
+        .live-img32,.live-img34{
+            width: 33%;
+            height: 139px;
+            overflow: hidden;
+            float: right;
+        }
+        .live-img41{
+            width: 67%;
+            height: 139px;
+            overflow: hidden;
+            float: left;
+        }
+        .live-img41,.live-img42{
+            border-bottom: 1px solid #fff;
+        }
+        .live-img42,.live-img45{
+            width: 33%;
+            height: 139px;
+            overflow: hidden;
+            float: right;
+        }
+        .live-img43,.live-img44{
+            width: 33%;
+            height: 139px;
+            overflow: hidden;
+            float: left;
+        }
+        .live-img41,.live-img43,.live-img44{
+            border-right: 1px solid #fff;
+        }
+        .live-img44{
+            width: 34%;
+        }
+        .live-img51{
+            width: 33%;
+            height: 139px;
+            overflow: hidden;
+            float: left;
+        }
+        .live-img51:nth-of-type(3n+2){
+            width: 34%;
+        }
+        .live-img51:nth-of-type(1),.live-img51:nth-of-type(2),.live-img51:nth-of-type(3){
+            border-bottom: 1px solid #fff;
+        }
+        .live-img51:nth-of-type(1),.live-img51:nth-of-type(2),.live-img51:nth-of-type(4),.live-img51:nth-of-type(5){
+            border-right: 1px solid #fff;
+        }
+        .live-img12 img,.live-img23 img,.live-img34 img,.live-img45 img,.live-img56 img{
+            width: 100%;height: 100%;
+        }
+
+        /*时尚专区*/
+        #style-zone{
+            width: 100%;
+            padding: 0 20px;box-sizing: border-box;
+        }
+        #style-zone > h2{
+            font-family: PingFangSC-Semibold;
+            font-size: 20px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: center;
+            padding-top: 91px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        #style-zone > p{
+            ont-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #6D6D6D;
+            letter-spacing: 0;
+            text-align: center;
+            margin-bottom: 42px;
+        }
+        #gundong-wrap{
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            margin-bottom: 26px;
+        }
+        .zone{
+            width: 181px;
+            height: 158px;
+            float: left;
+            margin-right: 12px;
+        }
+        .zone:last-of-type{
+            margin-right: 0;
+        }
+        .zone > span{
+            display: inline-block;
+            width: 181px;
+        }
+        .zone > span > strong{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            width: 63%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .zone > span > i{
+            font-family: PingFangSC-Regular;
+            font-size: 10px;
+            color: #B6B6B6;
+            letter-spacing: 0;
+            text-align: center;
+            float: right;
+        }
+        .zone > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #B6B6B6;
+            letter-spacing: 0;
+            height: 20px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+        .zone > .img{
+            width: 181px;height: 108px;
+            overflow: hidden;
+        }
+        .zone .img img{
+            display: block;
+        }
+        #more,.more{
+            width: 91px;
+            height: 28px;
+            background: #000;
+            margin:0 auto;
+            font-family: PingFangSC-Semibold;
+            font-size: 13px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 28px;
+        }
+        .more{
+            display: none;
+        }
+
+
+        /*tabs切换*/
+        #tabs{
+            width: 100%;
+            margin-top: 93px;
+        }
+        #tabs-header{
+            height: 25px;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0 19px;
+            text-align: center;
+        }
+        #tabs-header > div{
+            width: 33.333%;
+            float: left;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #959595;
+            letter-spacing: 0;
+
+            line-height: 20px;
+        }
+        #tabs-header div.active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            /*border-bottom:1px solid #222222;*/
+        }
+
+        .tabs-content{
+            padding:0 5% 15px;
+            margin-top: 17px;
+            box-sizing: border-box;
+            background: #fff;
+            overflow: hidden;
+        }
+        .tabs-content > div{
+            width: 48%;
+            overflow: hidden;
+            position: relative;
+        }
+        .tabs-content > div:nth-of-type(2n+1){
+            float: left;
+        }
+        .tabs-content > div:nth-of-type(2n){
+            float: right;
+        }
+
+        .tabs-content > div > div{
+            width:160px;
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .tabs-content > div > p{
+            margin-top: 19px;
+            line-height: 18px;
+            font-family: TeluguMN-Bold;
+            font-size: 15px;
+            color: #111111;
+            letter-spacing: 0;
+            text-align: center;
+            overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+        }
+        .tabs-content > div > span{
+            line-height: 18px;
+            overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+            display: block;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .tabs-content > div > i{
+            margin-top: 9px;
+            display: block;
+            font-family: STHeitiSC-Medium;
+            font-size: 17px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        #noRmd{
+            width: 100%;
+            margin: 20px auto;
+            text-align: center;
+            color: #717171;
+            font-size: 13px;
+            clear: both;
+        }
+        /*收藏*/
+        .collect{
+            position: absolute;
+            width: 20px;height: 20px;
+            right: 12px;top: 14px;
+            background: url("../../icon/collectno.png") no-repeat center;
+            background-size: 100%;
+        }
+        .collect.active{
+            background: url("../../icon/collectyes.png") no-repeat center;
+            background-size: 100%;
+        }
+    </style>
+</head>
+
+<body id="body" style="display:block !important">
+
+<div id="main">
+
+    <!-- 轮播 -->
+    <div id="banner">
+
+    </div>
+
+    <!-- 快捷4个圈-->
+    <div id="miyou-kuaijie">
+        <div class="sjs" onclick="openPege(0)">
+            <div></div>
+            <p>设计师</p>
+        </div>
+        <div class="rzpp" onclick="openPege(1)">
+            <div></div>
+            <p>入驻品牌</p>
+        </div>
+        <div class="myyc" onclick="openPege(2)">
+            <div></div>
+            <p>蜜柚原创</p>
+        </div>
+        <div class="myht" onclick="openPege(3)">
+            <div></div>
+            <p>蜜柚海淘</p>
+        </div>
+    </div>
+
+    <!-- 蜜柚直播 -->
+    <div id="miyou-zhibo">
+        <h2>蜜柚直播</h2>
+        <p>为您精心挑选FENDI等，轻奢新风尚，我是slogon</p>
+        <div id="liveDom">
+
+        </div>
+        <div class="more moreLive" onclick="more('live')">了解更多</div>
+    </div>
+
+    <!-- 时尚专区 -->
+    <div id="style-zone">
+        <h2>时尚专区</h2>
+        <p>为您精心挑选FENDI等，轻奢新风尚，我是slogon</p>
+
+        <div id="gundong-wrap" class="swiper-container">
+            <div class="swiper-wrapper" id="zoneDom">
+
+            </div>
+        </div>
+
+        <!-- 了解更多 -->
+        <div id="more" onclick="more('style')">了解更多</div>
+    </div>
+
+    <!-- tab切换 -->
+    <div id="tabs">
+        <!-- 头部 -->
+        <div id="tabs-header">
+            <div class="jingpin" onclick="Tabs('jingpin',1)">精品推荐</div>
+            <div class="pinpai" onclick="Tabs('pinpai',3)">品牌推荐</div>
+            <div class="designer" onclick="Tabs('designer',2)">设计师推荐</div>
+        </div>
+        <!-- 内容 -->
+        <div class="tabs-content" id="contentDom">
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/mui.min.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/javascript" src="../../script/swiper-3.3.1.min.js"></script>
+
+<!--推荐商品-->
+<script type="text/html" id="contentTmp">
+    <%if(list){%>
+        <%if(list != " "){%>
+            <%for(var i = 0; i < list.length; i++){%>
+                <%if(list[i] != null){%>
+                <div onclick="lookIndex('<%=list[i].id%>','<%=list[i].title%>')" >
+                    <div>
+                        <img data-echo="<%=list[i].covers[0]%>" real-style="<%=list[i].style%>" >
+                    </div>
+                    <p><%=list[i].title%></p>
+                    <span><%=list[i].name%></span>
+                    <i>￥<%=list[i].Price%></i>
+
+                </div>
+                <%}%>
+            <%}%>
+        <%}else{%>
+            <div id="noRmd">暂无推荐</div>
+        <%}%>
+    <%}else{%>
+        <div id="noRmd">暂无推荐</div>
+    <%}%>
+</script>
+<!--直播-->
+<script type="text/html" id="liveTmp">
+    <%if(list){%>
+        <%if(list.length==1){%>
+            <div onclick="openRoom('<%=list[0].id%>','<%=list[0].lookNum%>','<%=list[0].ownName%>','<%=list[0].ownIcon%>','<%=list[0].ownId%>','<%=list[0].playUrl%>')" class="live-img11"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[0].cover%>" alt="" real-style="<%=list[0].style%>"></div>
+            <div class="live-img12" onclick="more('live')"><img src="../../image/01.png" alt=""></div>
+        <%}else if(list.length==2){%>
+            <div onclick="openRoom('<%=list[0].id%>','<%=list[0].lookNum%>','<%=list[0].ownName%>','<%=list[0].ownIcon%>','<%=list[0].ownId%>','<%=list[0].playUrl%>')" class="live-img21"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[0].cover%>" alt="" real-style="<%=list[0].style%>"></div>
+            <div onclick="openRoom('<%=list[1].id%>','<%=list[1].lookNum%>','<%=list[1].ownName%>','<%=list[1].ownIcon%>','<%=list[1].ownId%>','<%=list[1].playUrl%>')" class="live-img22"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[1].cover%>" alt="" real-style="<%=list[1].style%>"></div>
+            <div class="live-img23" onclick="more('live')"><img src="../../image/01.png" alt=""></div>
+        <%}else if(list.length==3){%>
+            <div onclick="openRoom('<%=list[0].id%>','<%=list[0].lookNum%>','<%=list[0].ownName%>','<%=list[0].ownIcon%>','<%=list[0].ownId%>','<%=list[0].playUrl%>')" class="live-img31"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[0].cover%>" alt="" real-style="<%=list[0].style%>"></div>
+            <div onclick="openRoom('<%=list[1].id%>','<%=list[1].lookNum%>','<%=list[1].ownName%>','<%=list[1].ownIcon%>','<%=list[1].ownId%>','<%=list[1].playUrl%>')" class="live-img32"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[1].cover%>" alt="" real-style="<%=list[1].style%>"></div>
+            <div onclick="openRoom('<%=list[2].id%>','<%=list[2].lookNum%>','<%=list[2].ownName%>','<%=list[2].ownIcon%>','<%=list[2].ownId%>','<%=list[2].playUrl%>')" class="live-img33"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[2].cover%>" alt="" real-style="<%=list[2].style%>"></div>
+            <div class="live-img34" onclick="more('live')"><img src="../../image/01.png" alt=""></div>
+        <%}else if(list.length==4){%>
+            <div onclick="openRoom('<%=list[0].id%>','<%=list[0].lookNum%>','<%=list[0].ownName%>','<%=list[0].ownIcon%>','<%=list[0].ownId%>','<%=list[0].playUrl%>')" class="live-img41"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[0].cover%>" alt="" real-style="<%=list[0].style%>"></div>
+            <div onclick="openRoom('<%=list[1].id%>','<%=list[1].lookNum%>','<%=list[1].ownName%>','<%=list[1].ownIcon%>','<%=list[1].ownId%>','<%=list[1].playUrl%>')" class="live-img42"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[1].cover%>" alt="" real-style="<%=list[1].style%>"></div>
+            <div onclick="openRoom('<%=list[2].id%>','<%=list[2].lookNum%>','<%=list[2].ownName%>','<%=list[2].ownIcon%>','<%=list[2].ownId%>','<%=list[2].playUrl%>')" class="live-img43"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[2].cover%>" alt="" real-style="<%=list[2].style%>"></div>
+            <div onclick="openRoom('<%=list[3].id%>','<%=list[3].lookNum%>','<%=list[3].ownName%>','<%=list[3].ownIcon%>','<%=list[3].ownId%>','<%=list[3].playUrl%>')" class="live-img44"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[3].cover%>" alt="" real-style="<%=list[3].style%>"></div>
+            <div class="live-img45" onclick="more('live')"><img src="../../image/01.png" alt=""></div>
+        <%}else{%>
+            <div onclick="openRoom('<%=list[0].id%>','<%=list[0].lookNum%>','<%=list[0].ownName%>','<%=list[0].ownIcon%>','<%=list[0].ownId%>','<%=list[0].playUrl%>')" class="live-img51"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[0].cover%>" alt="" real-style="<%=list[0].style%>"></div>
+            <div onclick="openRoom('<%=list[1].id%>','<%=list[1].lookNum%>','<%=list[1].ownName%>','<%=list[1].ownIcon%>','<%=list[1].ownId%>','<%=list[1].playUrl%>')" class="live-img51"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[1].cover%>" alt="" real-style="<%=list[1].style%>"></div>
+            <div onclick="openRoom('<%=list[2].id%>','<%=list[2].lookNum%>','<%=list[2].ownName%>','<%=list[2].ownIcon%>','<%=list[2].ownId%>','<%=list[2].playUrl%>')" class="live-img51"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[2].cover%>" alt="" real-style="<%=list[2].style%>"></div>
+            <div onclick="openRoom('<%=list[3].id%>','<%=list[3].lookNum%>','<%=list[3].ownName%>','<%=list[3].ownIcon%>','<%=list[3].ownId%>','<%=list[3].playUrl%>')" class="live-img51"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[3].cover%>" alt="" real-style="<%=list[3].style%>"></div>
+            <div onclick="openRoom('<%=list[4].id%>','<%=list[4].lookNum%>','<%=list[4].ownName%>','<%=list[4].ownIcon%>','<%=list[4].ownId%>','<%=list[4].playUrl%>')" class="live-img51"><img onerror="this.parentElement.style.background='url(../../image/main.png) no-repeat center/cover';this.style.display='none'" data-echo="<%=list[4].cover%>" alt="" real-style="<%=list[4].style%>"></div>
+            <div class="live-img51 live-img56" onclick="more('live')"><img src="../../image/01.png" alt=""></div>
+        <%}%>
+    <%}%>
+</script>
+<!--时尚专区-->
+<script type="text/html" id="zoneTmp">
+    <%for(var i = 0; i < list.length; i++){%>
+    <div class="zone swiper-slide" onclick="quakooApp.openNewWindow('fashionInfo','../fashionarea/fashionInfo.html',{id:'<%=list[i].id%>'})">
+        <%if(list[i].covers){%>
+        <div class="img">
+            <img data-echo="<%=list[i].covers[0]%>" alt="" real-style="<%=list[i].style%>">
+        </div>
+        <%}else{%>
+        <div class="img" style="background: url('../../image/main.png') no-repeat center/cover;">
+        </div>
+        <%}%>
+
+        <span><strong><%=list[i].title%></strong> <i><%=list[i].ctime%></i></span>
+        <p><%=list[i].content%><p>
+    </div>
+    <%}%>
+</script>
+<!--轮播模板-->
+<script type="text/html" id="bannerTmp">
+    <%if(list.data){%>
+    <div class="mui-slider" id="mui-slider">
+        <div class="mui-slider-group mui-slider-loop">
+            <%if(list.data.length==1){%>
+                <div class="mui-slider-item mui-slider-item-duplicate">
+                    <a style="width: 100%;">
+                        <img real-style="<%=list.data[0].style%>" data-echo="<%=list.data[0].image%>" onclick="quakooApp.openSystemForword('<%=list.data[0].url%>',2,{reload:true})">
+                    </a>
+                </div>
+            <%}else{%>
+                <div class="mui-slider-item mui-slider-item-duplicate">
+                    <a style="width: 100%;">
+                        <img real-style="<%=list.data[list.data.length-1].style%>" data-echo="<%=list.data[list.data.length-1].image%>" onclick="quakooApp.openSystemForword('<%=list.data[list.data.length-1].url%>',2,{reload:true})">
+                    </a>
+                </div>
+                <%for(var i = 0;i < list.data.length; i++){%>
+                <!-- 第一张 -->
+                <div class="mui-slider-item">
+                    <a  style="width: 100%;">
+                        <img real-style="width:100%;height:<%=list.data[i].height%>" data-echo="<%=list.data[i].image%>" onclick="quakooApp.openSystemForword('<%=list.data[i].url%>',2,{reload:true})">
+                    </a>
+                </div>
+                <%}%>
+                <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+                <div class="mui-slider-item mui-slider-item-duplicate">
+                    <a  style="width: 100%;">
+                        <img real-style="width:100%;height:<%=list.data[0].height%>" data-echo="<%=list.data[0].image%>" onclick="quakooApp.openSystemForword('<%=list.data[0].url%>',2,{reload:true})">
+                    </a>
+                </div>
+            <%}%>
+        </div>
+        <div class="mui-slider-indicator">
+            <div class="mui-indicator mui-active"></div>
+            <%for(var i = 1;i < list.data.length; i++){%>
+            <div class="mui-indicator"></div>
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+</script>
+<script type="text/javascript">
+    var bannerResults = {};
+    apiready = function() {
+        //给头部搜索留出空间
+        document.body.style.paddingTop = '38px';
+        //打开头部frame
+        quakooApp.openFrameInWin('index_head','./index_head.html',{},{
+            rect:{
+                x:0,
+                marginTop: api.pageParam.topHeight,
+                w:'auto',
+                h: 88
+            },
+            bgColor:"rgba(0,0,0,1)"
+        })
+
+
+        document.getElementById('main').style.visibility = 'visible';
+        refreshData()
+
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: 'rgba(0,0,0,0)',
+            textColor: '#666',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+            refreshData()
+            api.refreshHeaderLoadDone();
+        });
+
+    }
+    function refreshData() {
+        //轮播 缓存
+        quakooData.ajaxGetDataNoProgress(config.getUrl_web_system_getAllBanner(),{},bannerDataToHtml);
+        //获取直播
+        getLive()
+        // 获取默认推荐
+        Tabs('jingpin',1);
+        //时尚专区
+        getZoneData();
+        document.body.scrollTop =0;
+
+    }
+    //监听滚动
+    function pageScroll() {
+        if(quakooUtils.getScrollTop()>100){
+            api.setFrameAttr({
+                name:'index_head',
+                rect:{
+                    x:0,
+                    marginTop: api.pageParam.topHeight,
+                    w:'auto',
+                    h:50
+                }
+            })
+            api.execScript({
+                name: "main",
+                frameName: "index_head",
+                script: "changeHome()"
+            })
+        }else{
+            if(quakooUtils.getScrollTop()<30){
+                api.execScript({
+                    name: "main",
+                    frameName: "index_head",
+                    script: "changeHome(true)"
+                })
+                api.setFrameAttr({
+                    name:'index_head',
+                    rect:{
+                        x:0,
+                        marginTop: api.pageParam.topHeight,
+                        w:'auto',
+                        h:88
+                    }
+                })
+            }
+        }
+        setTimeout(function () {
+            pageScroll()
+        })
+    }
+    function changeHome(type) {
+        if(type){
+            document.querySelector('.home').style.height = '88px';
+            document.querySelector('.home_top').style.display = 'block';
+        }else{
+            document.querySelector('.home').style.height = '46px';
+            document.querySelector('.home_top').style.display = 'none';
+        }
+        api.setFrameAttr({
+            name: 'index_body',
+            rect:{
+                x:0,
+                marginTop:api.safeArea.top + document.querySelector('.home').offsetHeight,
+                w:'auto',
+                marginBottom:50
+            },
+        });
+    }
+    function addHtml(results) {
+        if(results.length>0){
+            document.querySelector('.moreLive').style.display = 'none';
+            if(results.length==1){
+                if(results[0].cover && results[0].cover.indexOf('*')>=0 && results[0].cover.indexOf('http')>=0){
+                    var obj = quakooImg.processImg(results[0].cover,api.winWidth*0.67,139);
+                    results[0].style = obj.style;
+                    results[0].cover = obj.url;
+                }
+            }else if(results.length==2){
+                for(var i=0;i<results.length;i++){
+                    var width;
+                    var height;
+                    if(i==0){
+                        width = api.winWidth * 0.67;
+                        height = 279;
+                    }else if(i==1){
+                        width = api.winWidth * 0.33;
+                        height = 139;
+                    }
+                    if(results[i].cover && results[i].cover.indexOf('*')>=0 && results[i].cover.indexOf('http')>=0){
+                        var obj = quakooImg.processImg(results[i].cover,width,height);
+                        results[i].style = obj.style;
+                        results[i].cover = obj.url;
+                    }
+                }
+            }else if(results.length==3){
+                for(var i=0;i<results.length;i++){
+                    var width;
+                    var height = 139;
+                    if(i==0 || i==2){
+                        width = api.winWidth * 0.67;
+                    }else if(i==1){
+                        width = api.winWidth * 0.33;
+                    }
+                    if(results[i].cover && results[i].cover.indexOf('*')>=0 && results[i].cover.indexOf('http')>=0){
+                        var obj = quakooImg.processImg(results[i].cover,width,height);
+                        results[i].style = obj.style;
+                        results[i].cover = obj.url;
+                    }
+                }
+            }else if(results.length==4){
+                for(var i=0;i<results.length;i++){
+                    var width;
+                    var height = 139;
+                    if(i==0){
+                        width = api.winWidth * 0.67;
+                    }else if(i==1){
+                        width = api.winWidth * 0.33;
+                    }else if(i==2){
+                        width = api.winWidth * 0.33;
+                    }else if(i==3){
+                        width = api.winWidth * 0.34;
+                    }
+                    if(results[i].cover && results[i].cover.indexOf('*')>=0 && results[i].cover.indexOf('http')>=0){
+                        var obj = quakooImg.processImg(results[i].cover,width,height);
+                        results[i].style = obj.style;
+                        results[i].cover = obj.url;
+                    }
+                }
+            }else if(results.length>=5){
+                for(var i=0;i<results.length;i++){
+                    var width;
+                    var height=139;
+                    if(i==0 ||i==2|| i==3){
+                        width = api.winWidth * 0.33;
+                    }else if(i==1 || i==4){
+                        width = api.winWidth * 0.34;
+                    }
+                    if(i<5){
+                        if(results[i].cover && results[i].cover.indexOf('*')>=0 && results[i].cover.indexOf('http')>=0){
+                            var obj = quakooImg.processImg(results[i].cover,width,height);
+                            results[i].style = obj.style;
+                            results[i].cover = obj.url;
+                        }
+                    }
+                }
+            }
+            var data = {list: results};
+            var html = template('liveTmp',data);
+            document.getElementById('liveDom').innerHTML = html;
+            setTimeout(function(){
+                if(!echo.isInit()){
+                    echoExt.init({
+                        offset: 0,
+                        throttle: 0//设置图片延迟加载的时间
+                    });
+                }else{
+                    echo.render();
+                }
+
+            },100)
+        }else{
+            document.querySelector('.moreLive').style.display = 'block';
+            document.getElementById('liveDom').innerHTML = '';
+        }
+    }
+    function getLive() {
+        quakooData.ajaxGetDataNoProgress(config.getUrl_web_live_getBeginPager(),{},function (ret) {
+            addHtml(ret.data)
+            api.refreshHeaderLoadDone();
+        })
+    }
+    //时尚专区
+    function getZoneData() {
+        quakooData.ajaxGetDataNoProgress(config.getUrl_web_mall_zoneGetAll(),{},function (ret) {
+            for(var i=0;i<ret.data.length;i++){
+                if(ret.data[i].covers && ret.data[i].covers[0]){
+                    var obj = quakooImg.processImg(ret.data[i].covers[0],181,108);
+                    ret.data[i].style = obj.style;
+                }
+                ret.data[i].ctime =  quakooUtils.formatTimeToDay(ret.data[i].ctime);
+            }
+            var html = template('zoneTmp',{list:ret.data});
+            document.getElementById('zoneDom').innerHTML = html;
+            setTimeout(function () {
+                var swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 'auto',
+                    spaceBetween:12,
+                });
+            })
+            setTimeout(function(){
+                if(!echo.isInit()){
+                    echoExt.init({
+                        offset: 0,
+                        throttle: 0//设置图片延迟加载的时间
+                    });
+                }else{
+                    echo.render();
+                }
+
+            },100)
+            api.refreshHeaderLoadDone();
+        });
+    }
+    //轮播图
+    function bannerDataToHtml(results) {
+        api.refreshHeaderLoadDone();
+        if (quakooUtils.isNotBlack(results.data)) {
+            var data;
+            for (var i = 0; i < results.data.length; i++) {
+                bannerResults[results.data[i].id] = results.data[i];
+                results.data[i].height = 219 + "px";
+                var obj = quakooImg.processImg(results.data[i].image, api.winWidth,219);
+                results.data[i].image = obj.url;
+                results.data[i].style = obj.style;
+                data = {
+                    list: results
+                };
+            }
+            var html = template('bannerTmp', data);
+            document.getElementById('banner').innerHTML = html;
+            setTimeout(function(){
+                if(!echo.isInit()){
+                    echoExt.init({
+                        offset: 0,
+                        throttle: 0//设置图片延迟加载的时间
+                    });
+                }else{
+                    echo.render()
+                }
+            },100)
+            api.parseTapmode();
+            setTimeout(function(){
+                var gallery = mui('.mui-slider');
+                gallery.slider({
+                    interval:2000//自动轮播周期，若为0则不自动播放，默认为0；
+                });
+            },500)
+        }
+    }
+    // tab切换 商品推荐
+    function Tabs(self,type){
+        var dom = $api.dom('#tabs-header .active');//对应头部的样式
+        $api.removeCls(dom, 'active');
+        var thisHeader = $api.dom('#tabs-header .' + self);
+        $api.addCls(thisHeader, 'active');
+        quakooData.ajaxGetDataNoProgress(config.getUrl_web_mall_getRecommends(),{type:type},function (ret,err) {
+            //处理图片
+            for(var i = 0; i < ret.data.length; i++){
+                if(quakooUtils.isNotBlack(ret.data[i])){
+                    if(ret.data[i].covers[0]){
+                        var listicon = ret.data[i].covers[0];
+                        var obj = quakooImg.processImg(listicon,160,160);
+                        ret.data[i].style = obj.style;
+                    }
+                    ret.data[i].Price = quakooUtils.formatMoney(ret.data[i].price / 100, 2);
+                }
+            }
+            var data = {list: ret.data};
+            var html = template('contentTmp',data);
+            document.getElementById('contentDom').innerHTML = html;
+            setTimeout(function(){
+                if(!echo.isInit()){
+                    echoExt.init({
+                        offset: 0,
+                        throttle: 0//设置图片延迟加载的时间
+                    });
+                }else{
+                    echo.render();
+                }
+            },100)
+            api.refreshHeaderLoadDone();
+        })
+    }
+
+
+
+    // 快捷4个圈
+    function openPege(type){
+        if(type == 0){
+            quakooApp.openNewWindow('designer','../designer/designer.html');
+        }
+        if(type == 1){
+            quakooApp.openNewWindow('ruzhupinpai','../ruzhupinpai/ruzhupinpai.html');
+        }
+        if(type == 2){
+            quakooApp.openNewWindow('miyouyuanchuang','../miyouyuanchuang/miyouyuanchuang.html');
+        }
+        if(type == 3){
+            quakooApp.openNewWindow('miyouhaitao','../miyouhaitao/miyouhaitao.html');
+        }
+
+    };
+
+    //查看商品详情
+    function lookIndex(id,name) {
+        quakooApp.openNewWindow('goodsIndex','../goods/goodsIndex.html',{id:id,title:name})
+    }
+
+    //了解更多
+    function more(type){
+        if(type=='live'){
+            quakooApp.openNewWindow('live','../live/live.html',{})
+        }else if(type=='style'){
+            quakooApp.openNewWindow('fashion','../fashionarea/fashion.html',{})
+        }
+    }
+    //打开直播间
+    function openRoom(id,lookNum,name,icon,sid,playUrl) {
+        /***
+         * id           直播间id
+         * sid           店铺id
+         * lookNum      观看人数
+         * name         直播间名字
+         * icon         头像
+         * liveRoomUrl  直播地址
+         * liveType     视频类型    0  直播，1 回放
+         * liveRoomGoodsUrl     获取直播推荐商品
+         * liveRoomGoodsParam   获取直播推荐商品 的参数,没有token   格式：{key:value}
+         * addGoodsUrl          添加商品到购物车接口
+         * selectSKUUrl         获取规格接口
+         * chatServerUrl        聊天地址
+         * chatPort             聊天端口
+         */
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        quakooData.ajaxSubmitData(config.getUrl_web_live_liveRoomLoad(),{id:id},function (ret) {
+            if(ret){
+                if(ret.success){
+                    if(ret.data){
+                        //聊天地址以及端口
+                        var arr = ret.data.serverAddress.split(':');
+                        var chatServerUrl = arr[0];
+                        var chatPort = arr[1];
+
+                        quakooApp.openNativePage('liveRoom',{
+                            id:id,
+                            sid:sid,
+                            lookNum: lookNum,
+                            name:name,
+                            icon:icon,
+                            liveType:0,
+                            liveRoomUrl:playUrl,
+                            liveRoomGoodsUrl:config.getUrl_web_live_getLiveRecommend(),
+                            liveRoomGoodsParam:{liveId:id},
+                            selectSKUUrl:config.getUrl_web_mall_selectSKU(),
+                            addGoodsUrl:config.getUrl_web_mall_addToCar(),
+                            chatServerUrl:chatServerUrl,
+                            chatPort:chatPort
+                        },1)
+
+                    }
+                }
+            }
+        })
+    }
+    // 2 收藏     1取消收藏
+    var collectFlag = true;
+    function toCollect(id,favoriteFlag,self) {
+        quakooUtils.stopEventBubble()
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        if(collectFlag){
+            collectFlag = false;
+            if(favoriteFlag==1){
+                quakooMsg.showProgress();
+                quakooData.ajaxGetData(config.getUrl_web_system_favoriteDelete(),{typeId:id,type:1},function (ret,err) {
+                    collectFlag = true;
+                    quakooMsg.hideProgress();
+                    if(ret && ret.success){
+                        quakooMsg.toast('取消成功');
+                        self.classList.toggle('active');
+                        self.onclick = function () {
+                            toCollect(id,2,self)
+                        }
+                        api.execScript({
+                            name:'main',
+                            frameName:'my',
+                            script:'editCollectNum("-")'
+                        });
+                    }else{
+                        quakooMsg.toast(err.msg)
+                    }
+                })
+            }else{
+                quakooMsg.showProgress();
+                quakooData.ajaxGetData(config.getUrl_web_system_favoriteAdd(),{typeId:id,type:1},function (ret,err) {
+                    collectFlag = true;
+                    quakooMsg.hideProgress();
+                    if(ret && ret.success){
+                        quakooMsg.toast('收藏成功');
+                        self.classList.toggle('active');
+                        self.onclick = function () {
+                            toCollect(id,1,self)
+                        }
+                        api.execScript({
+                            name:'main',
+                            frameName:'my',
+                            script:'editCollectNum("+")'
+                        });
+                    }else{
+                        quakooMsg.toast(err.msg)
+                    }
+                })
+            }
+        }
+
+    }
+</script>
+</body>
+</html>

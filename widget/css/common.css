@@ -1,0 +1,167 @@
+html {
+	width: 100%;
+	height: 100%;
+	font-family:"黑体";
+}
+body {
+	font-family:"黑体";
+	width: 100%;
+	height: 100%;
+}
+em,i{
+	font-style: normal;
+}
+
+input{
+    outline: none;
+}
+
+.item_bj{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}
+#main {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    }
+#wrap {
+    height: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-flex-flow: column;
+    flex-flow: column;
+}
+/*#topbar:before{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 20px;
+    background: #293847;
+}*/
+#topbar{
+	position: relative;
+	color:#fff;
+    background: #293847;
+    height : 64px;
+    line-height : 44px;
+    font-size: 16px;
+    padding:20px 15px 0;
+    box-sizing: border-box;
+    display: none;
+}
+
+#topbar div{
+    float: left;
+}
+#leftButton{
+    float: left;
+    margin-right: 10px;
+}
+#leftButton img{
+    width:20px;
+    height:14px;
+}
+
+#topbar .right{
+	color: #fff;
+
+    float: right;
+}
+
+/*分页*/
+.pageBtn{
+    width: 100px;
+    margin: 50px auto 10px;
+    overflow: hidden;
+    display: none;
+}
+.pageBtn div{
+    width: 24px;
+    height: 24px;
+    float: left;
+}
+.prevPage{
+    background: url("../icon/prevbtn.png") no-repeat center/cover;
+}
+.nextPage{
+    background: url("../icon/nextbtn.png") no-repeat center/cover;
+    margin-left: 50px;
+}
+/*退出*/
+#exitbody{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.50);
+    display: none;
+}
+.exit{font-size: 14px;
+    color: #333333;
+    letter-spacing: 0;
+    text-decoration: none;
+}
+#quit_box{
+    width: 80.5%;
+    height: 142px;
+    border-radius: 4px;
+    background-color: white;
+    position: absolute;
+    left: 0;top: 0;right: 0;bottom: 0;margin: auto;
+}
+.quit_nocard{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0;
+    margin-left: 10.7%;
+    padding-top: 30px;}
+#cancel,.cancel{
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0;
+    margin-left: 43%;
+}
+.quit_btn{
+    margin-top: 40px;
+}
+#confirm,.confirm{
+    font-size: 14px;
+    color: #28C6CA;
+    letter-spacing: 0;
+    margin-left: 14%;
+}
+
+
+
+/*基本样式*/
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.of{
+    overflow: hidden;
+}
+.fs12{
+    font-size: 12px;
+}
+.fs14{
+    font-size: 14px;
+}
+.pr{
+    position: relative;
+}
+.pa{
+    position: absolute;
+}
+.cl{
+    clear: both;
+}
+.dis{
+    display: block;
+}
+.boxbor{
+    box-sizing: border-box;
+}

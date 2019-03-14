@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>设计师</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+            position: relative;
+        }
+        #seekDes{
+            height: 44px;
+            padding:3px 19px 11px 19px;
+            box-sizing: border-box;
+        }
+        #seekDes > input{
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #A7A7A7;
+            letter-spacing: 0;
+            background: #F5F5F5 url("../../icon/sousuo.png") no-repeat;
+            background-size: 4%;
+            background-position: 43% center;
+            padding-left: 46%;
+            box-sizing: border-box;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="des-wrap">
+        <div id="seekDes">
+            <input id="seach" type="text" placeholder="搜索">
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+        var seekH = document.getElementById('seekDes').offsetHeight;
+        var seach = document.getElementById('seach');
+        seach.onfocus = function(){
+            seach.style.paddingLeft = '5px';
+            seach.style.backgroundSize = '0';
+        }
+        seach.onblur = function(){
+            seach.style.paddingLeft = '46%';
+            seach.style.backgroundSize = '3%';
+        }
+
+        //引入索引列表
+        var listContact = api.require('listContact');
+        listContact.open({
+            h: api.frameHeight,
+            y: seekH,
+            bgColor:'#F9F9F9',
+            cellBgColor:'#fff',
+            borderColor:'#fff',
+            cellHeight:58,
+            imgWidth:39,
+            imgHeight:38,
+            indicator:{
+                bgColor:'#fff'
+            },
+            grounpTitle:{
+                height:10,     //（可选项）数字类型；groupTitle的高度；默认：30
+                color: '#222222',        //（可选项）字符串类型，默认#949494,支持 rgb，rgba，#
+                size:14,       //（可选项）数字类型，默认13
+                selectedSize: 20  ,//（可选项）数字类型；选中后所在分组标题大小；默认；13
+                bgColor:'#F9F9F9',   //（可选项）标题背景色，默认#DBDBDB,支持 rgb，rgba，#
+            },
+            data: {
+                A: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'A大爷',
+                    titleSize:17,
+                    titleColor:'#333333'
+                },
+                {
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'A2大爷',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                b: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'B大爷',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                c: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'C标题',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                d: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'D',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                e: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'E',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                f: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'F',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                g: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'G',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                h: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'H',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                i: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'I',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                j: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'JAGAD',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                k: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'KGH',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                l: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'LDSFS',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                m: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'MSDFSD',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }],
+                n: [{
+                    placeholderImg: 'widget://res/img/ic/listContact.png',
+                    img: 'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',
+                    title: 'NSDF',
+                    titleSize:17,
+                    titleColor:'#333333'
+                }]
+            },
+            fixedOn: api.frameName
+        }, function(ret, err) {
+            if (ret) {
+            }
+        });
+    };
+
+</script>
+</html>

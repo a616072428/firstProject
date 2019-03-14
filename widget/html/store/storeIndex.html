@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>店铺详情</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+        #topbar > .shoppings{
+            position: absolute;
+            right:0;
+            padding-right: 19px;
+            bottom:0;
+            width:20px;
+            height:44px;
+        }
+        #topbar > .shoppings img{
+            width:22px;
+            height:22px;
+            float: left;
+            margin-top: 12px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();"></div>
+    <div>店铺详情</div>
+    <div class="shoppings" onclick="jumpFeed()">
+        <img src="../../image/feedback.png" alt="">
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script>
+    apiready = function () {
+        quakooApp.initFrameInWin(api.pageParam);
+    }
+    function jumpFeed() {
+        quakooApp.openNewWindow('report','../style/report.html')
+    }
+
+</script>
+</html>

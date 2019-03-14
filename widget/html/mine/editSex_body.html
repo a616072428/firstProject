@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>性别</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        .perUnit-herder{
+            height: 44px;
+            background: #fff;
+            padding: 0 40px;
+            box-sizing: border-box;
+        }
+        .perUnit-herder > div{
+            width: 100%;
+            height: 45px;
+            margin:0 auto;
+        }
+        #per{
+            margin-right: 35%;
+        }
+
+        #per,
+        #unit{
+            float: left;
+        }
+        #per > em,
+        #unit > em{
+            width: 20px;
+            height: 20px;
+            border-radius: 2px;
+            display: inline-block;
+            vertical-align: sub;
+            margin-right: 4px;
+            background: url("../../icon/shop_no.png") no-repeat;
+            background-size: 100%;
+        }
+        #per > span,
+        #unit > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: left;
+            line-height: 45px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div class="perUnit-herder">
+            <div>
+                <div id="per">
+                    <em id="sex1" onclick="status(1)"></em>
+                    <span>男</span>
+                </div>
+                <div id="unit">
+                    <em id="sex2" onclick="status(2)"></em>
+                    <span>女</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    var selfSex;
+    apiready = function () {
+
+        selfSex = api.pageParam.sex;
+        if(api.pageParam.sex == 1){
+            document.getElementById("sex1").style.background = 'url(../../icon/shop_ok.png) no-repeat';
+            document.getElementById("sex1").style.backgroundSize = '100%';
+        }else if(api.pageParam.sex == 2){
+            document.getElementById("sex2").style.background = 'url(../../icon/shop_ok.png) no-repeat';
+            document.getElementById("sex2").style.backgroundSize = '100%';
+        }
+    };
+    //选取状态
+    function status(type){
+        if( type == 1 ){
+            document.getElementById("sex1").style.background = 'url(../../icon/shop_ok.png) no-repeat';
+            document.getElementById("sex1").style.backgroundSize = '100%';
+            document.getElementById("sex2").style.background = 'url(../../icon/shop_no.png) no-repeat';
+            document.getElementById("sex2").style.backgroundSize = '100%';
+        }else if( type == 2 ){
+            document.getElementById("sex2").style.background = 'url(../../icon/shop_ok.png) no-repeat';
+            document.getElementById("sex2").style.backgroundSize = '100%';
+            document.getElementById("sex1").style.background = 'url(../../icon/shop_no.png) no-repeat';
+            document.getElementById("sex1").style.backgroundSize = '100%';
+        }
+        if(selfSex != type){
+            api.execScript({
+                name:'editSex',
+                script:'switchBtnON("'+ type +'")'
+            });
+        }else if(selfSex == '' || selfSex == type){
+            api.execScript({
+                name:'editSex',
+                script:'switchBtnOFF()'
+            });
+        }
+    };
+
+
+</script>
+</html>

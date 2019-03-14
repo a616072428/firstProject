@@ -1,0 +1,545 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>时尚圈</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #ffffff;
+        }
+        #main{
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 19px;
+        }
+        #textContent{
+            width: 95%;
+            height: 111px;
+            overflow: auto;
+            padding: 5px;
+            outline: none;
+            resize:none;
+            background: rgb(250,250,250);
+        }
+        #imgList{
+            width: 100%;
+            margin-top: 10px;
+        }
+        /*#imgList>li{*/
+        /*width: 26%;*/
+        /*margin: 0 10px;*/
+        /*background: red;*/
+        /*float: left;*/
+        /*}*/
+        #imgList>li{
+            width: 29%;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background: rgb(250,250,250);
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+        #addContent>img{
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top:50%;
+            margin-top: -15px;
+            left: 50%;
+            margin-left: -15px;
+        }
+        .imgCmt em{
+            position: absolute;
+            width: 15px;height: 15px;background: url("../../icon/clear.png") no-repeat center/cover;
+            top: 0;right: 0;
+        }
+        #addComment{
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #080808;
+            letter-spacing: 0;
+            text-align: left;
+            border-bottom: 1px solid #F5F5F5;
+            border-top: 1px solid #F5F5F5;
+            margin-top: 17px;
+        }
+        .addRight{
+            width: 20px;
+            height: 20px;
+            float: right;
+            margin-top: 13px;
+            background: url("../../image/next.png") no-repeat;
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <textarea id="textContent" placeholder="这一刻的想法。。。" autofocus ></textarea>
+    <div id="imgContent">
+        <ul id="imgList">
+            <!--<li id="addContent">
+                <img src="../../image/addImg.png" alt="">
+            </li>
+            <div style="clear: both"></div>-->
+        </ul>
+    </div>
+    <div id="addComment" onclick="addStyle()">
+        <span id="addInfo"># 添加分类</span>
+        <em class="addRight"></em>
+    </div>
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="imgBody">
+    <%for(var i=0;i< list.length;i++){%>
+    <li class="imgCmt" style="<%=list[i].obj.liWidth%>px;height: <%=list[i].obj.liHeight%>px;">
+        <img src="<%=list[i].obj.url%>" style="<%=list[i].obj.style%>" alt="">
+        <em onclick="delImg(this,'<%=list[i].img%>')"></em>
+    </li>
+    <%}%>
+    <%if(list.length<6){%>
+    <li id="addContent" style="width: <%=list[0].obj.liWidth%>px; height: <%=list[0].obj.liHeight%>px;" onclick="addImg()">
+    <%}else{%>
+    <li id="addContent" style="display:none;width: <%=list[0].obj.liWidth%>px; height: <%=list[0].obj.liHeight%>px;" onclick="addImg()">
+    <%}%>
+        <img src="../../image/addImg.png" alt="">
+    </li>
+
+    <div style="clear: both"></div>
+</script>
+<script>
+    var content;
+    var dataContent={};
+    var styleIds = [];
+    var styleName = [];
+    var imgNum=0;
+    var picture=[];
+
+
+    apiready = function() {
+        if(api.systemType=='ios'){
+            isIos()
+        }else if(api.systemType=='android'){
+            isAndroid()
+        }
+    };
+    /* ios代码 **/
+    function isIos() {
+        if(quakooUtils.isNotBlack(api.pageParam)){
+            if(quakooUtils.isNotBlack(api.pageParam.dataContent.styleName) && quakooUtils.isNotBlack(api.pageParam.dataContent.styleIds)){
+                document.getElementById("addInfo").innerHTML=api.pageParam.dataContent.styleName;
+                styleIds = api.pageParam.dataContent.styleIds;
+            }
+            content = api.pageParam.dataContent;
+            dataContent = content;
+            document.getElementById("textContent").value = api.pageParam.dataContent.textContent;
+            var data = {list:api.pageParam.dataContent.picture};
+            var html = template("imgBody",data);
+            document.getElementById("imgList").innerHTML = html
+        }else{
+            api.addEventListener({
+                name: 'ImageLab'
+            }, function(ret, err) {
+                if(ret){
+                    content = ret.value;
+                    var width = api.winWidth * 0.27;
+                    var height = width;
+                    for(var i=0;i<ret.value.picture.length;i++){
+                        var obj = quakooImg.processImg(ret.value.picture[i].img,width,height);
+                        obj.liWidth = width;
+                        obj.liHeight = height;
+                        ret.value.picture[i].obj = obj;
+                        imgNum++;
+                    }
+                    if(quakooUtils.isNotBlack(ret.value.textContent)){
+                        document.getElementById("textContent").value = ret.value.textContent;
+                    }
+                    if(quakooUtils.isNotBlack(ret.value.styleName)){
+                        document.getElementById("addInfo").innerHTML=ret.value.styleName;
+                        styleIds = ret.value.styleIds;
+                    }
+                    dataContent.picture = ret.value.picture;
+                    dataContent.imgNum = imgNum;
+                    var data = {list:ret.value.picture};
+                    var html = template("imgBody",data);
+                    document.getElementById("imgList").innerHTML = html
+                }
+            });
+        }
+        // 监听页面消失的时候，关掉页面就可以了
+       /* api.addEventListener({
+            name:'viewdisappear'
+        },function(){
+            api.closeWin();
+        });*/
+    }
+    //android代码
+    function isAndroid() {
+        if(quakooUtils.isNotBlack(api.pageParam)){
+            showNew(api.pageParam.dataContent)
+        }else{
+            api.addEventListener({
+                name: 'ImageLab'
+            }, function(ret, err) {
+                if(ret){
+                    content = ret.value.picture;
+                    var width = api.winWidth * 0.27;
+                    var height = width;
+                    for(var i=0;i<ret.value.picture.length;i++){
+                        var obj = quakooImg.processImg(ret.value.picture[i].img,width,height);
+                        obj.liWidth = width;
+                        obj.liHeight = height;
+                        ret.value.picture[i].obj = obj;
+                        imgNum++;
+                    }
+                    if(quakooUtils.isNotBlack(ret.textContent)){
+                        document.getElementById("textContent").value = ret.textContent;
+                    }
+                    if(quakooUtils.isNotBlack(ret.styleName)){
+                        document.getElementById("addInfo").innerHTML=ret.styleName
+                        styleIds = ret.styleIds;
+                    }
+                    dataContent.picture = ret.value.picture;
+                    dataContent.imgNum = imgNum;
+                    dataContent.styleId = [];
+                    dataContent.styleName = [];
+                    var data = {list:ret.value.picture};
+                    var html = template("imgBody",data);
+                    document.getElementById("imgList").innerHTML = html
+                }
+            });
+        }
+        // 监听页面消失的时候，关掉页面就可以了
+        /*api.addEventListener({
+            name:'viewdisappear'
+        },function(){
+            api.closeWin();
+        });*/
+    }
+    //删除图片
+    function delImg(self,src) {
+        if(api.systemType=='ios'){
+            for(var k=0;k<content.picture.length;k++){
+                if(content.picture[k].img == src){
+                    content.picture.splice(k,1);
+                    self.parentElement.style.display = 'none';
+                }
+            }
+        }else if(api.systemType=='android'){
+            for(var k=0;k<content.length;k++){
+                if(content[k].img == src){
+                    content.splice(k,1);
+                    self.parentElement.style.display = 'none';
+                }
+            }
+        }
+        document.getElementById('addContent').style.display = 'block';
+    /*<li id="addContent" style="width: <%=list[0].obj.liWidth%>px; height: <%=list[0].obj.liHeight%>px;" onclick="addImg()">
+            <img src="../../image/addImg.png" alt="">
+            </li>*/
+
+    }
+
+    var tagIos=true;
+    //ios发布
+    function pushCommentIos() {
+        if(tagIos){
+            tagIos=false;
+            quakooMsg.showProgress();
+            var tags =[];
+            var banners  = [];
+            var dataDynamic = {}
+            var textCont = document.getElementById("textContent").value;
+            api.accessNative({
+                name: "locationInfo",
+            }, function (ret, err) {
+            });
+            if(quakooUtils.isBlack(textCont)){
+                quakooMsg.toast("请输入动态内容");
+                quakooMsg.hideProgress();
+                tagIos=true;
+                return;
+            }
+            if(quakooUtils.isBlack(styleIds)){
+                quakooMsg.toast("请选择风格");
+                quakooMsg.hideProgress();
+                tagIos=true;
+                return;
+            }
+            for(var k=0;k<content.picture.length;k++){
+                banners.push(content.picture[k].img);
+                for(var j=0;j<content.picture[k].lab.length;j++){
+                    var datas ={}
+                    datas.index = k;
+                    datas.x = parseInt(content.picture[k].lab[j].sepLeft);
+                    datas.y = parseInt(content.picture[k].lab[j].sepTop);
+                    datas.title = content.picture[k].lab[j].labText;
+                    datas.goodsId =quakooUtils.isNotBlack(content.picture[k].lab[j].id) ? content.picture[k].lab[j].id : 0;
+                    if(content.picture[k].lab[j].isLeftOrRight=="Left"){
+                        datas.direction = 1
+                    }else{
+                        datas.direction = 2
+                    }
+                    tags.push(datas)
+                }
+            }
+            for(var i=0;i<styleIds.length;i++){
+                styleIds[i] = parseInt(styleIds[i]);
+            }
+            dataDynamic.styleIdsJson = JSON.stringify(styleIds);
+            dataDynamic.thirdId =quakooUser.getUserInfo().id;
+            dataDynamic.bannersJson = JSON.stringify(banners);
+            dataDynamic.content = textCont;
+            dataDynamic.tagsJson = JSON.stringify(tags);
+            api.addEventListener({
+                name:'sendLocationInfo'
+            },function (data,err) {
+                if(data.value.success) {
+                    if(quakooDb.getItem('dynamicInfo') == JSON.stringify(data)){
+                        quakooMsg.hideProgress();
+                        tagIos = true;
+                        return ;
+                    }else{
+                        quakooDb.setItem('dynamicInfo',JSON.stringify(data));
+                    }
+                    dataDynamic.longitude = data.value.Nowlongitude;
+                    dataDynamic.latitude = data.value.Nowlatitude;
+                    quakooData.ajaxSubmitData(config.getUrl_web_mall_dynamicAdd(),dataDynamic,function (ret,err) {
+                        if(ret.success){
+                            tagIos=true;
+                            quakooMsg.hideProgress();
+                            quakooDb.setItem('refreshOk',true)
+                            api.execScript({
+                                name:'main',
+                                script:"onOpenTab('style')"
+                            });
+                            //ios关闭页面
+                            api.accessNative({
+                                name:"dismSelf",
+                                extra: {
+
+                                }
+                            },function (ret,err) {
+
+                            })
+                            quakooMsg.toast("发布成功")
+                            setTimeout(function () {
+                                quakooApp.closeWin()
+                            },500)
+
+                        }else{
+                            quakooMsg.hideProgress();
+                            tagIos=true;
+                        }
+                    })
+                }
+            });
+        }
+    }
+
+    function addStyle() {
+        if(api.systemType=='ios'){
+            //ios添加分类
+            dataContent.textContent = document.getElementById("textContent").value;
+            quakooApp.openNewWindow("addClassify","addClassify.html",{dataContent:dataContent,styleIds:styleIds,styleName:styleName});
+        }else if(api.systemType=='android'){
+            //android添加分类
+            dataContent.textContent = document.getElementById("textContent").value;
+            quakooApp.openNewWindow("addClassify","addClassify.html",{dataContent:dataContent,styleIds:styleIds,styleName:styleName});
+        }
+    }
+    function addImg() {
+        if(api.systemType=='ios'){
+            //ios添加图片
+            dataContent.styleName = [];
+            dataContent.styleId = [];
+            dataContent.textContent = document.getElementById("textContent").value;
+            if(document.getElementById("addInfo").innerHTML != "# 添加分类"){
+                dataContent.styleName = document.getElementById("addInfo").innerHTML;
+                dataContent.styleId = styleIds;
+            }
+            dataContent.styleName = dataContent.styleName.join(',');
+            dataContent.styleId = dataContent.styleId.join(',');
+            api.accessNative({
+                name: "ImageNewLab",
+                extra: {
+                    search:config.getUrl_web_mall_goodsSearch(),
+                    hot:config.getUrl_web_mall_hotSearchAll(),
+                    imgNum:imgNum,
+                    dataContent:dataContent
+                }
+            }, function (ret, err) {
+            });
+            quakooApp.closeWin();
+        }else if(api.systemType=='android'){
+            //android添加图片
+            dataContent.styleName = dataContent.styleName.join(',');
+            dataContent.styleId = dataContent.styleId.join(',');
+            dataContent.textContent = document.getElementById("textContent").value;
+            api.accessNative({
+                name: "ImageLab",
+                extra: {
+                    search:config.getUrl_web_mall_goodsSearch(),
+                    hot:config.getUrl_web_mall_hotSearchAll(),
+                    imgNum:imgNum,
+                    dataContent:dataContent
+                }
+            }, function (ret, err) {
+            });
+        }
+    }
+
+
+   var tagAndroid=true;
+   //android发布
+   function pushCommentAndroid() {
+       if(tagAndroid){
+           tagAndroid=false;
+           quakooMsg.showProgress();
+           var tags =[];
+           var banners  = [];
+           var dataDynamic = {}
+           var textCont = document.getElementById("textContent").value;
+           api.accessNative({
+               name: "locationInfo",
+           }, function (ret, err) {
+           });
+           if(quakooUtils.isBlack(textCont)){
+               quakooMsg.toast("请输入动态内容");
+               quakooMsg.hideProgress();
+               tagAndroid=true;
+               return;
+           }
+           if(quakooUtils.isBlack(styleIds)){
+               quakooMsg.toast("请选择风格");
+               quakooMsg.hideProgress();
+               tagAndroid=true;
+               return;
+           }
+           for(var i=0;i<content.length;i++){
+               banners.push(content[i].img);
+               for(var j=0;j<content[i].lab.length;j++){
+                   var datas ={}
+                   datas.index = i;
+                   datas.x = content[i].lab[j].sepLeft;
+                   datas.y = content[i].lab[j].sepTop;
+                   datas.title = content[i].lab[j].labText;
+                   datas.goodsId =quakooUtils.isNotBlack(content[i].lab[j].id) ? content[i].lab[j].id : 0;
+
+                   if(content[i].lab[j].isLeftOrRight=="Left"){
+                       datas.direction = 1
+                   }else{
+                       datas.direction = 2
+                   }
+                   tags.push(datas)
+               }
+           }
+
+           for(var i=0;i<styleIds.length;i++){
+               styleIds[i] = parseInt(styleIds[i]);
+           }
+           dataDynamic.styleIdsJson = JSON.stringify(styleIds);
+           dataDynamic.thirdId =quakooUser.getUserInfo().id;
+           dataDynamic.bannersJson = JSON.stringify(banners);
+           dataDynamic.content = textCont;
+           dataDynamic.tagsJson = JSON.stringify(tags);
+           api.addEventListener({
+               name:'sendLocationInfo'
+           },function (data,err) {
+               if(data.value.success) {
+                   if(quakooDb.getItem('dynamicInfo') == JSON.stringify(data)){
+                       quakooMsg.hideProgress();
+                       tagAndroid = true;
+                       return ;
+                   }else{
+                       quakooDb.setItem('dynamicInfo',JSON.stringify(data));
+                   }
+                   dataDynamic.longitude = data.value.Nowlongitude;
+                   dataDynamic.latitude = data.value.Nowlatitude;
+                   quakooData.ajaxSubmitData(config.getUrl_web_mall_dynamicAdd(),dataDynamic,function (ret,err) {
+                       if(ret.success){
+                           tagAndroid=true;
+                           quakooMsg.hideProgress();
+                           quakooDb.setItem('refreshOk',true)
+                           setTimeout(function () {
+                               quakooApp.closeWin()
+                           },500)
+                       }else{
+                           quakooMsg.hideProgress();
+                           tagAndroid=true;
+                       }
+                   })
+               }
+           });
+
+       }
+   }
+   //android刷新页面
+   function showNew(data) {
+       imgNum=0;
+       content = data.picture;
+       var width = api.winWidth * 0.27;
+       var height = width;
+       for(var i=0;i<data.picture.length;i++){
+           var obj = quakooImg.processImg(data.picture[i].img,width,height);
+           obj.liWidth = width;
+           obj.liHeight = height;
+           data.picture[i].obj = obj;
+           imgNum++;
+       }
+       if(quakooUtils.isNotBlack(data.textContent)){
+           document.getElementById("textContent").value = data.textContent;
+       }
+       if(quakooUtils.isNotBlack(data.styleName)){
+           document.getElementById("addInfo").innerHTML=data.styleName
+           styleIds = data.styleIds;
+       }
+       dataContent.picture = data.picture;
+       dataContent.imgNum = imgNum;
+       dataContent.styleIds = data.styleIds;
+       dataContent.styleName = data.styleName;
+       var data = {list:data.picture};
+       var html = template("imgBody",data);
+       document.getElementById("imgList").innerHTML = html
+   }
+   //添加完标签之后的回调
+   function changeClassify(id,name) {
+
+       dataContent.styleIds = id.split(',');
+       styleName = name.split(',');
+       styleIds = id.split(',');
+       var str = '';
+       for(var i=0;i<styleName.length;i++){
+           str += '#' + styleName[i]+'  '
+       }
+       document.getElementById("addInfo").innerHTML = str;
+   }
+
+
+</script>
+</body>
+</html>

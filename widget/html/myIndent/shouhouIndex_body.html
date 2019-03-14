@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>退款详情</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+            position: relative;
+        }
+        #status {
+            height: 76px;
+            background: #fff;
+            padding-left: 19px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        #status > p{
+            text-align: left;
+            line-height: 76px;
+        }
+        #indent-wrap{
+            background: #fff;
+            padding:20px 19px 15px 19px;
+            box-sizing: border-box;
+        }
+        .header{
+            height: 47px;
+            line-height: 47px;
+            border-bottom: 1px solid #f2f2f2;
+            box-sizing: border-box;
+            margin-bottom: 8px;
+        }
+        .header > div{
+            width: 20px;
+            height: 20px;
+            border: 1px solid #EAEAEA;
+            border-radius: 2px;
+            box-sizing: border-box;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .header > i{
+            width: 23px;
+            height: 23px;
+            background: url("../../icon/storeIcon.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            vertical-align: middle;
+        }
+        .header > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .header > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #9E7443;
+            letter-spacing: 0;
+            display: inline-block;
+            float: right;
+        }
+
+
+        .indent-indenx{
+            margin-bottom: 6px;
+        }
+        .indent-indenx > p{
+            width: 20px;
+            height: 20px;
+            border: 1px solid #EAEAEA;
+            border-radius: 2px;
+            box-sizing: border-box;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 40px;
+        }
+        .imgWrap{
+            width: 66px;
+            height: 100px;
+            overflow: hidden;
+            display: inline-block;
+            margin-right: 21px;
+        }
+        .imgWrap > img{
+
+        }
+        .right{
+            width: 62%;
+            height: 100px;
+            float: right;
+        }
+        .right > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-top: 16px;
+            display: block;
+        }
+        .right > i{
+            font-family: PingFangSC-Light;
+            font-size: 12px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 19px;
+            display: block;
+        }
+        .right > b{
+            font-family: STHeitiSC-Medium;
+            font-size: 16px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .right > b > i{
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #222222;
+            letter-spacing: 0;
+            float: right;
+        }
+        .money{
+            padding:0 19px;
+            text-align: left;
+            box-sizing: border-box;
+            line-height: 45px;
+            background: #fff;
+            margin:10px 0;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+        }
+        .money > span{
+            float: right;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .indent-num{
+            background: #fff;
+            padding:6px 19px;overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .indent-num > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 10px;
+            display: block;width: 100%;
+            overflow: hidden;
+        }
+        .indent-num > span > i:last-of-type{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            /*margin-left: 15px;*/
+            float: left;
+            width: 76%;
+        }
+        .indent-num > span > i:first-of-type{
+            float: left;
+            width:24%;
+        }
+        .indent-num > span em{
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: url("../../icon/copy01.png") no-repeat;
+            background-size: 100%;
+            vertical-align: top;
+            margin-top: 3px;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <!--<div id="status">-->
+        <!--<p>退款成功</p>-->
+    <!--</div>-->
+    <!--<div id="indent-wrap">-->
+        <!--<div class="header">-->
+            <!--&lt;!&ndash;<div></div>&ndash;&gt;-->
+            <!--<i></i>-->
+            <!--<span>GUCCI旗舰店</span>-->
+            <!--<p>退款完成</p>-->
+        <!--</div>-->
+        <!--<div class="indent-indenx">-->
+            <!--&lt;!&ndash;<p></p>&ndash;&gt;-->
+            <!--<div class="imgWrap">-->
+                <!--<img src="../../image/indent001.jpg" alt="">-->
+            <!--</div>-->
+            <!--<div class="right">-->
+                <!--<span>军风灯芯绒全棉夹克</span>-->
+                <!--<i>军风浅绿 S</i>-->
+                <!--<b>￥19,000 <i>x1</i></b>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<p class="money">实付款<span>￥6957.00</span></p>-->
+    <!--<div class="indent-num">-->
+        <!--<span><i>订单编号</i><i><em></em></i></span>-->
+        <!--<span><i>下单时间</i><i>2018-01-03 20:35:54</i></span>-->
+        <!--<span><i>支付方式</i><i>原支付方式返回原支付方式返回原支付方式返回原支付方式返回原支付方式返回原支付方式返回</i></span>-->
+    <!--</div>-->
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="salesList">
+        <div id="status">
+            <p><%=list.desc%></p>
+        </div>
+        <div id="indent-wrap">
+            <div class="header">
+                <!--<div></div>-->
+                <i></i>
+                <span><%=list.subName%></span>
+                <%if(list.status==0){%>
+                <p>退款中</p>
+                <%} else if(list.status==1){%>
+                <p>退款完成</p>
+                <%} else if(list.status==2){%>
+                <p>退款失败</p>
+                <%} else {%>
+                <p>退款取消</p>
+                <%}%>
+            </div>
+            <%for(var j=0;j< list.suborder.goodsInfos.length; j++){%>
+            <div class="indent-indenx">
+                <div class="imgWrap">
+                    <img src="<%=list.suborder.goodsInfos[j].url%>" style="<%=list.suborder.goodsInfos[j].style%>" alt="">
+                </div>
+                <div class="right">
+                    <span><%=list.suborder.goodsInfos[j].title%></span>
+                    <i><%=list.suborder.goodsInfos[j].color%>&nbsp;&nbsp;&nbsp;&nbsp;<%=list.suborder.goodsInfos[j].size%></i>
+                    <b>￥<%=list.suborder.goodsInfos[j].price%> <i>x<%=list.suborder.goodsInfos[j].num%></i></b>
+                </div>
+            </div>
+            <%}%>
+        </div>
+        <p class="money">实付款<span>￥<%=list.suborder.totalPrice%></span></p>
+        <p class="money">退款金额<span>￥<%=list.price%></span></p>
+        <div class="indent-num">
+            <span><i>订单编号</i><i id="num"><%=list.suborder.kuaiDiNum%><em onclick="copyToClipboard('num')"></em></i></span>
+            <span><i>下单时间</i><i><%=list.suborder.ctime%></i></span>
+            <span><i>支付方式</i><i>退回账户余额</i></span>
+            <span><i>售后信息</i><i><%=list.res%></i></span>
+        </div>
+</script>
+<script>
+    apiready = function () {
+        var id = api.pageParam.id;
+        salesList(id)
+    }
+
+    //售后详情
+    function salesList(id){
+        quakooData.ajaxGetData(config.getUrl_web_mall_salesLoad(),{id:id},function(ret,err){
+            if(ret.data){
+                for(var i=0;i < ret.data.suborder.goodsInfos.length;i++){
+                    var width = 66;
+                    var height = 100;
+                    var obj = quakooImg.processImg(ret.data.suborder.goodsInfos[i].cover, width, height);
+                    ret.data.suborder.goodsInfos[i].url = obj.url;
+                    ret.data.suborder.goodsInfos[i].style = obj.style;
+                    ret.data.suborder.goodsInfos[i].price = quakooUtils.formatMoney(ret.data.suborder.goodsInfos[i].price /100, 2);
+                }
+                ret.data.suborder.ctime = quakooUtils.formatTimeToDate(ret.data.suborder.ctime)
+                ret.data.suborder.goodsTotalPrice = quakooUtils.formatMoney(ret.data.suborder.goodsTotalPrice /100, 2);
+                ret.data.suborder.totalPrice = quakooUtils.formatMoney(ret.data.suborder.totalPrice /100, 2);
+                ret.data.price = quakooUtils.formatMoney(ret.data.price /100, 2);
+                var data = {list: ret.data,userInfo:quakooUser.getUserInfo()};
+                var html = template('salesList',data);
+                document.getElementById('main').innerHTML = html;
+            }
+        })
+    }
+    //复制
+    function copyToClipboard(elementId) {
+        // 创建元素用于复制
+        var aux = document.createElement("input");
+        // 获取复制内容
+        var content = document.getElementById(elementId).innerHTML || document.getElementById(elementId).value;
+        // 设置元素内容
+        aux.setAttribute("value", content);
+        // 将元素插入页面进行调用
+        document.body.appendChild(aux);
+        // 复制内容
+        aux.select();
+        // 将内容复制到剪贴板
+        document.execCommand("copy");
+        // 删除创建元素
+        document.body.removeChild(aux);
+        quakooMsg.toast("复制成功")
+    }
+</script>
+</html>

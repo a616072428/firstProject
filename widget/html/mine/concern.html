@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>关注</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+
+        #topbar > .sousuo > img{
+            position: absolute;
+            right:61px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+        }
+
+        #topbar > .shoppings > img{
+            position: absolute;
+            right:19px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+        }
+        .switch-tab ul{
+            height:44px;
+            background: #fff;
+            border-bottom: 1px solid #F2F2F2;
+            box-sizing: border-box;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            box-sizing: border-box;
+        }
+        .switch-tab ul li{
+            height:44px;
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+        }
+        .switch-tab ul .active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #505050;
+            letter-spacing: 0;
+            border-bottom: 1px solid #242424;
+            box-sizing: border-box;
+        }
+        .switch-tab ul .active>div{
+            color: #505050 !important;
+        }
+        .switch-tab ul li>div{
+            width:100%;
+            height:45px;
+            font-family: PingFangSC-Regular;
+            line-height:45px;
+            text-align: center;
+            font-size: 14px;
+            color: #9B9B9B;
+            letter-spacing: 0;
+            box-sizing: border-box;
+        }
+        #topbar > p{
+            height: 44px;
+            text-align: left;
+            line-height: 44px;
+            font-family: PingFang-SC-Regular;
+            font-size: 14px;
+            color: #333333;
+            margin-left: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();">
+        <!-- <img src="../../icon/back.png" alt=""> -->
+    </div>
+    <div>关注</div>
+    <div class="switch-tab">
+        <ul>
+            <li class="st-item active" onclick="switchFrameGroupIndex(0)">
+                <div>设计师</div>
+            </li>
+            <li class="st-item" onclick="switchFrameGroupIndex(1)">
+                <div>店铺</div>
+            </li>
+            <li class="st-item" onclick="switchFrameGroupIndex(2)">
+                <div>好友</div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+
+        var titleHeight = api.safeArea.top;
+        document.getElementById('topbar').style.paddingTop = titleHeight + 'px';
+        document.getElementById('topbar').style.display = "block";
+        api.openFrameGroup ({
+            name: 'concern',
+            background:'#fff',
+            scrollEnabled:true,
+            preload:3,
+            rect : {
+                x : 0,
+                y : config.headHeight+titleHeight + 52,
+                w : 'auto',
+                h : api.winHeight-config.headHeight-titleHeight - 64
+            },
+            index:0,
+            frames: [{
+                name: 'concernSJS',
+                url: 'concernSJS_body.html', //设计师
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:0,thirdId:api.pageParam.thirdId}
+            },{
+                name: 'concernStore',
+                url: 'concernStore_body.html', //店铺
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:1,thirdId:api.pageParam.thirdId}
+            },{
+                name: 'concernFriends',
+                url: 'concernFriends_body.html', //好友
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:2,thirdId:api.pageParam.thirdId}
+            }]
+        }, function(ret, err){
+            switchFrameCallback(ret.index);
+        })
+    };
+    function switchFrameGroupIndex(index){
+        api.setFrameGroupIndex({
+            name : "concern",
+            index : index,
+            scroll : true
+        });
+    }
+    function switchFrameCallback(index) {
+        var stitem = document.querySelectorAll(".st-item");
+        for (var i = 0; i < stitem.length; i++) {
+            if (i == index) {
+                stitem[i].classList.add("active")
+                stitem[i].style.color = "#505050";
+            } else {
+                stitem[i].classList.remove("active")
+                stitem[i].style.color = "#A3A3A3";
+            }
+        }
+    };
+
+</script>
+</html>

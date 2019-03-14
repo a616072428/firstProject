@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>修改密码</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        html,body{
+            width: 100%;height: 100%;
+            background: #f9f9f9;
+        }
+        li{
+            width: 100%;height: 45px;
+            line-height: 21px;
+            border-bottom: 1px solid #E3E3E3;;
+            font-size: 14px;
+            color: #222222;
+            padding: 12px 19px;
+            display: none;
+            box-sizing: border-box;
+        }
+        li.active{
+            display: block;
+        }
+        li span{
+            float: left;width: 23%;
+        }
+        li input{
+            height: 100%;
+            float: left;
+        }
+        li em{
+            float: right;
+            width: 14px;height: 14px;
+            display: none;
+            margin-top: 3px;
+            background: url('../../icon/clear_w.png') no-repeat;background-size:100%;
+        }
+        .forget{
+            margin-top: 23px;
+            float: right;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            line-height: 20px;
+            text-decoration: underline;
+            margin-right: 19px;
+        }
+        .subBtn{
+            width: 100%;
+            margin-top: 30px;
+            padding: 0 19px;box-sizing: border-box;
+        }
+        .subBtn div{
+            width: 100%;height: 36px;line-height: 36px;
+            background: #222222;
+            font-size: 16px;
+            color: #fff;border-radius: 2px;text-align: center;
+        }
+        #seePass{
+            margin-top: 7px;
+            background: url('../../icon/offsee_w.png') no-repeat;background-size:100%;float: right;
+        }
+        #seePass.active{
+            background: url('../../icon/onsee_w.png') no-repeat;background-size:100%;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <ul>
+        <li class="active">
+            <span style="color: #999">手机号</span>
+            <input style="color: #999" type="text" id="phone" readonly="readonly" >
+        </li>
+        <li class="active">
+            <span>验证码</span>
+            <input type="number" id="code" placeholder="请填写验证码">
+        </li>
+        <li>
+            <span>新密码</span>
+            <input id="pass"  onkeydown="keyClick(this)"  type="password" placeholder="请输入新密码">
+            <em onclick="clearValue(this)"></em>
+        </li>
+        <li>
+            <span>确认密码</span>
+            <input id="pass1" onkeydown="keyClick(this)"  type="password" placeholder="请在此输入新密码">
+            <em id="seePass" onclick="seePassword()"></em>
+        </li>
+    </ul>
+    <div class="subBtn">
+        <div onclick="nextStep(this)">提交</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+
+<script>
+    apiready = function () {
+        quakooData.ajaxGetData(config.getUrl_web_user_createAuthCodeOnUpdatePassword(),{
+            phone : quakooUser.getUserInfo().phone
+        },function(ret){
+            if(ret && ret.success){
+                quakooMsg.toast('验证码发送成功')
+            } else {
+                var errorMsg="出错了，请稍后。";
+                if(ret && ret.msg){
+                    errorMsg=ret.msg;
+                }
+                api.toast({
+                    msg : errorMsg
+                });
+            }
+        });
+        document.getElementById('phone').value = quakooUser.getUserInfo().phone;
+    };
+    function nextStep(self) {
+        var code = document.getElementById('code').value;
+        if(quakooUtils.isBlack(code)){
+            quakooMsg.toast('验证码不能为空');
+            return ;
+        }
+        $("li").toggleClass('active');
+        api.execScript({
+            name:"resetPass",
+            script:"updateTop(1)"
+        })
+        self.style.display = 'none';
+    }
+    function subPass() {
+        var code = document.getElementById('code').value;
+        var password = document.getElementById('pass').value;
+        var password1 = document.getElementById('pass1').value;
+        if(quakooUtils.isBlack(password)){
+            quakooMsg.toast('密码不能为空')
+            return ;
+        }
+        if(password.length<6){
+            quakooMsg.toast('密码不能少于六位')
+            return ;
+        }
+        if(password != password1){
+            quakooMsg.toast('两次密码输入不一致');
+            return ;
+        }
+        quakooMsg.showProgress();
+        quakooData.ajaxSubmitData(config.getUrl_web_user_updatePasswordAndLogin(),{phone:quakooUser.getUserInfo().phone,code:code,password:password},function (ret,err) {
+            quakooMsg.hideProgress();
+            if(ret){
+                if(ret.success){
+                    quakooMsg.toast('重置成功');
+                    setTimeout(function () {
+                        quakooUser.removeUserInfo();
+                        api.closeToWin({
+                            name: 'main'
+                        });
+                        api.execScript({
+                            name:"main",
+                            script:"logout()"
+                        })
+                    },900)
+                }else{
+                    quakooMsg.toast(ret.msg)
+                    $("li").toggleClass('active');
+                    api.execScript({
+                        name:"resetPass",
+                        script:"updateTop(2)"
+                    })
+                    document.querySelector('.subBtn div').style.display = 'block';
+                }
+            }else{
+                quakooMsg.toast(err.msg)
+            }
+        })
+    }
+    function keyClick(self) {
+        self.oninput = function () {
+            if(self.value==''){
+                self.nextElementSibling.style.display = 'none'
+            }else{
+                self.nextElementSibling.style.display = 'block'
+            }
+        }
+    }
+    function clearValue(self) {
+        document.getElementById('pass1').value = '';
+        document.getElementById('pass').value = '';
+        self.style.display = 'none';
+        document.getElementById('pass').focus()
+    }
+    function seePassword() {
+        if(document.getElementById("pass").type=='password'){
+            document.getElementById("pass").type = 'text'
+            document.getElementById("pass1").type = 'text'
+        }else{
+            document.getElementById("pass").type = 'password'
+            document.getElementById("pass1").type = 'password'
+        }
+        document.getElementById("seePass").classList.toggle('active');
+    }
+
+</script>
+</body>
+</html>

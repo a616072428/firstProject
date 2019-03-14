@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>个人主页</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+
+        #HP-icon{
+            height: 97px;
+            background: #fff;
+            padding:0 16px 0 19px;
+            overflow: hidden;
+        }
+
+        #HP-icon > :nth-child(1){
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+            line-height: 97px;
+            text-align: left;
+            float: left;
+            width: 76%;
+        }
+        #HP-icon > :nth-child(2){
+            width: 63px;
+            height: 63px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-top: 17px;
+            float: left;
+        }
+        #HP-icon > :nth-child(2) > img{
+            display: block;
+        }
+        #HP-icon > i{
+            width: 14px;
+            height: 97px;
+            display: inline-block;
+            float: right;
+            background: url("../../icon/right_b.png") no-repeat;
+            background-position: center;
+            background-size: 70%;
+        }
+
+        #HP-msg{
+            background: #fff;
+            padding:0 16px 0 19px;
+            box-sizing: border-box;
+        }
+        .listStyle{
+            height:45px;
+            line-height: 45px;
+            border-top: 1px solid #f5f5f5;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #B3B3B3;
+            letter-spacing: 0;
+        }
+        .listStyle > :nth-child(1){
+            color: #222222;
+            float: left;
+        }
+        .listStyle > :nth-child(2){
+            color: #999999;
+            float: right;
+        }
+        .listStyle > :nth-child(2) > i{
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            background: url("../../icon/right_b.png") no-repeat;
+            background-size: 60%;
+            background-position: right center;
+            vertical-align: sub;
+        }
+
+        #HP-three{
+            background: #fff;
+            padding:0 16px 0 19px;
+            box-sizing: border-box;
+            margin: 12px 0;
+        }
+
+        #logout{
+            background: #fff;
+            width: 100%;
+            line-height: 45px;
+            text-align: center;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .defultImg{
+            width: 100%;height: 100%;
+        }
+        #defAddr{
+            width: 30px;
+            height: 45px;
+            display: inline-block;
+            background: url("../../icon/switch01.png") no-repeat;
+            background-size: 100%;
+            background-position: center;
+        }
+        #defAddr.active{
+            background: url("../../icon/switch02.png") no-repeat center;
+            background-size: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="body">
+    <div id="HP-icon" onclick="openHomePage();">
+        <div>个人主页</div>
+        <div>
+            <img id="icon" src="../../image/myIcon.png" alt="" class="defultImg" onerror="this.src='../../image/myIcon.png';this.style='width:100%;height:100%;'">
+        </div>
+        <i></i>
+    </div>
+
+    <div id="HP-msg">
+        <div class="listStyle" onclick="opemAddr()">
+            <p>我的收货地址</p>
+            <p><i></i></p>
+        </div>
+        <div class="listStyle" onclick="openUpdatePass()">
+            <p>修改密码</p>
+            <p><i></i></p>
+        </div>
+        <div class="listStyle" onclick="openPayPwd();">
+            <p>设置支付密码</p>
+            <p><i></i></p>
+        </div>
+        <div class="listStyle" onclick="updataPayPwd();">
+            <p>修改支付密码</p>
+            <p><i></i></p>
+        </div>
+    </div>
+
+    <div id="HP-three">
+        <!--<div class="listStyle" style="overflow: hidden">
+            <p>消息推送</p>
+            <p><i id="defAddr" onclick="check(this);" type="1"></i></p>
+        </div>-->
+        <div class="listStyle" onclick="openFeedback()">
+            <p>意见反馈</p>
+            <p><i></i></p>
+        </div>
+        <div class="listStyle" onclick="openUseHelp()">
+            <p>使用帮助</p>
+            <p><i></i></p>
+        </div>
+        <div class="listStyle" onclick="openContactUs()">
+            <p>联系我们</p>
+            <p><i></i></p>
+        </div>
+        <div class="listStyle" onclick="openService()">
+            <p>服务条款</p>
+            <p><i></i></p>
+        </div>
+        <div class="listStyle" onclick="openPrivacy()">
+            <p>隐私政策</p>
+            <p><i></i></p>
+        </div>
+    </div>
+
+    <div id="logout" onclick="logOut();">
+        <p>退出当前账号</p>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script>
+    apiready = function () {
+
+        if(api.pageParam.icon){
+            var obj = quakooImg.processImg(api.pageParam.icon,63,63);
+            document.getElementById('icon').classList.remove('defultImg')
+            document.getElementById('icon').style.cssText = obj.style;
+            document.getElementById('icon').src = obj.url;
+        }
+    }
+    //打开编辑个人信息
+    function openHomePage() {
+        quakooApp.openNewWindow('homePage','homePage.html');
+    };
+    //打开我的收货地址
+    function opemAddr(){
+        quakooApp.openNewWindow('myAddr','./myAddr.html',{},{slidBackEnabled:false});
+    };
+    //打开修改密码
+    function openUpdatePass() {
+        quakooApp.openNewWindow('updatePassword','../login/updatePassword.html');
+    };
+    //打开意见反馈
+    function openFeedback() {
+        quakooApp.openNewWindow('feedback','./feedback.html');
+    };
+    //打开使用帮助
+    function openUseHelp() {
+        quakooApp.openNewWindow('useHelp','./useHelp.html');
+    };
+    //打开联系我们
+    function openContactUs() {
+        quakooApp.openNewWindow('contactUs','./contactUs.html');
+    };
+    //打开服务条款
+    function openService() {
+        quakooApp.openNewWindow('service','./service.html');
+    };
+    //打开隐私政策
+    function openPrivacy() {
+        quakooApp.openNewWindow('privacy','./privacy.html');
+    };
+    // 打开设置支付密码
+    function openPayPwd(){
+        quakooMsg.showProgress();
+        quakooData.ajaxSubmitData(config.getUrl_web_user_checkloadPayPwd(),{},function(ret,err) {
+            quakooMsg.hideProgress()
+            if(ret && ret.success){
+                if(ret.data){
+                    quakooMsg.toast('已设置支付密码！')
+                }else{
+                    quakooApp.openNewWindow('setPayPwd','setPayPwd.html');
+                }
+            }
+        });
+    };
+    //修改支付密码
+    function updataPayPwd() {
+        quakooApp.openFrame('updataPayPwdFrame','updataPayPwdFrame.html',{},0,0,{
+            bgColor:"rgba(0,0,0,0)"
+        });
+    };
+    // 退出登录
+    function logOut(){
+        quakooMsg.showDialog('','确定退出吗？','取消','确定',function () {
+            quakooUtils.stopEventBubble();
+            quakooUser.removeUserInfo();
+            quakooApp.closeWin();
+            api.execScript({
+                name:"main",
+                script:"logout()"
+            })
+        },'')
+    };
+    //更改头像之后，刷新头像
+    function editImg(url) {
+        var obj = quakooImg.processImg(url,63,63);
+        document.getElementById('icon').src = obj.url;
+        document.getElementById('icon').style = obj.style;
+    }
+    //消息推送
+    function check(self) {
+        if(self.getAttribute('type')==1){
+        }
+        self.classList.toggle('active')
+    }
+</script>
+</html>

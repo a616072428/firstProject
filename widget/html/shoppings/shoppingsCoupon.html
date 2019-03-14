@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>优惠券</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+
+        .switch-tab{
+            border-top: 1px solid #E3E3E3;
+            background: #fff;
+        }
+        .switch-tab ul{
+            width:100%;
+            height: 45px;
+            background: #fff;
+            box-sizing: border-box;
+        }
+        .switch-tab ul li{
+            width:50%;
+            height: 45px;
+            line-height: 45px;
+            float:left;
+            box-sizing: border-box;
+        }
+        .switch-tab ul .active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+        }
+        .switch-tab ul .active > div{
+            color: #505050 !important;
+            border-bottom: 1px solid #505050;
+            box-sizing: border-box;
+        }
+        .switch-tab ul li>div{
+            width:100%;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #AEAEAE;
+            letter-spacing: 0;
+            box-sizing: border-box;
+        }
+
+        #topbar > p{
+            height: 44px;
+            text-align: left;
+            line-height: 44px;
+            font-family: PingFang-SC-Regular;
+            font-size: 14px;
+            color: #333333;
+            margin-left: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin()"></div>
+    <div>优惠券</div>
+
+    <div class="switch-tab">
+        <ul>
+            <li class="st-item active" onclick="switchFrameGroupIndex(0)">
+                <div>可用</div>
+            </li>
+            <li class="st-item" onclick="switchFrameGroupIndex(1)">
+                <div>不可用</div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+        var titleHeight = api.safeArea.top;
+        document.getElementById('topbar').style.paddingTop = titleHeight + 'px';
+        document.getElementById('topbar').style.display = "block";
+        window_width = api.winWidth;
+        api.openFrameGroup ({
+            name: 'shoppingsCoupon',
+            background:'#fff',
+            scrollEnabled:true,
+            preload:3,
+            rect : {
+                x : 0,
+                y : config.headHeight+titleHeight + 63,
+                w : 'auto',
+                marginBottom : 0
+            },
+            index:0,
+            frames: [{
+                name: 'shoppingsCouponYes',
+                url: 'shoppingsCouponYes_body.html', //可用
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{type:0,index:0,id:api.pageParam.id,Price:api.pageParam.Price,ucid:api.pageParam.ucid}
+            },{
+                name: 'shoppingsCouponNo',
+                url: 'shoppingsCouponNo_body.html', //不可用
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{type:2,index:1,id:api.pageParam.id,Price:api.pageParam.Price,ucid:api.pageParam.ucid}
+            }]
+        }, function(ret, err){
+            switchFrameCallback(ret.index);
+        })
+
+
+    };
+
+    function switchFrameGroupIndex(index){
+        api.setFrameGroupIndex({
+            name : "shoppingsCoupon",
+            index : index,
+            scroll : true
+        });
+    };
+    function switchFrameCallback(index) {
+        var stitem = document.querySelectorAll(".st-item");
+        for (var i = 0; i < stitem.length; i++) {
+            if (i == index) {
+                stitem[i].classList.add("active")
+                stitem[i].style.color = "#505050";
+            } else {
+                stitem[i].classList.remove("active")
+                stitem[i].style.color = "#A3A3A3";
+            }
+        }
+    };
+
+
+</script>
+</html>

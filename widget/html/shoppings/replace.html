@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>更改大小</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        html,body{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: rgba(0,0,0,0);
+        }
+        .content{
+            width: 100%;height: 484px;
+            background: #fff;
+            padding-top:17px;
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 0;left: 0;
+            box-shadow: 0 0 50px 5px rgba(0,0,0,0.08);
+        }
+        .colorSize{
+            height: 422px;
+        }
+        .submit{
+            height: 45px;
+            width: 100%;
+            background:rgba(34,34,34,1);
+            font-size:16px;
+            font-family:PingFangSC-Medium;
+            font-weight:500;
+            color:rgba(249,249,249,1);
+            line-height:45px;
+            text-align: center;
+        }
+        #size,#synthesize{
+            width: 100%;
+            overflow: hidden;
+            padding:0 19px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        #size p{
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            clear: both;
+            margin-bottom: 12px;
+        }
+        #size p em{
+            font-family: PingFangSC-Light;
+            font-size: 16px;
+            color: #717171;
+            letter-spacing: 0;
+            margin-left: 21px;
+        }
+        #size div div{
+            width: 43px;
+            height: 43px;
+            box-sizing: border-box;
+            float: left;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+        #size div{
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        #size #color div.active{
+            border: 2px solid #ccc;
+        }
+        #size #color div.none:before{
+            display: block;
+            content: '';
+            position: absolute;top: 0;left: 0;z-index: 1;
+            width: 100%;height: 100%;
+            background: rgba(0,0,0,0.2) url("../../image/noColor.png") no-repeat center;
+            background-size: 50%;
+        }
+        #size p:nth-of-type(2),#size p:nth-of-type(3){
+            margin-top: 12px;
+        }
+        .sizeXS{
+            float: left;
+            text-align: center;
+            line-height: 43px;
+            background: #fff;
+            border: 1px solid #D2D2D2;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #555555;
+            letter-spacing: 0;
+            margin-right: 8px;
+        }
+        .sizeXS.active{
+            background: #282828;
+            color: #fff;
+        }
+        .sizeXS.none{
+            background: #ccc;
+            color: #999;
+        }
+        #size div.active{
+            background: #222222;
+            border: 1px solid #222222;
+            font-family: PingFangSC-Semibold;
+            font-size: 16px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+        }
+        #close{
+            width: 20px;
+            height: 20px;
+            background: url("../../icon/clear.png") no-repeat;
+            background-size: 100%;
+            position: absolute;
+            top:17px;
+            right:17px;
+        }
+        .sizeXS.active{
+            background: #282828;
+            color: #fff;
+        }
+        #color div.active{
+            border: 3px solid #ccc;
+        }
+    </style>
+</head>
+<body id="body" onclick="off(1)">
+    <div class="content" id="content" onclick="quakooUtils.stopEventBubble()">
+        <div class="colorSize" id="contentDom">
+
+        </div>
+        <div class="submit" onclick="off(2);">确定</div>
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+
+<script type="text/html" id="tmpScript">
+    <%if(list){%>
+        <div id="close" onclick="off(1)"></div>
+        <!--颜色-->
+        <div id="size">
+            <p>颜色<em id="colorName"><%=list.colorName%></em></p>
+            <div id="color">
+                <%for(var i = 0; i < list.allColors.length; i++){%>
+                    <%if(list.allColors[i].color==list.color){%>
+                        <div class="active" onclick="callBack('<%=list.allColors[i].name%>','<%=list.allColors[i].color%>',this)" style="background:<%=list.allColors[i].color%>"></div>
+                    <%}else{%>
+                        <div onclick="callBack('<%=list.allColors[i].name%>','<%=list.allColors[i].color%>',this)" style="background:<%=list.allColors[i].color%>"></div>
+                    <%}%>
+                <%}%>
+            </div>
+
+            <p>尺寸<em id="sName"><%=list.size%></em></p>
+            <div>
+                <%for(var i = 0; i < list.allSizes.length; i++){%>
+                    <%if(list.allSizes[i]==list.size){%>
+                        <div class="sizeXS active"  onclick="selcts(this,'<%=list.allSizes[i]%>')"><%=list.allSizes[i]%></div>
+                    <%}else{%>
+                        <div class="sizeXS" onclick="selcts(this,'<%=list.allSizes[i]%>')"><%=list.allSizes[i]%></div>
+                    <%}%>
+                <%}%>
+            </div>
+            <p>价格<em id="price"><%=list.price%></em></p>
+
+        </div>
+    <%}%>
+</script>
+<script>
+    var color;
+    var colorName;
+    var size;
+    var ID;
+    var gid;
+    apiready = function () {
+        color = api.pageParam.color;
+        colorName = api.pageParam.colorName;
+        size = api.pageParam.size;
+        ID = api.pageParam.id; //当前商品的id
+        gid = api.pageParam.gid;
+
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_selectSKU(),{gid:gid,color:color,size:size},function (ret) {
+            if(ret && ret.success){
+                getSku(ret.data)
+            }
+        })
+       /* $("body").on("touchmove",function(event){
+            event.preventDefault;
+        }, false);
+        document.getElementById('content').addEventListener("touchmove",function(e){
+            e.preventDefault();
+        });*/
+    };
+    function getSku(ret) {
+        for(var j=0;j<ret.allColors.length;j++){
+            ret.allColors[j] = JSON.parse(ret.allColors[j]);
+            if(ret.colors[j]){
+                ret.colors[j] = JSON.parse(ret.colors[j]);
+            }
+        }
+        ret.colorsName = [];
+        for(var i=0;i<ret.colors.length;i++){
+            ret.colorsName.push(ret.colors[i].name);
+        }
+        ret.colorName = colorName;
+        ret.color = color;
+        ret.size = size;
+
+        skuid = ret.skuid;
+        if(ret.price>0){
+            ret.price = '￥'+quakooUtils.formatMoney(ret.price/100,2);
+        }
+        var data = {list: ret};
+        var html = template('tmpScript',data);
+        document.getElementById('contentDom').innerHTML = html;
+    }
+    //颜色名字回调
+    function callBack(name,Color) {
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_selectSKU(),{gid:gid,color:Color,size:size},function (ret) {
+            if(ret && ret.success){
+                if(Color && size && ret.data.skuid<=0){
+                    quakooMsg.toast('暂无库存');
+                }else{
+                    if(colorName==name){
+                        colorName = '';
+                        color = '';
+                    }else{
+                        colorName = name;
+                        color = Color;
+                    }
+                    getSku(ret.data)
+                }
+            }
+        })
+    };
+    //选中
+    function selcts(self,name){
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_selectSKU(),{gid:gid,color:color,size:name},function (ret) {
+            if(ret && ret.success){
+                if(color && name && ret.data.skuid<=0){
+                    quakooMsg.toast('暂无库存');
+                }else{
+                    if(size == name){
+                        size = '';
+                    }else{
+                        size = name;
+                    }
+                    getSku(ret.data)
+                }
+            }
+        })
+    };
+
+    //提交
+    function off(type) {
+        if(type == 1){
+            api.closeFrame({
+                name : "replace"
+            })
+        }else if(type == 2){
+
+
+            var parme = {};
+            parme.id = ID;
+            parme.skuid = skuid;
+            quakooMsg.showProgress()
+            quakooData.ajaxGetData(config.getUrl_web_mall_updataCS(),parme,function(ret,err) {
+                quakooMsg.hideProgress()
+                if(ret && ret.success){
+                    quakooMsg.toast('修改成功！');
+                    api.execScript({
+                        name: 'main',
+                        frameName:'shoppings',
+                        script: 'getNewMsg("'+ colorName + '","'+ size + '","'+color+'",'+skuid+')'
+                    });
+                    api.execScript({
+                        name: 'shoppings',
+                        script: 'getNewMsg("'+ colorName + '","'+ size + '","'+color+'",'+skuid+')'
+                    });
+                    api.closeFrame({
+                        name : "replace"
+                    });
+                }else{
+                    quakooMsg.toast('修改失败，请重试！');
+                };
+            })
+        }
+    };
+
+</script>
+</html>

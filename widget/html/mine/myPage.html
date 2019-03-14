@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>修改个人信息</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+            border: none;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+
+        #topbar #right{
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background: url("../../icon/edit-01.png") no-repeat;
+            background-size: 100%;
+            position: absolute;
+            right:19px;
+            bottom:12px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();"></div>
+    <div></div>
+    <div id="right" onclick="openSetting();"></div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+        if(api.pageParam.id){
+            var header = document.querySelector('#topbar');
+            $api.fixStatusBar(header);
+            header.style.paddingTop = api.safeArea.top + 'px';
+            header.style.display = 'block';
+            config.winHeadHeight = header.offsetHeight;
+            quakooApp.openFrameInWin('myPage_body','./myPage_body.html',{id:api.pageParam.id},{bgColor:'#fff'});
+            if(api.pageParam.id != quakooUser.getUserInfo().id){
+                document.getElementById("right").style.display = "none";
+            }
+        }else{
+            api.addEventListener({
+                name:"myPageListener"
+            },function (ret) {
+                if(ret.value){
+                    if(ret.value.id){
+                        var header = document.querySelector('#topbar');
+                        $api.fixStatusBar(header);
+                        header.style.paddingTop = api.safeArea.top + 'px';
+                        header.style.display = 'block';
+                        config.winHeadHeight = header.offsetHeight;
+                        quakooApp.openFrameInWin('myPage_body','./myPage_body.html',{id:ret.value.id},{bgColor:'#fff'});
+                        if(ret.value.id != quakooUser.getUserInfo().id){
+                            document.getElementById("right").style.display = "none";
+                        }
+                    }
+                }
+            })
+        }
+
+
+
+    }
+    //打开设置页面
+    function openSetting() {
+        quakooApp.openNewWindow('homePage','homePage.html');
+    };
+</script>
+</html>

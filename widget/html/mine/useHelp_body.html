@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>使用帮助</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        html,body{
+            width: 100%;
+            height: 100%;
+            min-width: 320px;
+            background: #fff;
+        }
+        pre{
+            width: 100%;
+            padding:8px 19px;box-sizing: border-box;
+            white-space: pre-wrap;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<pre id="content"></pre>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script>
+    apiready = function () {
+        quakooData.ajaxGetData(config.getUrl_web_system_dictionaryConfig(),{},function (ret) {
+            if(ret){
+                if(ret.success){
+                    if(ret.data){
+                        if(ret.data.useHelper){
+                            document.getElementById('content').innerHTML = ret.data.useHelper;
+                        }
+                    }
+                }
+            }
+        })
+    }
+</script>
+</html>

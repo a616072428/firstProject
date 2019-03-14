@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>我</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body,html{
+            background: #f3f3f3;
+        }
+        #mine-header{
+            height: 164px;
+            background: #232323;
+        }
+        .userMsg{
+            width: 100%;
+            padding-top:58px;
+            padding-left:27px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .icon{
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+            margin-right: 18px;
+        }
+        .icon > img{
+            display: block;
+        }
+        .username {
+            width: 60%;
+            height: 86px;
+            float: left;
+        }
+        .name{
+            height: 24px;
+            max-width: 130px;
+            font-family: PingFangSC-Medium;
+            font-size: 17px;
+            color: #F4F4F4;
+            letter-spacing: -0.41px;
+            text-align: left;
+            line-height: 24px;
+            position: relative;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            float: left;
+        }
+        .geren{
+            width: 102px;
+            height: 36px;
+            margin-top: 16px;
+            border: 1px solid #777777;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #9E9E9E;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 36px;
+            position: relative;
+        }
+        .user{
+            width: 100%;
+            height: 25px;
+            line-height: 25px;
+        }
+        .leave{
+            width: 28px;
+            height: 16px;
+            background: #9E7443;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+            text-align: center;
+            line-height: 16px;
+            vertical-align: middle;
+            margin-left: 5px;
+            margin-top: 4px;
+            float: left;
+        }
+        .geren> span{
+            display: inline-block;
+            height: 18px;
+        }
+        .geren > span > em{
+            position: absolute;
+            top:12px;
+            left:82px;
+            width: 14px;
+            height: 16px;
+            display: inline-block;
+            background:  url('../../image/next.png') no-repeat;
+            background-size: 50%;
+        }
+
+        /*我的订单*/
+        #my-indent{
+            height: 129px;
+            background: #fff;
+            margin-top: 11px;
+        }
+        .indent-header{
+            width: 97%;
+            padding: 12px 0 6px 0;
+            margin:0 auto;
+            border-bottom: 1px solid #DADADA;;
+        }
+        .indent-header > span{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: center;
+
+        }
+        .indent-header > i{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #AAAAAA;
+            letter-spacing: 0;
+            text-align: center;
+            float: right;
+            margin-top: 3px;
+        }
+        .indent-header > i > em{
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            background:url('../../image/lookIndet.png') no-repeat;
+            background-size: 100%;
+            margin-left: 8px;
+        }
+        .indent-content{
+            display:-moz-box;
+            display:box;
+            display: -webkit-box;
+            -webkit-box-orient: horizontal;/* 横排显示*/
+            padding:19px 0;
+        }
+        .indent-content > div{
+            -webkit-box-flex: 1;
+      -webkit-box-align: center;
+        }
+        .indent-content > div > span{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #424242;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top:3px;
+        }
+        .indent-content > div > div{
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+
+            background-size: 100%;
+            position: relative;
+        }
+        .indent-content em{
+            position: absolute;
+            top: -6px;
+            right: -7px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #424242;
+            font-weight: 500;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 16px;
+            color: #424242;
+            font-size: 8px;
+            display: none;
+            background: #fff;
+        }
+        .indent-1{
+            background: url('../../image/indent-01.png') no-repeat;
+        }
+        .indent-2{
+            background: url('../../image/indent-02.png') no-repeat;
+        }
+        .indent-3{
+            background: url('../../image/indent-03.png') no-repeat;
+        }
+        .indent-4{
+            background: url('../../image/indent-04.png') no-repeat;
+        }
+        .indent-5{
+            background: url('../../image/indent-05.png') no-repeat;
+        }
+
+
+
+        /*<!-- 积分 优惠卷 关注 收藏 -->*/
+        #status{
+            height: 81px;
+            margin-top: 12px;
+            background: #fff;
+            display:-moz-box;
+            display:box;
+            display: -webkit-box;
+            -webkit-box-orient: horizontal;/* 横排显示*/
+            padding:18px 0;
+            box-sizing: border-box;
+        }
+        #status > div{
+            width: 25%;
+            -webkit-box-flex: 1;
+      -webkit-box-align: center;
+        }
+        #status > div > span{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #424242;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        #status > div > span:nth-child(1){
+            margin-bottom: 13px;
+            font-family: STHeitiSC-Medium;
+            font-size: 16px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: center;
+        }
+
+        /*钱包*/
+        #money{
+            height: 201px;
+            background: #fff;
+            margin-top: 15px;
+        }
+        .money-header{
+            width: 97%;
+            padding: 10px 0 8px 0;
+            margin:0 auto;
+            border-bottom: 1px solid #DADADA;
+            position: relative;
+        }
+        .money-header > span{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .money-header > i{
+            position: absolute;
+            top:12px;
+            right:19px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #999999;
+            letter-spacing: 0;
+        }
+        .money-content > p{
+            width: 100%;
+            font-family: STHeitiSC-Medium;
+            font-size: 26px;
+            color: #000000;
+            letter-spacing: 0;
+            text-align: left;
+            line-height: 21px;
+            text-align: center;
+            margin: 26px 0 11px 0;
+        }
+        .money-content > span{
+            width: 100%;
+            font-family: PingFangSC-Semibold;
+            font-size: 13px;
+            color: #999999;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .money-bottom{
+            margin-top: 23px;
+            display:-moz-box;
+            display:box;
+            display: -webkit-box;
+            -webkit-box-orient: horizontal;/* 横排显示*/
+            padding: 0 19px;
+            box-sizing: border-box;
+        }
+        .money-bottom > div{
+            height: 35px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            -webkit-box-flex: 1;
+      -webkit-box-align: center;
+            font-family: PingFangSC-Semibold;
+            font-size: 12px;
+            color: #444444;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 35px;
+        }
+        .money-bottom > div:nth-child(1){
+            margin-right: 15px;
+        }
+        #active{
+            background: #222222;
+            font-family: PingFangSC-Semibold;
+            font-size: 12px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        /*邀请*/
+        #invite{
+            height: 130px;
+            background: #fff;
+            margin-top: 12px;
+            padding:27px 0 26px 0;
+            box-sizing: border-box;
+        }
+        #invite > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #invite > div{
+            width: 87px;
+            height: 35px;
+            line-height: 35px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        #mine-header  i{
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            background: url("../../icon/set.png") no-repeat;
+            background-size: 100%;
+            position: absolute;
+            top:9px;
+            right:19px;
+        }
+    </style>
+</head>
+
+<body id="body" >
+    <div class="mine">
+        <!-- 头部 -->
+        <div id="mine-header">
+            <div class="userMsg">
+                <i onclick="openSetting();"></i>
+                <div class="icon">
+                    <img src="../../icon/icon108.png" alt="" id="icon" onerror="this.src='../../icon/icon108.png';this.style='width:100%;height:100%;'">
+                </div>
+                <div class="username">
+                    <div class="user"><span id="userName" class="name">蜜柚</span><span class="leave" id="levelName"></span></div>
+                    <div onclick="openMyPage();" class="geren">
+                        <span>个人主页<em></em></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 我的订单 -->
+        <div id="my-indent">
+            <div class="indent-header"  onclick="openMyIndent(0);">
+                <span>我的订单</span>
+                <i>查看全部订单<em></em></i>
+            </div>
+            <div class="indent-content">
+                <div onclick="openMyIndent(1);">
+                    <div class="indent-1">
+                        <em id="orderWaitPayNum">10</em>
+                    </div>
+                    <span>待付款</span>
+                </div>
+                <div onclick="openMyIndent(2);">
+                    <div class="indent-2">
+                        <em id="orderWaitSendNum"></em>
+                    </div>
+                    <span>待发货</span>
+                </div>
+                <div onclick="openMyIndent(3);">
+                    <div class="indent-3">
+                        <em id="orderWaitReceiveNum"></em>
+                    </div>
+                    <span>待收货</span>
+                </div>
+                <div onclick="openMyIndent(4);">
+                    <div class="indent-4">
+                        <em id="orderWaitCommentNum"></em>
+                    </div>
+                    <span>待评价</span>
+                </div>
+                <div onclick="openShouhou();">
+                    <div class="indent-5"></div>
+                    <span>售后</span>
+                </div>
+            </div>
+        </div>
+        <!-- 积分 优惠卷 关注 收藏 -->
+        <div id="status">
+            <div onclick="openIntegral()">
+                <span id="score">320</span>
+                <span>积分</span>
+            </div>
+            <div onclick="openCoupon();">
+                <span id="coupon">11</span>
+                <span>优惠券</span>
+            </div>
+            <div onclick="openConcren();">
+                <span id="focous">11</span>
+                <span>关注</span>
+            </div>
+            <div onclick="openMyCollect();">
+                <span id="favour">33</span>
+                <span>收藏</span>
+            </div>
+        </div>
+        <!-- 钱包 -->
+        <div id="money" onclick="openWallet()">
+            <div class="money-header">
+                <span>我的钱包</span>
+                <i onclick="openAllForm()">账单</i>
+            </div>
+            <div class="money-content">
+                <p id="myMoney"></p>
+                <span>余额</span>
+            </div>
+            <div class="money-bottom">
+                <div onclick="openRecharge()">充值</div>
+                <div id="active" onclick="openWithdraw()">提现</div>
+            </div>
+        </div>
+        <!-- 邀请 -->
+        <div id="invite">
+            <p>分享邀请好友</p>
+            <div onclick="openShare()">邀请好友</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    var icon='';
+    apiready = function () {
+         getMyMessage();
+        //获取钱数
+         getMoney();
+    };
+
+    // //我的信息
+     function getMyMessage(){
+         quakooMsg.showProgress();
+         quakooData.ajaxGetData(config.getUrl_web_user_myMsg(),{uid:quakooUser.getUserInfo().id},function(ret,err) {
+            if(ret.success){
+                if(quakooUtils.isNotBlack(ret.data)){
+                    document.getElementById('body').style.display="block";
+                    var score = ret.data.score;
+                    if(score>9999 && score <= 99999){
+                        score = (parseInt(score)/10000).toFixed(1)+ "W";
+                    }else if(score > 99999){
+                        score = "9.9W+"
+                    }
+                    if(ret.data.icon){
+                        var obj = quakooImg.processImg(ret.data.icon,86,86);
+                        document.getElementById('icon').style.cssText = obj.style;
+                        document.getElementById('icon').src = obj.url;
+                        icon = ret.data.icon;
+                    }else{
+                        document.getElementById('icon').style.cssText = 'width:100%;height:100%';
+                    }
+
+                    document.getElementById("score").innerHTML=score;
+                    document.getElementById("coupon").innerHTML=ret.data.couponNum;
+                    document.getElementById("focous").innerHTML=ret.data.focousNum;
+                    document.getElementById("favour").innerHTML=ret.data.favourNum;
+                    if(quakooUtils.isNotBlack(ret.data.name)){
+                        document.getElementById("userName").innerHTML=ret.data.name;
+                    }else{
+                        document.getElementById("userName").innerHTML=ret.data.phone;
+                    }
+                    if(ret.data.orderWaitPayNum){
+                        if(ret.data.orderWaitPayNum>99){
+                            ret.data.orderWaitPayNum = '99+'
+                        }
+                        document.getElementById("orderWaitPayNum").style.display='block';
+                        document.getElementById("orderWaitPayNum").innerHTML=ret.data.orderWaitPayNum;
+                    }
+                    if(ret.data.orderWaitSendNum){
+                        if(ret.data.orderWaitSendNum>99){
+                            ret.data.orderWaitSendNum = '99+'
+                        }
+                        document.getElementById("orderWaitSendNum").style.display='block';
+                        document.getElementById("orderWaitSendNum").innerHTML=ret.data.orderWaitSendNum;
+                    }
+                    if(ret.data.orderWaitReceiveNum){
+                        if(ret.data.orderWaitReceiveNum>99){
+                            ret.data.orderWaitReceiveNum = '99+'
+                        }
+                        document.getElementById("orderWaitReceiveNum").style.display='block';
+                        document.getElementById("orderWaitReceiveNum").innerHTML=ret.data.orderWaitReceiveNum;
+                    }
+                    if(ret.data.orderWaitCommentNum){
+                        if(ret.data.orderWaitCommentNum>99){
+                            ret.data.orderWaitCommentNum = '99+'
+                        }
+                        document.getElementById("orderWaitCommentNum").style.display='block';
+                        document.getElementById("orderWaitCommentNum").innerHTML=ret.data.orderWaitCommentNum;
+                    }
+                    if(ret.data.userExpenseLevelInfo){
+                        if(ret.data.userExpenseLevelInfo.levelName){
+                            document.getElementById("levelName").style.display='inline-block'
+                            document.getElementById("levelName").innerHTML=ret.data.userExpenseLevelInfo.levelName
+                        }
+                    }else{
+                        document.getElementById("levelName").style.display='none'
+                    }
+                }
+            }
+            quakooMsg.hideProgress();
+         })
+     };
+    // //我的物流信息，异步调用使用
+     function getMyOrderMessage(){
+         quakooData.ajaxGetDataNoProgress(config.getUrl_web_user_myMsg(),{uid:quakooUser.getUserInfo().id},function(ret,err) {
+            if(ret.success){
+                if(quakooUtils.isNotBlack(ret.data)){
+                    if(ret.data.orderWaitPayNum){
+                        if(ret.data.orderWaitPayNum>99){
+                            ret.data.orderWaitPayNum = '99+'
+                        }
+                        document.getElementById("orderWaitPayNum").style.display='block';
+                        document.getElementById("orderWaitPayNum").innerHTML=ret.data.orderWaitPayNum;
+                    }
+                    if(ret.data.orderWaitSendNum){
+                        if(ret.data.orderWaitSendNum>99){
+                            ret.data.orderWaitSendNum = '99+'
+                        }
+                        document.getElementById("orderWaitSendNum").style.display='block';
+                        document.getElementById("orderWaitSendNum").innerHTML=ret.data.orderWaitSendNum;
+                    }
+                    if(ret.data.orderWaitReceiveNum){
+                        if(ret.data.orderWaitReceiveNum>99){
+                            ret.data.orderWaitReceiveNum = '99+'
+                        }
+                        document.getElementById("orderWaitReceiveNum").style.display='block';
+                        document.getElementById("orderWaitReceiveNum").innerHTML=ret.data.orderWaitReceiveNum;
+                    }
+                    if(ret.data.orderWaitCommentNum){
+                        if(ret.data.orderWaitCommentNum>99){
+                            ret.data.orderWaitCommentNum = '99+'
+                        }
+                        document.getElementById("orderWaitCommentNum").style.display='block';
+                        document.getElementById("orderWaitCommentNum").innerHTML=ret.data.orderWaitCommentNum;
+                    }
+                }
+            }
+         })
+     };
+
+    //获取钱数
+    function getMoney() {
+        quakooData.ajaxGetData(config.getUrl_web_pay_getMyMoney(),{},function (ret,err) {
+            if(ret.success == true){
+                document.getElementById('myMoney').innerText = '￥' + quakooUtils.formatMoney(ret.data /100, 2);
+            }else{
+                document.getElementById('myMoney').innerText = '￥' + '0.00';
+            }
+        })
+    }
+    //打开设置页面
+    function openSetting() {
+        quakooApp.openNewWindow('setting','setting.html',{icon:icon});
+    };
+
+    //打开个人主页
+    function openMyPage() {
+        quakooApp.openNewWindow('myPage','myPage.html',{id:quakooUser.getUserInfo().id});
+    };
+    //查看我的全部订单
+    function openMyIndent(index){
+        quakooApp.openNewWindow('myIndent','../myIndent/myIndent.html',{index:index});
+    };
+    //打开售后
+    function openShouhou() {
+        quakooApp.openNewWindow('shouhou','../myIndent/shouhou.html');
+    };
+
+    //打开优惠券
+    function openCoupon() {
+        quakooApp.openNewWindow('coupons','../shoppings/coupons.html');
+    };
+    //打开积分
+    function openIntegral() {
+        quakooApp.openNewWindow('myIntegral','myIntegral.html');
+    };
+    //打开我的收藏
+    function openMyCollect(){
+        quakooApp.openNewWindow('myCollect','myCollect.html');
+    };
+    //打开关注
+    function openConcren(){
+        quakooApp.openNewWindow('concern','concern.html',{thirdId:quakooUser.getUserInfo().id});
+    };
+    //打开钱包
+    function openWallet(){
+        quakooApp.openNewWindow('wallet','wallet.html')
+    };
+    //打开账单
+    function openAllForm(){
+        quakooUtils.stopEventBubble()
+        quakooApp.openNewWindow('allForm','allForm.html')
+    };
+    //打开充值
+    function openRecharge(){
+        quakooUtils.stopEventBubble()
+        quakooApp.openNewWindow('recharge','recharge.html')
+    };
+    //打开提现
+    function openWithdraw(){
+        quakooUtils.stopEventBubble()
+        if(myMoney<=0){
+            quakooMsg.toast('余额不足，无法提现');
+            return ;
+        }
+        quakooApp.openNewWindow('withdraw','withdraw.html')
+    };
+    //改变收藏数量
+    function editCollectNum(t) {
+        if(t=='-'){
+            document.getElementById('favour').innerText = parseInt(document.getElementById('favour').innerText)-1;
+        }else if(t=='+'){
+            document.getElementById('favour').innerText = parseInt(document.getElementById('favour').innerText)+1;
+        }
+    }
+    //改变收藏数量
+    function myCouponNum() {
+        document.getElementById('coupon').innerText = parseInt(document.getElementById('favour').innerText)+1;
+    }
+    //邀请好友
+    function openShare() {
+        var quakooShare = new QuakooShare();
+        quakooShare.openShare('蜜柚时尚','蜜柚商城欢迎你加入','widget://icon/icon108.png','http://www.meneotime.com')
+    }
+    //更改头像之后，刷新头像
+    function editImg(url) {
+        icon = url;
+        var obj = quakooImg.processImg(url,86,86);
+        document.getElementById('icon').src = obj.url;
+        document.getElementById('icon').style = obj.style;
+    }
+    //更改昵称
+    function editName(name) {
+        document.getElementById('userName').innerHTML = name;
+    }
+    //更改关注量
+    function editFavorite() {
+        if(parseInt(document.getElementById('focous').innerHTML)>0){
+            document.getElementById('focous').innerHTML = parseInt(document.getElementById('focous').innerHTML)-1;
+        }
+    }
+    //更改关注量
+    function editCollect() {
+        if(parseInt(document.getElementById('favour').innerHTML)>0){
+            document.getElementById('favour').innerHTML = parseInt(document.getElementById('favour').innerHTML)-1;
+        }
+    }
+</script>
+
+</html>

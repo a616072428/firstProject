@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+    <!--<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />-->
+    <link rel="stylesheet" type="text/css" href="../../css/commonWindow.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css" />
+
+    <title>全部评论</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
+        #commentDom{
+            width: 100%;
+            padding: 0 19px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .allPinlun > div{
+            width: 87px;
+            height: 35px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 35px;
+            float: right;
+            margin-top: 21px;
+        }
+
+        .pinlun > :nth-child(2){
+            clear: both;
+            box-sizing: border-box;
+        }
+        .icon{
+            line-height: 29px;
+        }
+        .icon > .img{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            float: left;
+            overflow: hidden;
+        }
+        .icon  .img img{
+            display: block;
+        }
+        .icon > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #5E5E5E;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 12px;
+            margin-right:6px;
+            float: left;
+            line-height: 29px;
+        }
+        .icon > p > em{
+            width: 17px;
+            height: 10px;
+            background: #9E7443;
+            border-radius: 1.25px;
+            font-family: PingFangSC-Regular;
+            font-size: 5px;
+            color: #FAFAFA;
+            text-align: center;
+            line-height: 10px;
+            vertical-align: top;
+            margin-top: 10px;
+        }
+        .icon > p > span,.icon > p > i{
+            font-family: PingFangSC-Regular;
+            font-size: 10px;
+            color: #5E5E5E;
+            letter-spacing: -0.24px;
+            text-align: center;
+        }
+        .icon > p > span{
+            margin: 0 8px 0 18px;
+        }
+        .pinlun-item{
+            background: #fff;
+            margin-bottom: 12px;
+            padding-top: 16px;
+            border-bottom: 12px solid #F5F5F5;
+            box-sizing: border-box;
+        }
+        .pinlun-item > :nth-child(1) > p{
+            clear: both;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #7F7F7F;
+            letter-spacing: 0;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        .pinlun-size{
+            clear: both;
+            overflow: hidden;
+            padding:7px 0 3px;
+        }
+        .pinlun-size > p{
+            clear: both;
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #A3A1A1;
+            letter-spacing: -0.27px;
+            float: left;
+        }
+        .pinlun-size .del{
+            width: 25px;
+            height: 21px;
+            float: right;
+            background: url("../../icon/del.png") no-repeat center 2px;
+            background-size: 14px;
+        }
+        .pinlun-item > :nth-child(3) > p > span{
+            margin-left: 26px;
+        }
+        .pinglun-dianzan{
+            padding-bottom: 10px;
+            border-bottom: 1px solid #F5F5F5;
+        }
+
+        .pinglun-dianzan >:nth-child(1) > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #D2D2D2;
+            letter-spacing: 0;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+
+        .pinglun-dianzan >:nth-child(1) > p > span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #C4C4C4;
+            letter-spacing: 0;
+            text-align: right;
+            float: right;
+            width: auto;
+        }
+        .imgList{
+            overflow: hidden;
+        }
+        .imgList .imgImg{
+            width: 32%;
+            height: 109px;
+            overflow: hidden;
+            float: left;
+            margin-bottom: 11px;
+        }
+        .imgList img{
+            display: block;
+        }
+        .imgList > :nth-child(3n+2){
+            margin: 0 2%;
+        }
+
+        .operationInfo{
+            width: 100%;
+            background: #F9F9F9;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #646464;
+            letter-spacing: 0;
+            text-align: left;
+            margin-top: 16px;
+            padding: 10px;box-sizing: border-box;
+        }
+        .operationContent{
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        .operationContent>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #828282;
+            letter-spacing: 0;
+            text-align: left;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            box-sizing: border-box;
+            word-break:break-all;
+            white-space:pre-warp;
+            word-wrapL:break-word;
+            text-overflow: -o-ellipsis-lastline;
+        }
+        .operationElse>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #578FE0;
+            letter-spacing: 0;
+            text-align: left;
+            display: inline-block;
+        }
+        .operationElse>em{
+            width: 12px;
+            height: 12px;
+            background: url("../../icon/more_bottom.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            line-height: 12px;
+            margin-left: 4px;
+            margin-bottom: -3px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="main" >
+    <div id="commentDom">
+
+    </div>
+</div>
+
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+
+<script type="text/html" id="commentTmp">
+    <%for(var i = 0;i < list.length;i++){%>
+    <div class="pinlun-item">
+        <div>
+            <div class="icon">
+                <div class="img">
+                    <img src="<%=list[i].user.icon%>" alt="" style="<%=list[i].user.style%>">
+                </div>
+                <p><%=list[i].user.name%>
+                    <%if(list[i].userExpenseLevelInfo){%>
+                    <em><%=list[i].userExpenseLevelInfo.levelName%></em>
+                    <%}%>
+                    <span>身高 <%=list[i].user.height%></span><i>体重 <%=list[i].user.weight%></i></p>
+            </div>
+            <p><%=list[i].content%></p>
+        </div>
+        <%if(list[i].images){%>
+        <div class="imgList">
+            <%for(var j=0;j< list[i].images.length;j++){%>
+                <div class="imgImg" onclick="openPhotoBrowser('<%=list[i].id%>','<%=j%>')">
+                    <img src="<%=list[i].newImages[j]%>" alt="" style="<%=list[i].styles[j]%>">
+                </div>
+            <%}%>
+        </div>
+        <%}%>
+        <div class="pinglun-dianzan">
+            <div>
+                <p><span><%=list[i].Ctime%></span></p>
+            </div>
+        </div>
+        <div class="pinlun-size">
+            <%if(list[i].goods){%>
+            <p>颜色 <%=list[i].goods.colorName%> &nbsp;<span>尺码 <%=list[i].goods.size%></span></p>
+            <%}%>
+            <%if(loginId==list[i].uid){%>
+            <div class="del" onclick="delComment('<%=list[i].id%>',this)"></div>
+            <%}%>
+        </div>
+        <!--回复-->
+        <%if(list[i].replyComments && list[i].replyComments.length>0){%>
+        <div class="operationInfo">
+            <div class="operationContent">
+                <span>
+                    <%if(list[i].replyComments[0].user.name){%>
+                        <%=list[i].replyComments[0].user.name%>
+                    <%}else{%>
+                        <%=list[i].replyComments[0].user.phone%>
+                    <%}%>
+                    <%if(list[i].replyComments[0].user.id == thirdId){%>(作者)<%}%>：<%=list[i].replyComments[0].content%>
+                </span>
+            </div>
+            <%if(list[i].lastNum>1){%>
+            <div class="operationElse ">
+                <span onclick="oneComment('<%=list[i].id%>')">共<%=list[i].lastNum%>条回复</span><em></em>
+            </div>
+            <%}%>
+        </div>
+        <%}%>
+    </div>
+    <%}%>
+</script>
+
+<script type="text/javascript">
+    var id;
+    var commentData = {};
+    apiready = function() {
+
+        id = api.pageParam.id;
+        //获取商品详情
+        new QuakooPage(addHtml,config.getUrl_web_system_commentPager(),{type:1,typeId:id})
+    };
+    //得到商品评论
+    function addHtml(result,append) {
+        if(result.length){
+            for(var i = 0; i  < result.length; i++){
+                result[i].Ctime = quakooUtils.getDateDiff(result[i].ctime);
+                if(result[i].user.icon){
+                    var obj = quakooImg.processImg(result[i].user.icon,29,29)
+                    result[i].user.style = obj.style;
+                    result[i].user.icon = obj.url;
+                }
+                commentData[result[i].id]=result[i];
+                if(result[i].user.height==undefined){
+                    result[i].user.height = '未知';
+                }else{
+                    result[i].user.height += 'cm';
+                }
+                if(result[i].user.weight==undefined){
+                    result[i].user.weight = '未知';
+                }else{
+                    result[i].user.weight += 'kg';
+                }
+                if(result[i].user.name==undefined){
+                    result[i].user.name = '暂无昵称';
+                }
+                if(result[i].goods){
+                    result[i].goods.colorName = result[i].goods.color.split('"')[7];
+                }
+                if(result[i].images){
+                    result[i].styles = [];
+                    result[i].newImages = [];
+                    for(var j=0;j<result[i].images.length;j++){
+                        if(result[i].images[j]){
+                            var obj1 = quakooImg.processImg(result[i].images[j],109,109)
+                            result[i].styles.push(obj1.style);
+                            result[i].newImages.push(obj1.url);
+                        }
+                    }
+                }
+            }
+            var html = template('commentTmp',{list:result,loginId:quakooUser.getUserInfo().id})
+            if(append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('commentDom').appendChild(div);
+            }else{
+                document.getElementById('commentDom').innerHTML = html;
+            }
+        }
+    }
+    //删除自己发表的评论
+    function delComment(id,self) {
+        quakooMsg.showDialog('提示','确认删除该评论吗？','取消','确认',function () {
+            quakooData.ajaxSubmitData(config.getUrl_web_system_commentDel(),{id:id},function (ret) {
+                if(ret && ret.success){
+                    quakooMsg.toast('删除成功');
+                    self.parentElement.parentElement.style.display = 'none';
+                    api.execScript({
+                        name:"goodsIndex",
+                        frameName:"goodsIndex_body",
+                        script:"getComment()"
+                    })
+                    api.execScript({
+                        name:"goodsIndex",
+                        frameName:"goodsIndex_body",
+                        script:"editNum()"
+                    })
+                    api.execScript({
+                        name:"allComment",
+                        script:"editNum()"
+                    })
+                }
+            })
+        })
+    }
+    //跳单个评论的全部回复
+    function oneComment(id) {
+        quakooApp.openNewWindow('goodsComment','./goodsComment.html',{parm:commentData[id],id:id});
+    }
+    //点击查看大图
+    function openPhotoBrowser (nowId,index){
+        quakooImg.photoBrowser('',api.winWidth,api.winHeight,commentData[nowId].images,index);
+    }
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>支付</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        html,body{
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0);
+            position: relative;
+            overflow: hidden;
+        }
+        .content{
+            width: 100%;
+            background: #fff;
+            box-sizing: border-box;
+            position: absolute;
+            top: 200px;
+            left: 0;
+            visibility: hidden;
+        }
+        #content-top{
+            height: 376px;
+            background: #fff;
+            padding:0 5%;
+            box-sizing: border-box;
+        }
+        .content-header{
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            border-bottom: 1px solid #e3e3e3;
+            box-sizing: border-box;
+        }
+        .back{
+            height: 20px;
+            width: 20px;
+            background: url("../../icon/off01.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            float: left;
+            margin-top: 13px;
+        }
+        #money{
+            line-height: 35px;
+            font-family: STHeitiSC-Medium;
+            font-size: 35px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .submit{
+            height: 45px;
+            width: 100%;
+            background:rgba(34,34,34,1);
+            font-size:16px;
+            font-family:PingFangSC-Medium;
+            font-weight:500;
+            color:rgba(249,249,249,1);
+            line-height:45px;
+            text-align: center;
+        }
+        #payClass > li{
+            border-bottom: 1px solid #E3E3E3;
+            height: 48px;
+            line-height: 48px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: -0.34px;
+        }
+        #payClass > li > i{
+            height: 28px;
+            width: 28px;
+            display:inline-block;
+            background-size: 100%;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        #payClass > li > em{
+            height: 20px;
+            width: 20px;
+            display:inline-block;
+            background: url("../../icon/shop_no.png") no-repeat;
+            background-size: 100%;
+            float: right;
+            margin-top: 14px;
+        }
+        .ali{
+            background: url("../../icon/ali.jpg") no-repeat;
+        }
+        .wx{
+            background: url("../../icon/weixin.jpg") no-repeat;
+        }
+        .ye{
+            background: url("../../icon/ye.jpg") no-repeat;
+        }
+        #payClass > li > em.active{
+            background: url("../../icon/shop_ok.png") no-repeat;
+            background-size: 100%;
+        }
+        /*输入支付密码*/
+        #payPassMask,#contentMask{
+            width: 100%;height: 100%;
+            background: rgba(0,0,0,0.3);
+            position: fixed;top: 0;left: 0;
+        }
+        #payPassMask{
+            display: none;
+        }
+        #payPass{
+            width: 264px;
+            height: 244px;
+            border-radius: 3px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right:0;
+            bottom: 0;
+            margin:auto;
+            background: #fff;
+            box-shadow: 0 2px 10px 0 rgba(208,208,208,0.50);
+            padding: 0 10px 29px;
+            box-sizing: border-box;
+        }
+        .passTop{
+            border-bottom:  1px solid #F5F5F5;
+            height: 45px;line-height: 46px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            text-align: center;
+            position: relative;
+        }
+        .passTop img{
+            position: absolute;
+            top: 12px;
+            left: 0;
+            width: 18px;
+            height: 18px;
+        }
+        .passMain{
+            width: 100%;
+            text-align: center;
+            padding-top: 38px;
+        }
+        .passMain p:nth-of-type(1){
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: -0.34px;
+        }
+        .passMain p:nth-of-type(2){
+            font-family: STHeitiSC-Medium;
+            font-size: 36px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+        }
+        .passBox{
+            height: 36px;
+            margin: 30px auto 0;
+            width: 216px;
+            border: 1px solid #666;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        .passBox input{
+            position: absolute;
+            top: 0;right: 0;
+            z-index: -1;
+            opacity: 0;
+            width: 200%;
+        }
+        .passBox div{
+            float: left;
+            width: 36px;
+            height: 100%;
+            border-right: 1px solid #666;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+        .passBox div:last-of-type{
+            border-right: none;
+        }
+        .passBox div.active:before{
+            content: "";display: block;
+            position: absolute;
+            top: 0;left: 0;right: 0;bottom: 0;margin: auto;
+            width: 8px;height: 8px;border-radius: 50%;overflow: hidden;
+            background: #333;
+        }
+    </style>
+</head>
+<body id="body">
+    <div id="contentMask">
+        <div class="content" id="content" onclick="quakooUtils.stopEventBubble()">
+            <div id="content-top">
+                <div class="content-header">
+                    <div class="back" onclick="closeFrame()"></div>
+                    <p>确认付款</p>
+                </div>
+                <p id="money"></p>
+                <ul id="payClass">
+                    <li onclick="payTypes('ali1',1);"><i class="ali"></i>支付宝<em id="ali1"></em></li>
+                    <li onclick="payTypes('wx1',2);"><i class="wx"></i>微信<em id="wx1"></em></li>
+                    <li onclick="payTypes('ye1',3);"><i class="ye"></i>余额<em id="ye1"></em></li>
+                </ul>
+            </div>
+
+            <div class="submit" onclick="submit();">确定</div>
+        </div>
+
+    </div>
+
+    <div id="payPassMask">
+        <div id="payPass" onclick="quakooUtils.stopEventBubble()">
+            <div class="passTop">
+                <img src="../../image/off01.png" alt="" onclick="closePass()">
+                请输入支付密码
+            </div>
+            <div class="passMain">
+                <p>付款金额</p>
+                <p id="fukuanMoney">¥ 0.00</p>
+            </div>
+            <div class="passBox" onclick="inputFocus()">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <input type="number" id="pass"  onkeyup="inputKeyup()" maxlength="6" onPaste="return false;" oncopy="return false" oncut="return false" >
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+
+<script>
+    var oids;
+    var payC;
+    var payType;
+
+    apiready = function () {
+        quakooDb.setItem('payFrame',true);
+        oids = api.pageParam.id;
+        payType = api.pageParam.payType;
+        document.getElementById('money').innerHTML = '￥' + quakooUtils.formatMoney(api.pageParam.m / 100, 2);
+        document.getElementById('fukuanMoney').innerHTML = '￥' + quakooUtils.formatMoney(api.pageParam.m / 100, 2);
+        var strSV = parseFloat(api.systemVersion,10);
+        if(api.systemType=='ios' && strSV >= 12){
+            if(api.safeArea.top >20){
+                document.querySelector('.content').style.paddingBottom = '34px';
+            }
+        }
+        $("body").on("touchmove",function(event){
+            event.preventDefault;
+        }, false);
+        document.getElementById('content').style.top = api.winHeight - document.getElementById('content').offsetHeight + 'px';
+        document.getElementById('content').style.visibility = 'visible';
+    };
+    //关闭当前Frame
+    function closeFrame() {
+        if(payType==0){
+            quakooApp.openNewWindow('myIndent','../myIndent/myIndent.html',{type:2,index:1});
+            setTimeout(function () {
+                api.closeWin({
+                    name: 'indent'
+                });
+            },500)
+            api.closeFrame({});
+            quakooDb.removeItem('payFrame');
+        }else{
+            api.closeFrame({});
+            quakooDb.removeItem('payFrame');
+        }
+    };
+    //付款类型
+    function payTypes(self,type) {
+        for(var i = 0;i < document.querySelectorAll("#payClass li").length; i++){
+            document.querySelectorAll("#payClass li")[i].querySelector('em').classList.remove('active');
+        }
+        var dom = document.getElementById(self);
+        dom.classList.add('active');
+        payC = type;
+    };
+
+    //提交
+    function submit() {
+        if(quakooUtils.isBlack(payC)){
+            quakooMsg.toast('请选择付款方式！');
+            return;
+        };
+        if(payC == 1){
+            // 支付宝支付
+            //获取oid
+            quakooMsg.showProgress()
+            quakooData.ajaxSubmitData(config.getUrl_web_pay_getAliOid(),{subOids:oids},function (ret,err) {
+                if(ret && ret.success){
+                    //获取支付参数
+                    quakooData.ajaxSubmitData(config.getUrl_web_pay_aliParam(),{oid:ret.data},function (ret,err) {
+                        if(ret && ret.success){
+                            var aliPayPlus = api.require('aliPayPlus');
+                            aliPayPlus.payOrder({
+                                orderInfo: ret.data,
+                            }, function(ret, err) {
+                                quakooMsg.hideProgress()
+                                if(ret.code == 6001){
+                                    quakooMsg.toast('已取消支付')
+                                    payFail()
+                                }else if(ret.code == 9000){
+                                    quakooMsg.toast('支付成功!');
+                                    paySuccess()
+                                }
+                            });
+                        }else{
+                            quakooMsg.hideProgress()
+                        }
+                    });
+                }else{
+                    quakooMsg.hideProgress()
+                }
+            })
+        }else if(payC == 2){
+            //微信支付
+            //获取oid
+            quakooMsg.showProgress()
+            quakooData.ajaxSubmitData(config.getUrl_web_pay_getWxOid(),{subOids:oids},function (ret,err) {
+                if (ret && ret.success) {
+                    //获取支付参数
+                    quakooData.ajaxSubmitData(config.getUrl_web_pay_wxPay(), {oid: ret.data}, function (ret, err) {
+                        var orderoid = ret.data.prepayid;
+                        var mchId = ret.data.partnerid;
+                        var nonceStr = ret.data.noncestr;
+                        var timeStamp = ret.data.timestamp;
+                        var package = ret.data.package;
+                        var sign = ret.data.sign;
+                        var wxPay = api.require('wxPay');
+                        var obj = {
+                            apiKey: '',
+                            orderId: orderoid,
+                            mchId:  mchId,
+                            nonceStr: nonceStr,
+                            timeStamp: timeStamp,
+                            package:package,
+                            sign:sign
+                        };
+                        wxPay.payOrder(obj, function (ret, err) {
+
+                            quakooMsg.hideProgress()
+                            if (ret.status) {
+                                quakooMsg.toast('支付成功!');
+                                //支付成功
+                                paySuccess()
+                            } else {
+                                quakooMsg.toast('已取消支付')
+                                payFail();
+                            }
+                        });
+                    });
+                }else{
+                    quakooMsg.hideProgress()
+                }
+            });
+        }else{
+            quakooData.ajaxSubmitData(config.getUrl_web_user_checkloadPayPwd(),{},function(ret,err) {
+                quakooMsg.hideProgress()
+                if(ret && ret.success){
+                    if(ret.data){
+                        document.getElementById('payPassMask').style.display = 'block';
+                        document.getElementById('pass').focus();
+                        $("#pass").click();
+                    }else{
+                        quakooMsg.showDialog('','未设置支付密码，是否现在去设置？','取消','确定',function () {
+                            quakooApp.openNewWindow('setPayPwd','../mine/setPayPwd.html');
+                        })
+                    }
+                }
+            });
+        }
+    };
+    //    支付成功处理
+    function paySuccess() {
+        if(api.pageParam.name){
+            api.execScript({
+                name:"myIndent",
+                frameName:"myIndent_fahuo",
+                script:"apiready()"
+            })
+            api.execScript({
+                name:"myIndent",
+                frameName:"myIndent_fukuan",
+                script:"apiready()"
+            })
+            api.execScript({
+                name:"myIndent",
+                frameName:"myIndent_quanbu",
+                script:"apiready()"
+            })
+            //改变我的页面中的余额
+            api.execScript({
+                name:"main",
+                frameName:"my",
+                script:"getMoney()"
+            })
+            api.execScript({
+                name:"main",
+                frameName:"my",
+                script:"getMyOrderMessage()"
+            })
+            setTimeout(function () {
+                api.execScript({
+                    name:"myIndent",
+                    script:"switchFrameGroupIndex(2)"
+                })
+            },300)
+            api.closeFrame({name:"pay"});
+            quakooDb.removeItem('payFrame');
+        }else{
+            setTimeout(function () {
+                api.closeFrame({name:"pay"});
+                quakooDb.removeItem('payFrame');
+                api.closeWin({name:"indent"});
+            }, 500);
+            quakooApp.openNewWindow('myIndent','../myIndent/myIndent.html',{type:2,index:2});
+
+        }
+    }
+    //    支付失败处理
+    function payFail() {
+        if(api.pageParam.name){
+            api.closeFrame({name:"pay"});
+            quakooDb.removeItem('payFrame');
+        }else{
+            api.closeFrame({name:"pay"});
+            quakooDb.removeItem('payFrame');
+            setTimeout(function () {
+                api.closeWin({name:"indent"});
+            }, 2000);
+            setTimeout(function () {
+                quakooApp.openNewWindow('myIndent','../myIndent/myIndent.html',{type:2,index:1});
+            }, 1000);
+        }
+    }
+//    关闭输入支付密码
+    function closePass() {
+        document.getElementById('payPassMask').style.display = 'none';
+    }
+    //点击密码框聚焦
+    function inputFocus() {
+        document.getElementById('pass').focus();
+    }
+    //监听input  键盘按下
+    function inputKeyup() {
+        //只能输入数字
+        var pass = $('#pass').val()
+        pass=pass.replace(/[^0-9]+/,'');
+        $('#pass').val(pass)
+        if(pass){
+            //显示黑点样式
+            $('.passBox div').removeClass('active')
+            for(var i=0;i<pass.length;i++){
+                $('.passBox div').eq(i).addClass('active')
+            }
+            //输入六位之后的走接口
+            if(pass.length>=6){
+                var password = pass.slice(0,6);
+                quakooMsg.showProgress();
+                $("#pass").val(password)
+                //密码框消失
+                document.getElementById('contentMask').style.display = 'block';
+                document.getElementById('payPassMask').style.display = 'none';
+                //ios系统键盘消失
+                api.accessNative({
+                    name: "endEditing",//
+                    extra: {
+                    }
+                }, function (ret, err) {
+                });
+                //判断支付密码是否正确
+                quakooData.ajaxSubmitData(config.getUrl_web_pay_checkPayPassword(),{payPassword:password},function (ret) {
+                    $("#pass").val('');
+                    $("#pass").blur();
+                    $('.passBox div').removeClass('active');
+                    if(ret){
+                        if(ret.success){
+                            if(ret.data){
+                                ////密码正确，去支付
+                                quakooMsg.toast('正在支付')
+                                quakooMsg.showProgress();
+                                quakooData.ajaxSubmitData(config.getUrl_web_pay_walletPay(),{subOids:oids},function(ret,err){
+                                    quakooMsg.hideProgress();
+                                    if(ret && ret.success){
+                                        quakooMsg.toast('支付成功!');
+                                        paySuccess();
+                                    }else{
+                                        quakooMsg.toast(ret.data);
+                                    }
+                                })
+                            }else{
+                                quakooMsg.hideProgress();
+                                quakooMsg.toast('支付密码错误');
+                            }
+                        }else{
+                            quakooMsg.hideProgress();
+                        }
+                    }else{
+                        quakooMsg.hideProgress();
+                    }
+                })
+            }
+        }else{
+            $('.passBox div').removeClass('active')
+        }
+    }
+
+</script>
+</html>

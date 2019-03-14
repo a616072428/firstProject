@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>领取优惠券</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <style type="text/css">
+        html,body{
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        #main{
+            width:313px;
+            height:385px;
+            background:rgba(255,255,255,1);
+            border-radius:8px;text-align: center;
+            position: fixed;top: 0;left: 0;right: 0;bottom: 0;margin: auto;
+            padding: 54px 12px 20px;box-sizing: border-box;
+            z-index: 20;
+        }
+        .head{
+            height:24px;
+            font-size:17px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(3,3,3,1);
+            line-height:24px;
+        }
+        .box{
+            width: 100%;
+            height: 263px;
+            margin-top: 24px;
+            box-sizing: border-box;
+            overflow: scroll;
+        }
+        #scroller{
+            height: auto;
+        }
+        #scroller li{
+            overflow: hidden;
+            margin-top: 24px;
+            position: relative;
+            height: 66px;
+        }
+        #scroller li:first-of-type{
+            margin-top: 0;
+        }
+
+        .liLeft{
+            width:121px;
+            height:66px;
+            margin-right: 11px;
+            box-sizing: border-box;
+            background:rgba(158,116,67,1);
+            padding: 13px 16px 9px;
+        }
+        .liLeft p{
+            height:26px;
+            font-size:26px;
+            font-family:STHeitiSC-Medium;
+            font-weight:500;
+            color:rgba(255,255,255,1);
+            line-height:26px;margin-bottom: 3px;
+        }
+        .liLeft span{
+            font-size:10px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(255,255,255,1);
+            line-height:16px;
+            padding: 2px 7px 0;
+            background: #000;
+        }
+        #main .liLeft2{
+            text-align: start;
+        }
+        .liLeft2 p{
+            height:18px;
+            font-size:13px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(51,51,51,1);
+            line-height:18px;
+            margin: 2px 0 25px;
+        }
+        .liLeft2 span{
+            height:13px;
+            font-size:9px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(174,174,174,1);
+            line-height:13px;
+        }
+        .liRight{
+            position: absolute;
+            right: 0;
+            top: 23px;
+            width:44px;
+            height:18px;
+            border-radius:2px;
+            border:1px solid #EEEEEE;
+            font-size:10px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(40,40,40,1);
+            line-height:20px;
+        }
+        .close{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: 12px;
+            top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <p class="head">可领取优惠券</p>
+        <div class="box">
+            <ul id="scroller">
+            </ul>
+        </div>
+
+        <img src="../../image/off01.png" onclick="closeCoupon()" alt="" class="close">
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+
+<script type="text/html" id="tmpScript">
+    <%for(var i=0;i< list.length;i++){%>
+        <li>
+            <div class="fl liLeft">
+                <%if(list[i].type==1){%>
+                <p>￥<%=list[i].subtractPrice%></p>
+                <span>满<%=list[i].fullPrice%>元可用</span>
+                <%}else if(list[i].type==2){%>
+                <p style="line-height: 40px;height: auto;margin: 0;">￥<%=list[i].subtractPrice%></p>
+                <%}%>
+
+            </div>
+            <div class="fl liLeft2">
+                <%if(list[i].type==1){%>
+                <p>满减券(适用于自营)</p>
+                <%}else if(list[i].type==2){%>
+                <p>抵扣券(适用于自营)</p>
+                <%}%>
+                <span><%=list[i].startTime%>-<%=list[i].endTime%></span>
+            </div>
+            <div class="liRight" onclick="toGet('<%=list[i].id%>',this)">领取</div>
+        </li>
+    <%}%>
+</script>
+<script>
+    apiready = function () {
+        quakooDb.setItem('couponFlag',true)
+        getCouponList()
+    };
+    //优惠券列表
+    function getCouponList() {
+        quakooMsg.showProgress();
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_getCanGet(),{},function (ret,err) {
+            if(ret.success == true){
+                if(ret.data.length>0){
+                    for(var i=0;i< ret.data.length;i++){
+                        ret.data[i].subtractPrice = ret.data[i].subtractPrice / 100;
+                        ret.data[i].fullPrice = ret.data[i].fullPrice / 100;
+                        ret.data[i].startTime = quakooUtils.formatTimeToDay(ret.data[i].startTime);
+                        ret.data[i].endTime = quakooUtils.formatTimeToDay(ret.data[i].endTime);
+                    }
+                    var html = template('tmpScript',{list:ret.data});
+                    document.getElementById('scroller').innerHTML = html;
+
+                }else{
+                    document.getElementById('scroller').innerHTML = '暂无可领优惠券';
+                    document.getElementById('scroller').style.cssText = 'text-align: center;font-size: 14px;color: #666;line-height: 50px;';
+                }
+            }else{
+                quakooMsg.toast(err.msg)
+            }
+            quakooMsg.hideProgress();
+        })
+    };
+    //领取优惠券
+    var flag = true;
+    function toGet(id,self) {
+        if(flag){
+            flag = false;
+            quakooMsg.showProgress();
+            quakooData.ajaxSubmitData(config.getUrl_web_mall_getCoupon(),{cid:id},function (ret,err) {
+                if(ret &&ret.success){
+                    quakooMsg.toast('领取成功');
+                    self.innerHTML = '已领取';
+                    //异步调用，我的页面 优惠券数量+1
+                    api.execScript({
+                        name:'main',
+                        script:'myCouponNum()'
+                    });
+                    self.onclick = function () {
+                        quakooMsg.toast('已领取')
+                    }
+                }else{
+                    quakooMsg.toast(err.msg)
+                }
+                flag = true;
+                quakooMsg.hideProgress();
+            })
+        }
+
+    }
+    function closeCoupon() {
+        api.closeFrame({
+            name:"couponList"
+        })
+        quakooDb.removeItem('couponFlag')
+    };
+</script>
+</html>

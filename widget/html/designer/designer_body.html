@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    	<meta name="apple-mobile-web-app-capable" content="yes">
+    	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>设计师</title>
+		<link rel="stylesheet" href="../../css/api.css" />
+		<link rel="stylesheet" href="../../css/commonWindow.css" />
+		<style type="text/css">
+			body{
+				min-width: 320px;
+                background: #fff;
+                position: relative;
+			}
+            .des-class{
+                width: 20px;
+                height: 69px;
+                background: url('../../image/classify.png') no-repeat;
+                background-size: 100%;
+                position: fixed;
+                right:0;
+                top:148px;
+            }
+
+            /*推荐设计师*/
+            .des{
+                width: 100%;
+                height: 173px;
+                box-sizing: border-box;
+                position: fixed;
+                top: 0;left: 0;
+                transition: .5s;
+                overflow: hidden;
+                background: #fff;
+            }
+            .des-more{
+                height: 37px;
+                padding: 0 19px;
+                box-sizing: border-box;
+            }
+            .des-more > span{
+                font-family: PingFangSC-Medium;
+                font-size: 16px;
+                color: #222222;
+                letter-spacing: 0;
+                text-align: left;
+                margin-top:12px;
+
+            }
+            .des-more > p{
+                width: 87px;
+                height: 27px;
+                float: right;
+                text-align: center;
+                line-height: 27px;
+                margin-top: 8px;
+                border: 1px solid #EEEEEE;
+                border-radius: 2px;
+                font-family: PingFangSC-Regular;
+                font-size: 12px;
+                color: #C1C1C1;
+                letter-spacing: 0;
+                text-align: center;
+            }
+            .des-content{
+                padding: 29px 18px 0;width: 100%;
+                box-sizing: border-box;
+            }
+            .des-content > div{
+                height: 101px;
+                width: 24%;float: left;
+                text-align: center;
+                text-align: -webkit-center;
+                margin-right: 1.333%;
+            }
+            .des-content > div:last-of-type{
+                margin-right: 0;
+            }
+            .des-content .img{
+                width: 58px;height: 58px;overflow: hidden;
+                border-radius: 50%;
+            }
+            .des-content > div  img{
+                width: 58px;
+                height: 58px;
+            }
+            .des-content > div > p{
+                font-family: PingFangSC-Medium;
+                font-size: 15px;
+                color: #37383C;
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 15px;margin-top: 6px;
+            }
+            .des-content > div > span{
+                width: 28px;
+                height: 16px;
+                background: #9E7443;
+                border-radius: 2px;
+                font-family: PingFangSC-Regular;
+                font-size: 8px;
+                color: #FAFAFA;
+                letter-spacing: -0.19px;
+                text-align: center;
+                line-height: 17px;
+            }
+            /*导航*/
+            #pinpai-nav{
+                height: 45px;
+                border-bottom: 1px solid #f2f2f2;
+                display:box;
+                display: -webkit-box;
+                -webkit-box-orient: horizontal;/* 横排显示*/
+                width: 100%;
+                position: fixed;
+                top: 173px;left: 0;
+                transition: .5s;
+                background: #fff;
+            }
+            #pinpai-nav > div{
+                width: 94px;
+                -webkit-box-flex: 1;
+                -webkit-box-align: center;
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: #9B9B9B;
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 45px;
+            }
+            #pinpai-nav > div.active{
+                font-family: PingFangSC-Medium;
+                font-size: 14px;
+                color: #424242;
+                letter-spacing: 0;
+                text-align: center;
+                border-bottom:1px solid #242424;
+            }
+            /*设计师简介*/
+            .des-about{
+                padding:13px 19px 0 19px;
+                transition: .5s;
+            }
+            .des-item{
+                width: 49%;
+                padding:14px 0 14px 11px;
+                height: 164px;
+                overflow: hidden;
+                box-sizing: border-box;
+                float: left;
+                border-bottom:1px solid #f5f5f5;
+            }
+            .des-item:nth-child(2n+1){
+                border-right:1px solid #f5f5f5;
+            }
+            .des-item > img{
+                width: 58px;
+                height: 58px;
+                border-radius: 50%;
+                float: left;
+            }
+            .des-item > i{
+                width: 48%;
+                height: 21px;
+                float: left;
+                font-family: PingFangSC-Medium;
+                font-size: 15px;
+                color: #37383C;
+                letter-spacing: 0;
+                text-align: left;
+                margin-top: 8px;
+                margin-left: 13px;
+            }
+            .des-item > span{
+                clear: both;
+                width: 28px;
+                height: 16px;
+                background: #9E7443;
+                border-radius: 2px;
+                font-family: PingFangSC-Regular;
+                font-size: 8px;
+                color: #FAFAFA;
+                letter-spacing: -0.19px;
+                text-align: center;
+                line-height: 17px;
+                margin-left: 13px;
+            }
+            .des-item > p{
+                clear: both;
+                font-family: PingFangSC-Regular;
+                font-size: 12px;
+                color: #AEAEAE;
+                letter-spacing: 0;
+                padding: 14px 0 27px 0;
+                overflow : hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp:3;
+            }
+
+		</style>
+	</head>
+	<body>
+        <!-- 分类 -->
+        <!--<div class="des-class"></div>-->
+
+        <div id="des-wrap">
+            <!-- 推荐设计师 -->
+            <div class="des" id="desDom">
+
+            </div>
+
+            <!-- 品牌列表 nav-->
+            <div id="pinpai-nav">
+
+            </div>
+            <!-- 设计师简介 -->
+            <div class="des-about" id="des-about">
+
+            </div>
+
+        </div>
+	</body>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/template-native.js"></script>
+    <!--推荐设计师-->
+    <script type="text/html" id="desTmp">
+        <%if(list){%>
+            <div class="des-more">
+                <span>推荐设计师</span>
+                <p onclick="openAllDes()">全部设计师</p>
+            </div>
+            <div class="des-content">
+                <%for(var i = 0; i < list.length; i++){%>
+                    <div onclick="openStoreIndex('<%=list[i].id%>');">
+                        <div class="img">
+                            <img src="<%=list[i].icon%>" alt="">
+                        </div>
+                        <p><%=list[i].name%></p>
+                    </div>
+                <%}%>
+            </div>
+        <%}%>
+    </script>
+    <!--获取所有分类-->
+    <script type="text/html" id="styleTmp">
+        <%if(list){%>
+            <%for(var i = 0; i < list.length; i++){%>
+                <div class="oumei"><span onclick="navSwitch(this,'<%=list[i].id%>')"><%=list[i].name%></span></div>
+            <%}%>
+        <%}%>
+    </script>
+    <!--获取分类店铺-->
+    <script type="text/html" id="aboutTmp">
+        <%if(list){%>
+            <%for(var i = 0; i < list.length; i++){%>
+                <div class="des-item" onclick="openStoreIndex('<%=list[i].id%>');">
+                    <img src="<%=list[i].icon%>" alt="">
+                    <i><%=list[i].name%></i>
+                    <p>简介：<%=list[i].content%></p>
+                </div>
+            <%}%>
+        <%}%>
+    </script>
+	<script>
+		apiready = function () {
+
+            //默认品牌显示
+            navSwitch('',1);
+            //获取推荐设计师
+            getRecommend();
+            //获取所有分类
+            getStyle();
+            setTimeout(function () {
+                pageScroll()
+            },1000)
+		};
+        //页面滚动
+        function pageScroll() {
+            if(quakooUtils.getScrollTop()>180){
+                document.getElementById('desDom').style.height = '0';
+                document.getElementById('pinpai-nav').style.top = '0';
+                document.getElementById('des-about').style.paddingTop = '45px'
+            }else{
+                if(quakooUtils.getScrollTop()<30){
+                    document.getElementById('desDom').style.height = '173px';
+                    document.getElementById('pinpai-nav').style.top = '173px';
+                    document.getElementById('des-about').style.paddingTop = 173 + 45 + 'px'
+                }
+
+            }
+            setTimeout(function () {
+                pageScroll()
+            })
+        }
+        //获取推荐设计师
+        function getRecommend(){
+            quakooMsg.showProgress();
+            quakooData.ajaxGetData(config.getUrl_web_mall_getRecommendBrand(),{type:2},function(ret,err){
+                quakooMsg.hideProgress();
+                if(ret.success == true){
+                    var html = template('desTmp',{list: ret.data});
+                    document.getElementById('desDom').innerHTML = html;
+                }
+            })
+        };
+        //导航切换
+        //风格导航切换 并切换数据
+        function navSwitch(self,id){
+            quakooMsg.showProgress();
+            var header = $api.dom('#pinpai-nav .active');
+            $api.removeCls(header, 'active');
+            $api.addCls(self.parentNode, 'active');
+            //根据类型获取店铺
+            quakooData.ajaxGetData(config.getUrl_web_mall_getStyleAll(),{styleId:id,type:2},function(ret,err){
+                quakooMsg.hideProgress();
+                if(ret.success == true){
+                    var html = template('aboutTmp',{list: ret.data});
+                    document.getElementById('des-about').innerHTML = html;
+                }
+            })
+        };
+
+        //获取所有分类
+        function getStyle(){
+            quakooData.ajaxGetData(config.getUrl_web_mall_getStyles(),{},function(ret,err){
+                if(ret.success == true){
+                    var html = template('styleTmp',{list: ret.data});
+                    document.getElementById('pinpai-nav').innerHTML = html;
+
+                    var dom = document.querySelector('#pinpai-nav div');
+                    $api.addCls(dom, 'active');
+                    api.parseTapmode();
+                }
+            })
+        };
+
+        //打开店铺详情
+        function openStoreIndex(id){
+            quakooApp.openNewWindow('store','../store/store.html',{id:id});
+        }
+
+        // 全部设计师
+        function openAllDes(){
+            if(!quakooUser.isLoginUser()){
+                quakooApp.openNewWindow('login','../login/login.html',{});
+                return ;
+            }
+            api.accessNative({
+                name: "UserList",
+                extra: {
+                    url:config.getUrl_web_mall_getAllStore(),
+                    type:2,
+                    textTitle:"设计师",
+                    isShowRight:0
+                }
+            }, function (ret, err) {
+
+            });
+
+        }
+	</script>
+</html>

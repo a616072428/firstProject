@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>直播</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        body{
+            width: 100%;height: 100%;
+            background: #fff;
+        }
+        #liveDom{
+            padding-top: 20px;
+        }
+        .live-list{
+            width: 100%;height: 377px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .img{
+            width: 100%;height: 377px;
+            overflow: hidden;
+        }
+        .img img{
+            display: block;
+        }
+        .live-top{
+            position: absolute;
+            top: 11px;left: 0;
+            width: 100%;box-sizing: border-box;
+            padding: 0 19px;
+            overflow: hidden;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            line-height: 44px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+        }
+        .live-top p{
+            float: left;
+        }
+        .icon-img{
+            width: 44px;height: 44px;overflow: hidden;float: left;
+            border-radius: 50%;margin-right: 8px;
+        }
+        .icon-img img{
+            display: block;
+        }
+        .live-bottom{
+            position: absolute;bottom: 14px;left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+            padding: 0 19px;
+        }
+
+        .live-time,.live-bottom em{
+            float: left;
+            overflow: hidden;
+            height: 21px;
+            line-height: 22px;
+            background: rgba(0,0,0,0.20);
+            padding: 0 7px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+        }
+        .live-bottom em{
+            float: right;
+            background: #222222;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <ul id="liveDom">
+        <!--<li class="live-list">
+            <div class="live-top">
+                <div class="icon-img">
+                    <img src="../../image/myIcon.png" alt="" style="width:100%;height: 100%">
+                </div>
+                <p>Dior官方旗舰店</p>
+            </div>
+            <div class="img">
+                <img src="../../image/03.png" alt="" style="width:100%;height: 100%">
+            </div>
+            <div class="live-bottom">
+                <div class="live-time">7月30号  8:30-12:30</div>
+                <em>预约提醒</em>
+            </div>
+        </li>-->
+    </ul>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="liveTmp">
+    <%for(var i=0;i< list.length;i++){%>
+    <li class="live-list" onclick="openRoom('<%=list[i].id%>','<%=list[i].lookNum%>','<%=list[i].name%>','<%=list[i].ownIcon%>','<%=list[i].playUrl%>')">
+        <div class="live-top">
+            <div class="icon-img">
+                <img src="<%=list[i].icon%>" alt="" style="<%=list[i].ownStyle%>">
+            </div>
+            <p><%=list[i].name%></p>
+        </div>
+        <div class="img">
+            <img src="<%=list[i].cover%>" alt="" style="<%=list[i].style%>" onerror="this.src='../../image/main.png';this.style='width:100%;height:100%;'">
+        </div>
+        <div class="live-bottom">
+            <div class="live-time"><%=list[i].startTime%>-<%=list[i].endTime%></div>
+            <!--<em>预约提醒</em>-->
+        </div>
+    </li>
+    <%}%>
+</script>
+<script>
+    apiready = function () {
+        new QuakooPage(addHtml,config.getUrl_web_live_getLiveNotice(),{})
+    }
+    function addHtml(results,append) {
+        if(results){
+            for(var i=0;i<results.length;i++){
+                if(results[i].cover && results[i].cover.indexOf('*')>=0 && results[i].cover.indexOf('http')>=0){
+                    var obj = quakooImg.processImg(results[i].cover,api.winWidth,377);
+                    results[i].style = obj.style;
+                    results[i].cover = obj.url;
+                }
+                if(results[i].icon){
+                    var obj1 = quakooImg.processImg(results[i].icon,44,44);
+                    results[i].ownStyle = obj1.style;
+                    results[i].icon = obj1.url;
+                }
+                results[i].startTime = quakooUtils.formatTimeToDayDate(results[i].startTime);
+                results[i].endTime = quakooUtils.formatTimeToDayDate(results[i].endTime);
+            }
+            var data = {list: results};
+            var html = template('liveTmp',data);
+            if (append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('liveDom').appendChild(div);
+            } else {
+                document.getElementById('liveDom').innerHTML = html;
+            }
+            /*setTimeout(function(){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            },100)*/
+        }
+    }
+    //直播预报
+    function openRoom(id,lookNum,name,icon,playUrl) {
+        return ;
+        /***
+         * id           直播间id
+         * lookNum      观看人数
+         * name         直播间名字
+         * icon         头像
+         * liveRoomUrl  直播地址
+         * liveType     视频类型    0  直播，1 回放
+         * liveRoomGoodsUrl     获取直播推荐商品
+         * liveRoomGoodsParam   获取直播推荐商品 的参数,没有token   格式：{key:value}
+         * selectSKUUrl         获取规格接口
+         * addGoodsUrl          添加商品到购物车接口
+         * chatServerUrl        聊天地址
+         * chatPort             聊天端口
+         */
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        quakooData.ajaxSubmitData(config.getUrl_web_live_liveRoomLoad(),{id:id},function (ret) {
+            if(ret){
+                if(ret.success){
+                    if(ret.data){
+                        //聊天地址以及端口
+                        var arr = ret.data.serverAddress.split(':');
+                        var chatServerUrl = arr[0];
+                        var chatPort = arr[1];
+
+                        quakooApp.openNativePage('liveRoom',{
+                            id:id,
+                            lookNum: lookNum,
+                            name:name,
+                            icon:icon,
+                            liveType:0,
+                            liveRoomUrl:playUrl,
+                            liveRoomGoodsUrl:config.getUrl_web_live_getLiveRecommend(),
+                            liveRoomGoodsParam:{liveId:id},
+                            selectSKUUrl:config.getUrl_web_mall_selectSKU(),
+                            addGoodsUrl:config.getUrl_web_mall_addToCar(),
+                            chatServerUrl:chatServerUrl,
+                            chatPort:chatPort
+                        },1)
+
+                    }
+                }
+            }
+        })
+    }
+</script>
+
+</html>

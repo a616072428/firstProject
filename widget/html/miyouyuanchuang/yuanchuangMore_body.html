@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>原创-更多</title>
+    <link rel="stylesheet" href="../../css/api.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css"/>
+    <style type="text/css">
+        body {
+            min-width: 320px;
+            background: #fff;
+        }
+        .haitao-content{
+            width: 100%;
+            padding-top: 11px;
+            overflow: hidden;
+        }
+        .haitao-content div{
+            width: 49.8%;
+            height: 116px;
+            overflow: hidden;
+            border:1px solid #fff;
+        }
+        .haitao-content div:nth-child(2n+1){
+            border-left: none;
+            border-right: none;
+            float: left;
+        }
+        .haitao-content div:nth-child(2n){
+            border-right: none;
+            float: right;
+        }
+        .haitao-content div img{
+            display: block;
+        }
+    </style>
+</head>
+<body id="body">
+<div class="haitao-content" id="moreDom">
+
+
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="moreTmp">
+    <%for(var i=0;i< list.length;i++){%>
+        <div onclick="openStoreIndex('<%=list[i].id%>','<%=list[i].name%>')">
+            <img data-echo="<%=list[i].icon%>" alt="" real-style="<%=list[i].style%>">
+        </div>
+    <%}%>
+</script>
+
+<script>
+    apiready = function () {
+        new QuakooPage(addHtml,config.getUrl_web_mall_getBrand(),{type:1})
+    };
+    function addHtml(result,append) {
+        if(result.length){
+            for(var i=0;i<result.length;i++){
+                if(result[i].icon){
+                    var obj = quakooImg.processImg(result[i].icon,187,118)
+                    result[i].style = obj.style;
+                    result[i].icon = obj.url;
+                }
+            }
+            var html = template('moreTmp',{list:result});
+            if (append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('moreDom').appendChild(div);
+            } else {
+                document.getElementById('moreDom').innerHTML = html;
+            }
+            setTimeout(function(){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            },100)
+        }
+    }
+    //打开原创商品列表
+    function openStoreIndex(id,name){
+        quakooApp.openNewWindow('pinpaiGoodsList','../goods/pinpaiGoodsList.html',{id:id,name:name});
+    }
+
+</script>
+</html>

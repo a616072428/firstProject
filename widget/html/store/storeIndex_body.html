@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>店铺详情</title>
+    <link rel="stylesheet" href="../../css/api.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css"/>
+    <style type="text/css">
+        body {
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        .list-content{
+            height: 92px;
+            padding: 17px 19px 0 19px;
+            background: #fff;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+        .imgwrap{
+            width: 52px;
+            height: 52px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-right: 16px;
+            float: left;
+        }
+
+        .nameWrap{
+            width: 50%;
+            height: 100%;
+            display: inline-block;
+            float: left;
+        }
+        .nameWrap > span{
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-bottom: 2px;
+            margin-top: 3px;
+        }
+        .nameWrap > p{
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #BCBCBC;
+            letter-spacing: 0;
+            padding-left: 0;
+
+        }
+
+        .concern{
+            width: 89px;
+            height: 37px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            float: right;
+            margin-top: 7px;
+        }
+        .concern.active{
+            color: #ffffff;
+            border: 1px solid #D0021B;
+            background: #D0021B;
+        }
+
+        .sjs-brief{
+            height: 250px;
+            background: #fff;
+            padding:12px 19px 9px 19px;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+        .sjs-brief > h1,
+        .basicMsg > h1{
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #333333;
+            letter-spacing: 0;
+            margin-bottom: 12px;
+        }
+        .sjs-brief > p{
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #999999;
+            letter-spacing: 0;
+            line-height: 19px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 10;
+            overflow: hidden;
+        }
+
+        .basicMsg{
+            height: 178px;
+            background: #fff;
+            padding:12px 19px 9px 19px;
+            box-sizing: border-box;
+        }
+        .basicMsg > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+        .basicMsg > p:last-child{
+            margin-bottom: 0;
+        }
+        .basicMsg > p > em{
+            color: #333333;
+            float: right;
+        }
+    </style>
+</head>
+<body id="body" style="display: none;">
+    <div id="index">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="indexTmp">
+    <%if(list){%>
+        <!-- 头部 -->
+        <div class="list-content">
+            <div class="imgwrap">
+                <img src="<%=list.icon%>"  style="<%=list.style%>">
+            </div>
+            <div class="nameWrap">
+                <span><%=list.name%></span>
+                <p><%=list.collectNum%>人关注</p>
+            </div>
+            <%if(list.focus){%>
+            <div id="concern" class="concern active" onclick="attention('<%=list.id%>',1,'<%=list.type%>')">已关注</div>
+            <%}else{%>
+            <div id="concern" class="concern" onclick="attention('<%=list.id%>',0,'<%=list.type%>')">关注</div>
+
+            <%}%>
+        </div>
+        <!--简介-->
+        <div class="sjs-brief">
+            <h1>店铺简介</h1>
+            <p><%=list.content%></p>
+        </div>
+        <!--基本信息-->
+        <div class="basicMsg">
+            <h1>基本信息</h1>
+            <p>掌柜名<em><%=list.name%></em></p>
+            <p>服务电话<em><%=list.phone%></em></p>
+            <p>所在地<em><%=list.city%></em></p>
+            <p>开店时间<em><%=list.Ctime%></em></p>
+        </div>
+    <%}%>
+</script>
+<script>
+    apiready = function () {
+        //获取店铺详情
+        getStoreIndex()
+    };
+    //获取店铺详情
+    function getStoreIndex(){
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_getBrandIndex(),{id:api.pageParam.id},function(ret,err){
+            if(ret.success == true){
+                //处理头像
+                if(ret.data.icon){
+                    var listicon = ret.data.icon;
+                    var size = 52;
+                    var obj = quakooImg.processImg(listicon,size,size);
+                    ret.data.style = obj.style;
+                    ret.data.icon = obj.url;
+                }
+                ret.data.Ctime = quakooUtils.formatTimeToDay(ret.data.ctime);
+                var html = template('indexTmp',{list: ret.data});
+                document.getElementById('index').innerHTML = html;
+                document.getElementById("body").style.display = "block";
+            }else{
+                document.getElementById("body").style.display = "none";
+            }
+        })
+    }
+
+    //关注店铺
+    function attention(id,type,busType){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        if(busType==2){
+            busType = 6;
+        }else{
+            busType =4;
+        }
+        if(type ==1){
+            quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansDelete(),{type:busType,thirdId:id},function(ret,err){
+                if(ret.success){
+                    quakooMsg.toast('取消关注成功')
+                    getStoreIndex()
+                    api.execScript({
+                        name:'main',
+                        frameName:'my',
+                        script:'apiready()'
+                    });
+                    api.execScript({
+                        name:'store',
+                        frameName:'store_head',
+                        script:'getStoreName()'
+                    });
+                }
+            })
+        }else{
+            quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansAdd(),{type:busType,thirdId:id},function(ret,err){
+                if(ret.success){
+                    getStoreIndex()
+                    quakooMsg.toast('关注成功')
+                    api.execScript({
+                        name:'main',
+                        frameName:'my',
+                        script:'apiready()'
+                    });
+                    api.execScript({
+                        name:'store',
+                        frameName:'store_head',
+                        script:'getStoreName()'
+                    });
+                }
+            })
+        }
+    }
+</script>
+</html>

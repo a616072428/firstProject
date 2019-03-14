@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>账单</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        /*导航*/
+        #nav{
+            width: 100%;
+            padding-top:10px;
+            padding-left: 19px;
+            display:box;
+            display: -webkit-box;
+            -webkit-box-orient: horizontal;/* 横排显示*/
+            box-sizing: border-box;
+        }
+        #nav > div{
+            -webkit-box-flex: 1;
+            -webkit-box-align: center;
+            height: 37px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            border: 1px solid #f2f2f2;
+            box-sizing: border-box;
+            margin-right:11px;
+        }
+        #nav > div.active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #ccc;
+            letter-spacing: 0;
+            text-align: center;
+            background: #f5f5f5;
+        }
+
+
+
+        .content-list{
+            padding:0 19px;
+            margin-top: 22px;
+            box-sizing: border-box;
+        }
+        .content-list > ul  li {
+            height: 52px;
+            line-height: 52px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .content-list > ul  li > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: -0.34px;
+            display: block;
+        }
+        .content-list > ul  li > :nth-child(1){
+            float: left;
+        }
+        .content-list > ul  li > :nth-child(1) > span{
+            height: 20px;
+            line-height: 20px;
+            display: block;
+            margin-top: 13px;
+        }
+        .content-list > ul  li > :nth-child(1) > i{
+            height: 14px;
+            line-height: 14px;
+            font-family: PingFangSC-Regular;
+            font-size: 10px;
+            color: #AEAEAE;
+            letter-spacing: 0;
+            display: block;
+        }
+        .content-list > ul  li > :nth-child(2){
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <!-- nav -->
+    <div id="nav">
+        <div  class="quanbu" onclick="navSwitch('quanbu')">全部</div>
+        <div  class="shouru" onclick="navSwitch('shouru')">收入</div>
+        <div class="zhichu" onclick="navSwitch('zhichu')">支出</div>
+        <div class="yongjin" onclick="navSwitch('yongjin')">佣金</div>
+    </div>
+
+    <div class="content-list">
+        <ul id="contentDom">
+        </ul>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+
+<script type="text/html" id="contentTmp">
+    <%if(list){%>
+        <%for(var i = 0; i < list.length; i++){%>
+            <%if(list[i].type == 1 ||list[i].type == 3){%>
+            <li>
+                <p>
+                    <span><%=list[i].detail%></span>
+                    <i><%=list[i].ctime%></i>
+                </p>
+                <p>+<%=list[i].money%></p>
+            </li>
+        <%}else{%>
+            <li>
+                <p>
+                    <span><%=list[i].detail%></span>
+                    <i><%=list[i].ctime%></i>
+                </p>
+                <p style="color:#D0021B">-<%=list[i].money%></p>
+            </li>
+        <%}}%>
+    <%}%>
+</script>
+<script>
+    apiready = function () {
+        navSwitch('quanbu')
+    }
+
+    //导航切换
+    function navSwitch(type){
+        var nav = $api.dom('#nav .active');//对应头部的样式
+        $api.removeCls(nav, 'active');
+        var thisNav = $api.dom('#nav .' + type);
+        $api.addCls(thisNav, 'active');
+        if(type == 'quanbu'){
+            new QuakooPage(addDataToHtml,config.getUrl_web_pay_getAllList(),{})
+        }
+        if(type == 'shouru'){
+            new QuakooPage(addDataToHtml,config.getUrl_web_pay_getIncomeList(),{})
+        }
+        if(type == 'zhichu'){
+            new QuakooPage(addDataToHtml,config.getUrl_web_pay_getPayList(),{})
+        }
+        if(type == 'yongjin'){
+           new QuakooPage(addDataToHtml,config.getUrl_web_pay_getCommission(),{});
+        }
+    }
+    //获取列表
+    function addDataToHtml(results,append) {
+        if(results){
+            for(var i =0;i<results.length;i++){
+                results[i].money = quakooUtils.formatMoney(results[i].money /100,2)
+                results[i].ctime = quakooUtils.formatTimeToDate(results[i].ctime)
+            }
+            var data = {list:results};
+            var html = template('contentTmp',data);
+            if (append) {
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('contentDom').appendChild(div);
+            } else {
+                document.getElementById('contentDom').innerHTML = html;
+            }
+        }
+    }
+</script>
+</html>

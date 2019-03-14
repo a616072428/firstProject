@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>评价</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        li{
+            width: 100%;
+            padding: 0 19px 17px;box-sizing: border-box;
+            border-bottom: 10px solid #F9F9F9;
+        }
+        .info{
+            width: 100%;box-sizing: border-box;
+            padding: 8px 7px;
+            border-bottom: 1px solid #f9f9f9;
+        }
+        .img{
+            width: 52px;height: 52px;overflow: hidden;
+            float: left;margin-right: 16px;
+        }
+        .info p{
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;line-height: 24px;
+            margin-bottom: 2px;
+            margin-top: 2px;
+        }
+        .info span{
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #BCBCBC;
+            letter-spacing: 0;
+            text-align: center;line-height: 18px;
+        }
+        .content textarea{
+            width: 100%;
+            padding: 10px 0;
+            min-height: 110px;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 0;line-height: 22px;
+            outline: none;
+            resize: none;
+        }
+        .imgs{
+            overflow: hidden;
+        }
+        .imgBox{
+            width: 32%;
+            height: 109px;
+            overflow: hidden;
+            float: left;
+            margin-bottom: 10px;
+        }
+        .imgBox:nth-of-type(3n+2){
+            margin: 0 2% 10px;
+        }
+        .imgBox img{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <ul id="listDom">
+
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="listTmp">
+    <%for(var i=0;i< list.length;i++){%>
+    <li>
+        <div class="info">
+            <div class="img">
+                <img src="<%=list[i].cover%>" alt="" style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].color%>  <%=list[i].size%></span>
+        </div>
+        <div class="content">
+            <textarea name="" id="content<%=list[i].id%>"  placeholder="这一刻的想法"></textarea>
+        </div>
+        <div class="imgs">
+            <div class="imgBox" onclick="updataIcon('<%=list[i].id%>',this)" >
+                <img src="../../icon/addFiles.jpg" alt="" style="width: 100%;height: 100%">
+            </div>
+        </div>
+    </li>
+    <%}%>
+</script>
+<script>
+    var list;
+    apiready = function () {
+        list = api.pageParam.list;
+        for(var i = 0;i < list.length;i++){
+            var obj = quakooImg.processImg(list[i].cover,52,52);
+            list[i].style = obj.style;
+            list[i].cover = obj.url;
+        }
+        var html = template('listTmp',{list:list});
+        document.getElementById('listDom').innerHTML = html;
+    };
+    var  publishFlag = true;
+    function publish() {
+        if(publishFlag){
+            publishFlag = false;
+            if(validate()){
+                var commentsJson =[];
+                var subOrderId;
+                subOrderId = list[0].subOrderId;
+                for(var i=0;i< list.length;i++){
+                    var obj = {};
+                    obj.type = 1;
+                    obj.typeId = list[i].id;
+                    obj.content = list[i].content;
+                    obj.ext = list[i].skuid;
+                    if(list[i].images){
+                        obj.images = list[i].images;
+                    }
+                    commentsJson.push(obj)
+                }
+                quakooMsg.showProgress()
+                quakooData.ajaxSubmitData(config.getUrl_web_system_commentAdd(),{commentsJson:commentsJson,subOrderId:subOrderId},function (ret,err) {
+                    publishFlag = true;
+                    quakooMsg.hideProgress()
+                    if(ret){
+                        if(ret.success){
+                            quakooMsg.toast('评价成功');
+                            api.execScript({
+                                name:"myIndent",
+                                frameName:"myIndent_pingjia",
+                                script:'apiready()'
+                            })
+                            api.execScript({
+                                name:"main",
+                                frameName:"my",
+                                script:"getMyOrderMessage()"
+                            })
+                            setTimeout(function () {
+                                quakooApp.closeWin()
+                            },1000)
+                        }
+                    }else{
+                        quakooMsg.toast(err.msg);
+                        return false;
+                    }
+                })
+            }else{
+                publishFlag = true;
+            }
+        }
+
+    }
+
+    function validate() {
+        var flag = true;
+        for(var i=0;i< list.length;i++){
+            var content = document.getElementById('content'+list[i].id).value;
+            if(quakooUtils.isBlack(content)){
+                quakooMsg.toast(list[i].title+'商品评论内容不能为空');
+                flag = false;
+            }else{
+                list[i].content = content;
+                continue ;
+            }
+        }
+        return flag;
+    }
+    function updataIcon(id,self) {
+        quakooImg.openAlbumAndUpload(1,function (ret,err) {
+            var url = ret.value.url;
+            var html = document.createElement('div');
+            html.classList.add('imgBox');
+            var obj = quakooImg.processImg(url,109,109);
+            html.innerHTML = '<img src="'+url+'" alt="" onerror="this.src=this.src" style="'+obj.style+'">';
+            document.querySelector('.imgs').insertBefore(html,self)
+            for(var i=0;i< list.length;i++){
+                if(list[i].id==id){
+                    if(list[i].images){
+                        list[i].images.push(url);
+                    }else{
+                        list[i].images = [url];
+                    }
+                }
+            }
+        })
+       /* api.accessNative({
+            name: "PictureUpload",
+            extra: {}
+        }, function (ret, err) {
+
+        });
+        api.addEventListener({
+            name: 'PictureUpload'
+        }, function(ret, err) {
+
+        })*/
+    }
+
+</script>
+</html>

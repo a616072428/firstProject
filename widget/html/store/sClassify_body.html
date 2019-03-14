@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>分类</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+
+        .listStyle{
+            height:45px;
+            line-height: 45px;
+            border-bottom: 1px solid #f5f5f5;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #B3B3B3;
+            letter-spacing: 0;
+            background: #fff;
+
+        }
+        .listStyle > :nth-child(1){
+            color: #222222;
+            float: left;
+        }
+        .listStyle > :nth-child(2){
+            color: #999999;
+            float: right;
+        }
+        .listStyle > :nth-child(2) > i{
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            background: url("../../icon/right_b.png") no-repeat;
+            background-size: 60%;
+            background-position: right center;
+            vertical-align: sub;
+        }
+
+
+        .listOne{
+            margin-bottom: 12px;
+            padding:0 19px;
+            box-sizing: border-box;
+            border-bottom: none;
+        }
+        .listWrap{
+            background: #fff;
+            padding:0 19px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="body">
+
+    <div class="listStyle listOne" onclick="toSearchResult(0,'全部商品')">
+        <p>全部商品</p>
+        <p><i></i></p>
+    </div>
+
+    <div class="listWrap" id="leftCl">
+
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="classTmp">
+    <%for(var i = 0; i < list.length;i++){%>
+        <div class="listStyle" onclick="toSearchResult('<%=list[i].id%>','<%=list[i].name%>')">
+            <p><%=list[i].name%></p>
+            <p><i></i></p>
+        </div>
+    <%}%>
+</script>
+
+<script>
+    apiready = function () {
+        getAll()
+    }
+    //获取所有分类
+    function getAll() {
+        quakooMsg.showProgress();
+        quakooData.ajaxGetData(config.getUrl_web_mall_getGoodsClass(),{id:0},function(ret,err){
+            quakooMsg.hideProgress();
+            if(ret){
+                if(ret.success == true){
+                    var html = template("classTmp",{list:ret.data});
+                    document.getElementById("leftCl").innerHTML = html;
+                }
+            }else{
+                quakooMsg.toast(err.msg)
+            }
+        });
+    }
+    function toSearchResult(id,name) {
+        quakooApp.openNewWindow('storeGoodsList','./storeGoodsList.html',{id:id,name:name,sid:api.pageParam.sid})
+    }
+</script>
+</html>

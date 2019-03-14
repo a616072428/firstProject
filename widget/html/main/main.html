@@ -1,0 +1,657 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <!--<link rel="stylesheet" type="text/css" href="../../css/common.css" />-->
+    <link rel="stylesheet" type="text/css" href="../../css/commonWindow.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        /**========底部菜单（开始）=====**/
+
+        #nav {
+            background: #FFFFFF;
+            width: 100%;
+            height: 49px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            font-size: 9px;
+            border-top: 1px solid #C4C4C4;
+        }
+
+        #nav ul {
+            height: 100%;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+        }
+
+        #nav ul li {
+            padding-top: 9px;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            box-sizing: border-box;
+        }
+
+        #nav li a {
+            color: #B9B9B9;
+            height: 100%;
+            box-sizing: border-box;
+            display: block;
+            padding-top: 24px;
+            line-height: 17px;
+        }
+
+        #nav li a:nth-child(1) {
+            -webkit-background-size: 22.1px 23px !important;
+            background-size: 22.1px 23px !important;
+        }
+
+        #nav li a:nth-child(2) {
+            -webkit-background-size: 24.8px 24.8px !important;
+            background-size: 24.8px 24.8px !important;
+        }
+
+        #nav li a:nth-child(3) {
+            -webkit-background-size: 23px 23px !important;
+            background-size: 23px 23px !important;
+        }
+
+        #nav li a:nth-child(4) {
+            -webkit-background-size: 23px 23px !important;
+            background-size: 23px 23px !important;
+        }
+
+        #nav li a:nth-child(5) {
+            -webkit-background-size: 23px 23px !important;
+            background-size: 23px 23px !important;
+        }
+
+        #nav .home {
+            background: url(../../icon/home.png) no-repeat center 0px;
+        }
+
+        #nav .home.active,
+        #nav li.active .home {
+            background: url(../../icon/home_1.png) no-repeat center 0px;
+        }
+
+        #nav .classify {
+            background: url(../../icon/classification.png) no-repeat center 0px;
+        }
+
+        #nav .classify.active,
+        #nav li.active .classify {
+            background: url(../../icon/classification_1.png) no-repeat center 0px;
+        }
+
+        #nav .style {
+            position: relative;
+            background: url(../../icon/fashion.png) no-repeat center 0px;
+        }
+
+        #nav .style.active,
+        #nav li.active .style {
+            background: url(../../icon/fashion_1.png) no-repeat center 0px;
+        }
+
+        #nav .shoppings {
+            background: url(../../icon/shopping.png) no-repeat center 0px;
+        }
+
+        #nav .shoppings.active,
+        #nav li.active .shoppings {
+            background: url(../../icon/shopping_1.png) no-repeat center 0px;
+        }
+
+        #nav .my {
+            background: url(../../icon/my.png) no-repeat center 0px;
+        }
+
+        #nav .my.active,
+        #nav li.active .my {
+            background: url(../../icon/my_1.png) no-repeat center 0px;
+        }
+
+        #header {
+            width: 100%;
+            height: 0px;
+            background: rgba(0,0,0,0.99);
+        }
+        #header .header {
+            position: relative;
+            width: 100%;
+            height: 0px;
+            display: none;
+            text-align: center;
+            font-size: 18px;
+        }
+        #header .active {
+            display: block;
+        }
+        #header .home {
+            width: 100%;
+            height: 88px;
+            background: rgba(0,0,0,0.99);
+        }
+    </style>
+</head>
+
+<body>
+<div id="wrap">
+    <div id="header">
+        <div id="home" class="home header">
+            <span class="name"></span>
+        </div>
+
+        <div class="classify header">
+            <span class="name"></span>
+
+        </div>
+
+        <div class="style header">
+            <span class="name"></span>
+        </div>
+
+        <div class="shoppings header">
+            <span class="name"></span>
+        </div>
+
+        <div class="my header">
+            <span class="name"></span>
+        </div>
+    </div>
+    <div id="main" style="overflow: auto;">
+    </div>
+    <div id="nav">
+        <ul>
+            <li>
+                <a class="home" tapmode="itemOn"  onclick="onOpenTab('home')">首页</a>
+            </li>
+            <li>
+                <a class="classify" tapmode="itemOn"  onclick="onOpenTab('classify')">分类</a>
+            </li>
+            <li>
+                <a class="style" tapmode="itemOn" onclick="onOpenTab('style')">时尚圈</a>
+            </li>
+            <li>
+                <a class="shoppings" tapmode="itemOn" onclick="onOpenTab('shoppings')">购物袋</a>
+            </li>
+            <li>
+                <a class="my" tapmode="itemOn" onclick="onOpenTab('my')">我的</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+
+<script type="text/javascript">
+
+    var tabs;
+    apiready = function() {
+        //设置状态栏颜色
+        api.addEventListener({
+            name:'viewappear'
+        }, function(ret, err){
+            api.setStatusBarStyle({
+                style: 'light',
+                color:'rgba(0,0,0)'
+            });
+        });
+        api.setStatusBarStyle({
+            style: 'light',
+            color:'rgba(0,0,0)'
+        });
+        var header = document.querySelector('#header');
+        $api.fixStatusBar(header);
+        // 解决iphone X底部高度兼容
+        $api.fixTabBar($api.byId('nav'));
+        var strSV = parseFloat(api.systemVersion,10);
+        if(api.systemType=='ios' && strSV >= 12){
+            if(api.safeArea.top>20){
+                document.getElementById('nav').style.paddingBottom = api.safeArea.bottom + 'px';
+            }
+        }
+        //初始化用户，初始化
+        initUser();
+
+
+        //添加安卓退出按钮事件
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            closeOnKeyBack();
+        });
+        var backButtonPress = 0;
+        function closeOnKeyBack() {
+            backButtonPress++;
+            if (backButtonPress > 1) {
+                //仅本项目需要移除indexHead,statusBar
+                quakooDb.removeItem('indexHead');
+                quakooDb.removeItem('statusBar');
+                quakooApp.closeApp();
+            } else {
+                quakooMsg.toast('再按一次退出应用');
+            }
+            setTimeout(function () {
+                backButtonPress = 0;
+            }, 1000);
+        }
+    };
+    function initTabs() {
+        setTimeout(function () {
+            //配置tab选项卡 各个页面
+            tabs = {
+                //首页
+                home: {
+                    isGroup: false,
+                    frame: {
+                        name: 'home',
+                        url: './index_body.html',
+                        pageParam: {topHeight:api.safeArea.top},
+                        rect: {
+                            x: 0,
+                            marginTop: $api.dom('#header').offsetHeight + 50,
+                            w: api.frameWidth,
+                            marginBottom: $api.dom('#nav').offsetHeight
+                        },
+                        bounces: true,
+                        opaque: false,
+                        bgColor:'rgba(0,0,0,0)',
+                        allowEdit: true,
+                        useWKWebView: true, //设置在 ios 平台使用 wkWebview 显示页面,$api.getStorage会失效。需要使用api.setPerfs
+                        vScrollBarEnabled: false,
+                        showProgress: false,
+                        hScrollBarEnabled: false,
+                        reload: false
+                    },
+                },
+                // 分类
+                classify: {
+                    isGroup: false,
+                    frame: {
+                        name: 'classify',
+                        url: '../classify/classify_body.html',
+                        pageParam: {},
+                        rect: {
+                            x: 0,
+                            marginTop: $api.dom('#header').offsetHeight,
+                            w: api.frameWidth,
+                            marginBottom: $api.dom('#nav').offsetHeight
+                        },
+                        bounces: false,
+                        opaque: false,
+                        //bgColor:'#EDEDED',
+                        bgColor: '#fff',
+                        allowEdit: true,
+                        useWKWebView: true, //设置在 ios 平台使用 wkWebview 显示页面,$api.getStorage会失效。需要使用api.setPerfs
+                        vScrollBarEnabled: false,
+                        showProgress: false,
+                        hScrollBarEnabled: false,
+                        reload: false
+                    }
+                },
+                // 时尚
+                style: {
+                    isGroup: false,
+                    frame: {
+                        name: 'style',
+                        url: '../style/style_body.html',
+                        pageParam: {titleHeight:api.safeArea.top},
+                        rect: {
+                            x: 0,
+                            marginTop: $api.dom('#header').offsetHeight,
+                            w: api.frameWidth,
+                            marginBottom: $api.dom('#nav').offsetHeight
+                        },
+                        bounces: false,
+                        opaque: false,
+                        //bgColor:'#EDEDED',
+                        bgColor: '#fff',
+                        allowEdit: true,
+                        useWKWebView: true, //设置在 ios 平台使用 wkWebview 显示页面,$api.getStorage会失效。需要使用api.setPerfs
+                        vScrollBarEnabled: false,
+                        showProgress: false,
+                        hScrollBarEnabled: false,
+                        reload: false
+                    }
+                },
+                //购物袋
+                shoppings: {
+                    isGroup: false,
+                    frame: {
+                        name: 'shoppings',
+                        url: '../shoppings/shoppingBag_body.html',
+                        pageParam: {},
+                        rect: {
+                            x: 0,
+                            marginTop: $api.dom('#header').offsetHeight,
+                            w: api.frameWidth,
+                            marginBottom:  $api.dom('#nav').offsetHeight
+                        },
+                        bounces: false,
+                        opaque: false,
+                        //bgColor:'#EDEDED',
+                        bgColor: '#fff',
+                        allowEdit: true,
+                        useWKWebView: true, //设置在 ios 平台使用 wkWebview 显示页面,$api.getStorage会失效。需要使用api.setPerfs
+                        vScrollBarEnabled: false,
+                        showProgress: false,
+                        hScrollBarEnabled: false,
+                        reload: false
+                    }
+                },
+                // 我的
+                my: {
+                    isGroup: false,
+                    frame: {
+                        name: 'my',
+                        url: '../mine/mine.html',
+                        pageParam: {},
+                        rect: {
+                            x: 0,
+                            marginTop: $api.dom('#header').offsetHeight,
+                            w: api.frameWidth,
+                            marginBottom: $api.dom('#nav').offsetHeight
+                        },
+                        bounces: false,
+                        opaque: false,
+                        bgColor: '#fff',
+                        allowEdit: true,
+                        useWKWebView: true, //设置在 ios 平台使用 wkWebview 显示页面,$api.getStorage会失效。需要使用api.setPerfs
+                        vScrollBarEnabled: false,
+                        showProgress: false,
+                        hScrollBarEnabled: false,
+                        reload: false
+                    }
+                }
+            };
+            openTab('home')
+        })
+
+
+    }
+    function initUser() {
+        if(quakooUser.getUserInfo()==null){
+            //无网络连接时，无法登陆游客账号，必须连接网络
+            if(api.connectionType=='none'){
+                quakooMsg.showFixDialog('','网络请求失败，请检查您的网络',function () {
+                    initUser()
+                })
+            }else{
+                quakooUser.registerCustomer(function () {
+                    quakooUser.registerNative();
+                    initTabs();
+                    quakooApp.startHotUpdate(function (ret) {
+                        if(ret.value.status){
+                            toast('更新成功，重启后生效');
+                        }else{
+                            toast('更新失败，请重试');
+                        }
+                    });
+                });
+            }
+
+        }else{
+            quakooUser.registerNative();
+            initTabs();
+            quakooApp.startHotUpdate(function (ret) {
+                if(ret.value.status){
+                    toast('更新成功，重启后生效');
+                }else{
+                    toast('更新失败，请重试');
+                }
+            });
+        }
+    }
+
+    //购物车打开尺码选择,  点击事件取消了，该方法未使用
+    function openThisFrame(gid,id,color,size,colorName){
+        var strDM = api.systemType;//系统
+        var strSV = parseFloat(api.systemVersion,10);//版本
+        var titleHeight = 0;
+        if(strDM == 'ios' && strSV > 7){
+            titleHeight = api.safeArea.top;
+        }else if(strDM == 'android' && strSV >= 4.4){
+            titleHeight = api.safeArea.top;
+        }
+        var obj = {
+            animation:{
+                type:"movein",
+                subType:"from_bottom",
+                duration:300
+            },
+            rect:{
+                x:0,
+                y:0,
+                w:'auto',
+                marginBottom:0
+            },
+            bgColor : "rgba(0,0,0,0)"
+        }
+        quakooApp.openFrame("replace","../shoppings/replace.html",{top:titleHeight,gid:gid,id:id,color:color,colorName:colorName,size:size},0,0,obj);
+        // openFrame();
+    };
+
+    function logout() {
+        api.closeFrame({
+            name:"my"
+        })
+        api.closeFrame({
+            name:"shoppings"
+        })
+        frameArr.remove('my')
+        frameArr.remove('shoppings')
+        quakooUser.registerCustomer(function () {
+            quakooDb.setItem('indexHead',true);
+            quakooUser.registerNative();
+            openTab('home')
+        })
+    }
+
+    function onOpenTab(type){
+        //判断首页index_head frame是否打开
+        if(quakooDb.getItem('indexHead')){
+            openTab(type)
+        }
+
+    }
+
+    var prevPid;//上一个tab
+    var curPid;//当前tab
+    var frameArr = [];//打开的列表
+    //各个栏目
+
+
+    //点击切换tab标签
+    function openTab(type,index) {
+        if (!type) {
+            return;
+        }
+        //进入我的和购物车必须登录
+        if(type=='shoppings' || type=='my'){
+            if(!quakooUser.isLoginUser()){
+                quakooApp.openNewWindow("login","../login/login.html",{});
+                return ;
+            }
+        }
+
+        //判断购物车是否更新
+        if(type == 'shoppings'){
+            quakooDb.removeItem('reloadShopping')
+            api.execScript({
+                name: 'main',
+                frameName:'shoppings',
+                script: 'getLit()'
+            });
+        }
+        //每次进入我的页面，刷新， 收藏关注数量，余额等可能发生变化
+        if(type=='my'){
+            api.execScript({
+                name: 'main',
+                frameName:'my',
+                script: 'apiready()'
+            });
+        }
+        //判断是否是首页，是首页则显示头部frame，并刷新
+        if(type!='home'){
+            api.setFrameAttr({
+                name:"index_head",
+                hidden: true
+            })
+        }else{
+            api.setFrameAttr({
+                name:"index_head",
+                hidden: false
+            })
+            api.execScript({
+                name:"main",
+                frameName:"home",
+                script:"refreshData()"
+            })
+        }
+        if(type=='style'){
+            api.setFrameGroupAttr({
+                name: 'style_body',
+                hidden: false
+            });
+        }
+        if(type=='classify'){
+            api.execScript({
+                name:"main",
+                frameName:"classify",
+                script:"getAll()"
+            })
+        }
+
+
+
+        var frameOpened_wonderfulTimeSelect_body = quakooDb.getItem("frameOpened_wonderfulTimeSelect_body");
+        if(frameOpened_wonderfulTimeSelect_body){
+            api.setFrameAttr({
+                name:"cesda",
+                hidden:true
+            });
+        }
+        //切换样式
+        var header = $api.dom('#header .active');//对应头部的样式
+        $api.removeCls(header, 'active');
+        var thisHeader = $api.dom('#header .' + type);
+        $api.addCls(thisHeader, 'active');
+        var actTab = $api.dom('#nav .active');//对应底部的样式
+        $api.removeCls(actTab, 'active');
+        var thisTab = $api.dom('#nav .' + type);
+        thisTab = thisTab.parentNode;
+        $api.addCls(thisTab, 'active');
+
+        prevPid = curPid;
+        curPid = type;
+        if (prevPid != curPid) {
+            if (isOpened(type)) {
+
+
+                //打开已经打开过的页面
+                if (tabs[type].isGroup) {
+                    api.setFrameGroupAttr({
+                        name: type,
+                        hidden: false
+                    });
+                } else {
+                    api.setFrameAttr({
+                        name: type,
+                        hidden: false
+                    });
+                }
+            } else {
+                //打开新页面
+                if (tabs[type].isGroup) {
+                    api.openFrameGroup(tabs[type].group, function (ret, err) {
+                        tabs[type].groupCallBack(ret);
+                    });
+                } else {
+                    api.openFrame(tabs[type].frame);
+                }
+                frameArr.push(type);
+            }
+
+            if (prevPid) {
+                //关闭前一个页面
+                if (tabs[prevPid].isGroup) {
+                    api.setFrameGroupAttr({
+                        name: prevPid,
+                        hidden: true
+                    });
+                } else {
+                    api.setFrameAttr({
+                        name: prevPid,
+                        hidden: true
+                    });
+                    api.setFrameAttr({
+                        name: 'index_body',
+                        hidden: true
+                    });
+                    if(prevPid=='style'){
+                        api.setFrameGroupAttr({
+                            name: 'style_body',
+                            hidden: true
+                        });
+                    }
+
+                }
+            }
+        }
+
+    };
+
+
+    //是否打开过
+    function isOpened(frmName){
+        var i = 0, len = frameArr.length;
+        for (i; i < len; i++){
+            if (frameArr[i] == frmName){
+                return true;
+            }
+        }
+        return false;
+    }
+
+//    修改我的页面优惠券数量
+    function myCouponNum() {
+        if(isOpened('my')){
+            api.execScript({
+                name:'main',
+                frameName:'my',
+                script:'myCouponNum()'
+            });
+        }
+
+    }
+
+
+</script>
+
+</html>

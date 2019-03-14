@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>购物袋</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            background: #F9F9F9;
+        }
+        #topbar{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+        }
+        #main{
+            overflow: hidden;
+        }
+        .right{
+            margin-bottom: 10px;
+        }
+        .shopList{
+            margin-top: 59px;
+            margin-bottom: 45px;
+        }
+        .shopList li{
+            width: 92%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #ffffff;
+        }
+        .store{
+            width: 100%;
+            height: 35px;
+            border-bottom: 1px solid #D4D4D4;;
+        }
+        .allEm{
+            width: 20px;
+            height: 20px;
+            background: url("../../icon/shop_no.png") no-repeat;
+            background-size: 100%;
+            vertical-align: sub;
+        }
+        .allEm.active{
+            background: url("../../icon/shop_ok.png") no-repeat;
+            background-size: 100%;
+        }
+
+        .store em:nth-child(2){
+            width: 20px;
+            height: 20px;
+            margin-left: 7px;
+            background: url("../../icon/storeIcon.png") no-repeat;
+            background-size: 100%;
+            vertical-align: sub;
+        }
+        .store span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .commodity{
+            width: 100%;
+            height: 156px;
+            margin-top: 20px;
+            position: relative;
+        }
+        .commodity>div:nth-child(1){
+            width: 20px;
+            height: 100%;
+        }
+        .commodity>div:nth-child(2){
+            width: 29%;
+            height: 100%;
+            margin-left: 10px;
+        }
+        #clothing{
+            width: 97px;
+            height: 156px;
+            overflow: hidden;
+        }
+
+        .commodity>div:nth-child(3){
+            width: 39%;
+            height: 100%;
+            margin-left: 10px;
+            position: relative;
+         }
+        .commodity>div:nth-child(4){
+            width: 66px;
+            height: 100%;
+            position: relative;
+        }
+
+        .em{
+            width: 20px;
+            height: 20px;
+            background: url("../../icon/shop_no.png") no-repeat;
+            background-size: 100%;
+            margin-top: 68px;
+            vertical-align: sub;
+        }
+        .em.active{
+            background: url("../../icon/shop_ok.png") no-repeat;
+            background-size: 100%;
+        }
+
+        .active{
+            width: 20px;
+            height: 20px;
+            background: url("../../icon/shop_ok.png") no-repeat;
+            background-size: 100%;
+            vertical-align: sub;
+        }
+        #numCont{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+        .numControl{
+            width: 60px;
+            height: 28px;
+            position: absolute;
+            bottom: 15px;
+            right: 5px;
+            background: url("../../icon/numbg.png") no-repeat;
+            background-size: 100%;
+            line-height: 26px;
+        }
+        .numControl>em:nth-child(1){
+            width: 20px;
+            height: 28px;
+            text-align: center;
+            color: #B3B3B3;
+            font-size: 18px;
+            line-height: 24px;
+        }
+        .numControl>span:nth-child(2){
+            width: 20px;
+            height: 26px;
+            text-align: center;
+            line-height: 26px;
+            font-family: PingFangSC-Light;
+            font-size: 12px;
+            color: #717171;
+            letter-spacing: 0;
+        }
+        .numControl>em:nth-child(3){
+            width: 20px;
+            height: 28px;
+            text-align: center;
+            line-height: 24px;
+            color: #B3B3B3;
+            font-size: 18px;
+        }
+        #content>div:nth-child(1){
+            width: 100%;
+            height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .info{
+            /*width: 100%;*/
+            height: 17px;
+            line-height: 17px;
+            margin-top: 8px;
+            font-family: PingFangSC-Light;
+            font-size: 12px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: left;
+            display: inline-block;
+        }
+        .info>span:nth-child(2){
+            margin-left: 9px;
+        }
+        .info>span:nth-child(3){
+            width: 10px;
+            height: 5px;
+            margin-left: 5px;
+            background: url("../../icon/shop_bottom.png") no-repeat;
+            background-size: 100%;
+        }
+        .price{
+            position: absolute;
+            bottom: 21px;
+            font-family: STHeitiSC-Medium;
+            font-size: 16px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .bottom{
+            width: 100%;
+            height: 45px;
+            border-top: 1px solid #D3D3D3;
+            background: rgba(255,255,255,1);
+            box-shadow: inset 0 0 0 0 rgba(0,0,0,0.25);
+            position: fixed;
+            bottom: 0;
+        }
+        .bottom > .allch{
+            width: 20px;
+            height: 20px;
+            background: url("../../icon/shop_no.png") no-repeat;
+            background-size: 100%;
+            margin: 12px 8px 12px 15px;
+        }
+        .bottom > .allch.active{
+            background: url("../../icon/shop_ok.png") no-repeat;
+            background-size: 100%;
+        }
+        .bottom > :nth-child(2){
+            height: 100%;
+            line-height: 45px;
+            font-family: PingFangSC-Medium;
+            font-size: 12px;
+            color: #A5A5A5;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .bottom > :nth-child(5){
+            height: 100%;
+            line-height: 45px;
+            font-family: STHeitiSC-Medium;
+            font-size: 20px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .bottom > :nth-child(6){
+            height: 100%;
+            line-height: 45px;
+            font-family: PingFangSC-Medium;
+            font-size: 12px;
+            color: #A5A5A5;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .btn{
+            width: 118px;
+            height: 100%;
+            line-height: 45px;
+            text-align: center;
+            background: #222222;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            margin-left: 5px;
+        }
+        .fl,#fl{
+            float: left;
+        }
+        #fl{
+            float: left;
+            margin: 12px 8px 12px 15px;
+        }
+        .fr{
+            float: right;
+        }
+        .title{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+
+        #refresh{
+            position: fixed;
+            top: 0;left: 0;right: 0;bottom: 0;
+            margin: auto;
+
+            height: 100px;
+            display: none;
+            text-align: center;
+            line-height: 30px;
+            z-index: 10000;
+            font-size: 14px;
+        }
+        #refresh p{
+            line-height: 50px;
+            color: #999;
+        }
+        #refresh div{
+            color: #666;
+            width: 100px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            text-align: center;
+            line-height: 30px;
+            margin:  0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <div id="topbar">
+        <div id="left" style="display: none" tapmode="itemOn" onclick="quakooApp.closeWin();"></div>
+        <div>购物袋</div>
+        <div class="right" style="font-size: 14px;" onclick="manage();" id="rightBth">管理</div>
+    </div>
+    <ul class="shopList" id="shopDom">
+    </ul>
+    <div class="bottom" id="bottom" >
+        <em class="allch" id="fl" onclick="shop_chooseAllChildren(this)"></em>
+        <span class="fl">全选</span>
+        <div class="btn fr" id="settle" onclick="checkout()">结算</div>
+        <div class="btn fr" id="del" onclick="delGoods()" style="display: none;background: red;">删除</div>
+        <span class="fr total" id="totalPrice">0.00</span>
+        <span class="fr total">合计:￥</span>
+    </div>
+</div>
+<div id="refresh">
+    <p>网络请求失败，请检查您的网络</p>
+    <div onclick="getLit()">点击刷新</div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="listTmp">
+    <%if(list){%>
+        <%for(var i = 0; i < list.length; i++){%>
+        <li>
+            <div class="store">
+                <%if(list[i].check){%>
+                <em class="allEm active" onclick="shop_chooseAll(this,'<%=list[i].sid%>')"></em>
+                <%}else{%>
+                <em class="allEm" onclick="shop_chooseAll(this,'<%=list[i].sid%>')"></em>
+                <%}%>
+                <%if(list[i].sid==0){%>
+                    <em></em>
+                    <span><%=list[i].subName%></span>
+                <%}else{%>
+                    <em onclick="openStore('<%=list[i].sid%>')"></em>
+                    <span onclick="openStore('<%=list[i].sid%>')"><%=list[i].subName%></span>
+                <%}%>
+
+            </div>
+            <%for(var g = 0; g < list[i].goods.length; g++){%>
+                <div class="commodity">
+                    <div class="fl CheckBox" onclick="shop_choose(this,'<%=list[i].goods[g].id%>','<%=list[i].sid%>')">
+                        <%if(list[i].goods[g].check){%>
+                        <em class="em active"></em>
+                        <%}else{%>
+                        <em class="em"></em>
+                        <%}%>
+                    </div>
+                    <div id="clothing" class="fl" onclick="openIndex('<%=list[i].goods[g].goodsId%>')">
+                        <img data-echo="<%=list[i].goods[g].goodsCover%>" alt="" real-style="<%=list[i].goods[g].style%>"/>
+                    </div>
+                    <div id="content" class="fl" onclick="openIndex('<%=list[i].goods[g].goodsId%>')">
+                        <div class="title"><%=list[i].goods[g].goodsTitle%></div>
+                        <div class="info" onclick="openColorSize('<%=list[i].goods[g].goodsId%>','<%=list[i].goods[g].id%>','<%=list[i].goods[g].goodsColor.color%>','<%=list[i].goods[g].goodsColor.name%>','<%=list[i].goods[g].goodsSize%>')">
+                            <span><%=list[i].goods[g].goodsColor.name%></span>
+                            <span><%=list[i].goods[g].goodsSize%></span>
+                            <span></span>
+                        </div>
+                        <div class="price">￥<%=list[i].goods[g].Price%></div>
+                    </div>
+                    <div id="numCont" class="fr">
+                        <div class="numControl">
+                            <em class="fl" id="deleteNum" onclick="addDelGoods(0,this,'<%=list[i].goods[g].id%>')">-</em>
+                            <span id="qNum" class="fl"><%=list[i].goods[g].num%></span>
+                            <em class="fr" id="addNum" onclick="addDelGoods(1,this,'<%=list[i].goods[g].id%>')">+</em>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+        </li>
+        <%}%>
+    <%}%>
+</script>
+<script>
+    var newColor;
+    var newSize;
+
+    var allData = [];
+
+    apiready = function () {
+        document.getElementById('topbar').style.display = 'block';
+        document.getElementById('shopDom').style.marginTop =  document.getElementById('topbar').offsetHeight+'px';
+        if(api.pageParam.jumpType && api.pageParam.jumpType=='goods'){
+            document.getElementById('left').style.display = 'block';
+            document.getElementById('topbar').style.paddingTop = api.safeArea.top+'px';
+            document.getElementById('shopDom').style.marginTop =  document.getElementById('topbar').offsetHeight+'px';
+            var strSV = parseFloat(api.systemVersion,10);
+            if(api.systemType=='ios' && strSV >= 12){
+                if(api.safeArea.top>20){
+                    document.getElementById('shopDom').style.marginTop = api.safeArea.top + 59 + 'px';
+                    document.getElementById('bottom').style.paddingBottom = api.safeArea.bottom + 'px';
+                }
+            }
+        }
+
+        //获取购物车列表
+        getLit();
+    };
+
+
+    //获取购物车列表
+    function getLit(){
+        if(api.connectionType=='none'){
+            document.getElementById('refresh').style.display='block';
+            return ;
+        }
+        document.getElementById('refresh').style.display='none';
+        allData = [];
+        $('#totalPrice').html(quakooUtils.formatMoney(getTotalPrice() / 100, 2));
+        $("#fl").removeClass('active')
+        quakooMsg.showProgress()
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_getShopCarList(),{},function (ret,err) {
+            quakooMsg.hideProgress()
+            if(ret.success == true){
+                ret = ret.data;
+                for(var i = 0; i < ret.length; i++){
+                    ret[i].check = false;
+                    for(var g = 0; g < ret[i].goods.length; g++){
+                        if(ret[i].goods[g].goodsCover) {
+                            var objs = quakooImg.processImg(ret[i].goods[g].goodsCover, 97, 156);
+                            ret[i].goods[g].style = objs.style;
+                            ret[i].goods[g].goodsCover = objs.url;
+                        }
+                        //格式化每个单品的价格
+                        ret[i].goods[g].Price = quakooUtils.formatMoney(ret[i].goods[g].price/ 100 ,2);
+                        ret[i].goods[g].check = false;
+                        ret[i].goods[g].goodsColor = JSON.parse(ret[i].goods[g].goodsColor);
+                    }
+
+                    var dataObj = {};
+                    dataObj.id = ret[i].id;
+                    dataObj.check = false;
+                    dataObj.sid = ret[i].sid;
+                    dataObj.subName = ret[i].subName;
+                    dataObj.goods = ret[i].goods;
+                    allData.push(dataObj)
+                };
+                var data = {list:allData};
+                var html = template('listTmp',data);
+                document.getElementById('shopDom').innerHTML = html;
+                setTimeout(function(){
+                    if(!echo.isInit()){
+                        echoExt.init({
+                            offset: 0,
+                            throttle: 0//设置图片延迟加载的时间
+                        });
+                    }else{
+                        echo.render();
+                    }
+                },100)
+            }else{
+                document.getElementById('shopDom').innerHTML = '';
+            }
+        })
+    };
+
+
+   /* // //添加到页面
+    function addToHtml(){
+        var data = {list:allData};
+        var html = template('listTmp',data);
+        document.getElementById('shopDom').innerHTML = html;
+        setTimeout(function(){
+            if(!echo.isInit()){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            }else{
+                echo.render();
+            }
+        },100)
+    }*/
+
+    //调用尺码选择
+    var changeId;
+    function openColorSize(gid,id,color,colorName,size){
+        quakooUtils.stopEventBubble();
+        changeId = gid;
+        if(api.pageParam.jumpType=='goods'){
+            var strDM = api.systemType;//系统
+            var strSV = parseFloat(api.systemVersion,10);//版本
+            var titleHeight = 0;
+            if(strDM == 'ios' && strSV > 7){
+                titleHeight = api.safeArea.top;
+            }else if(strDM == 'android' && strSV >= 4.4){
+                titleHeight = api.safeArea.top;
+            }
+            var obj = {
+                animation:{
+                    type:"movein",
+                    subType:"from_bottom",
+                    duration:300
+                },
+                rect:{
+                    x:0,
+                    y:0,
+                    w:'auto',
+                    marginBottom:0
+                },
+                bgColor : "rgba(0,0,0,0)"
+            }
+            quakooApp.openFrame("replace","./replace.html",{top:titleHeight,gid:gid,id:id,color:color,colorName:colorName,size:size,jumpType:'goods'},0,0,obj);
+        }else{
+            api.execScript({
+                name:'main',
+                script:'openThisFrame("'+ gid +'","'+ id +'","'+color+'","'+size+'","'+colorName+'")'
+            });
+        }
+    };
+    //获取新尺码
+    function getNewMsg(colorName,sName,color,skuid){
+        for(var i = 0; i < allData.length; i++){
+            for(var g = 0; g < allData[i].goods.length; g++){
+                if( allData[i].goods[g].goodsId == changeId){
+                    allData[i].goods[g].goodsColor.name = colorName;
+                    allData[i].goods[g].goodsColor.color = color;
+                    allData[i].goods[g].goodsSize = sName;
+                    allData[i].goods[g].skuid = skuid;
+                }
+            }
+        }
+        getLit();
+    };
+
+    //选择单个商品
+    function shop_choose(self,id,sid){
+        var index;
+        if($(self).find('em').hasClass('active')){
+            $(self).find('em').removeClass('active');
+            for(var i=0;i<allData.length;i++){
+                if(allData[i].sid==sid){
+                    index = i;
+                    for(var j=0;j<allData[i].goods.length;j++){
+                        if(allData[i].goods[j].id==id){
+                            allData[i].goods[j].check = false;
+                        }
+                    }
+                }
+            }
+        }else{
+            $(self).find('em').addClass('active');
+            for(var i=0;i<allData.length;i++){
+                if(allData[i].sid==sid){
+                    index = i;
+                    for(var j=0;j<allData[i].goods.length;j++){
+                        if(allData[i].goods[j].id==id){
+                            allData[i].goods[j].check = true;
+                        }
+                    }
+                }
+            }
+        }
+        //判断店铺内所有商品是否选中
+        if(checkStatus(allData[index].goods)){
+            $(self).parents('li').find('.store .allEm').addClass('active');
+            allData[index].check = true;
+        }else{
+            $(self).parents('li').find('.store .allEm').removeClass('active');
+            allData[index].check = false;
+        }
+        // 赋值所选商品价格
+        $('#totalPrice').html(quakooUtils.formatMoney(getTotalPrice() / 100, 2));
+        //是否触发全选
+        if(checkStatus(allData)){
+            $('#fl').addClass("active")
+        }else{
+            $('#fl').removeClass("active")
+        }
+    };
+    //选择当前店铺全部商品
+    function shop_chooseAll(self,sid){
+        //类名有active,代表是选中状态，否则未选中
+        if($(self).hasClass('active')){
+            $(self).parents('li').find('.CheckBox em').removeClass('active');
+            $(self).removeClass('active');
+            for(var i=0;i<allData.length;i++){
+                if(allData[i].sid==sid){
+                    allData[i].check = false;
+                    for(var j=0;j<allData[i].goods.length;j++){
+                        allData[i].goods[j].check = false;
+                    }
+                }
+            }
+        }else{
+            $(self).parents('li').find('.CheckBox em').addClass('active');
+            $(self).addClass('active');
+            for(var i=0;i<allData.length;i++){
+                if(allData[i].sid==sid){
+                    allData[i].check = true;
+                    for(var j=0;j<allData[i].goods.length;j++){
+                        allData[i].goods[j].check = true;
+                    }
+                }
+            }
+        }
+        // 赋值所选商品价格
+        $('#totalPrice').html(quakooUtils.formatMoney(getTotalPrice() / 100, 2));
+        //是否触发全选
+        if(checkStatus(allData)){
+            $('#fl').addClass("active")
+        }else{
+            $('#fl').removeClass("active")
+        }
+    };
+    //全选状态
+    function checkStatus(arr) {
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].check){
+                continue ;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    };
+
+    //全选
+    function shop_chooseAllChildren(self){
+        if(quakooUtils.isBlack(allData)){
+            quakooMsg.toast('请先添加喜欢的商品哟！');
+            return
+        };
+        if($(self).hasClass('active')){
+            $(self).removeClass('active');
+            //移除所有的选中， 将数据中的check改为false
+            for(var i=0;i<allData.length;i++){
+                allData[i].check = false;
+                for(var j=0;j<allData[i].goods.length;j++){
+                    allData[i].goods[j].check = false;
+                }
+            }
+            $('#totalPrice').html('0.00');
+            $('.store em').each(function() {
+                $(this).removeClass('active')
+            });
+            $('.CheckBox em').each(function() {
+                $(this).removeClass('active')
+            })
+        }else{
+            //移除所有的选中， 将数据中的check改为true
+            $(self).addClass('active');
+            for(var i=0;i<allData.length;i++){
+                allData[i].check = true;
+                for(var j=0;j<allData[i].goods.length;j++){
+                    allData[i].goods[j].check = true;
+                }
+            }
+            // 赋值所有商品总价
+            $('#totalPrice').html(quakooUtils.formatMoney(getTotalPrice() / 100, 2));
+            $('.store em').each(function() {
+                $(this).addClass('active')
+            });
+            $('.CheckBox em').each(function() {
+                $(this).addClass('active')
+            })
+        }
+    };
+
+    //计算金额
+    function getTotalPrice() {
+        var price = 0;
+        for(var i=0;i<allData.length;i++){
+            for(var j=0;j<allData[i].goods.length;j++){
+                if(allData[i].goods[j].check){
+                    price += (allData[i].goods[j].price * allData[i].goods[j].num);
+                }
+            }
+        }
+        return price;
+    };
+
+    //添加减少商品
+    //@type 0减少， 1添加
+    //@self this
+    //@id 当前商品id
+    //@defPrice 默认价格
+    var addDelFlag = true;
+    function addDelGoods(type,self,id){
+        quakooUtils.stopEventBubble();
+        if(addDelFlag){
+            addDelFlag = false;
+            var num = parseInt($(self).siblings("#qNum").html());
+            if(type==0 && num<=1){
+                quakooMsg.toast('最少购买1件');
+                addDelFlag = true;
+                return
+            }
+            if(num>=999){
+                quakooMsg.toast('最多购买999件');
+                addDelFlag = true;
+                return
+            }
+            var parme = {id:id};
+            var url;
+            if(type == 0){
+                url = config.getUrl_web_mall_minusGoodsNum();
+            }else{
+                url = config.getUrl_web_mall_addGoodsNum();
+            };
+            quakooData.ajaxSubmitDataHasError(url, parme, function(ret) {
+                addDelFlag = true;
+                if(ret.success == true){
+                    if(api.pageParam.jumpType=='goods'){
+                        quakooDb.setItem('reloadShopping',true);
+                    }
+                    if(type == 0){
+                        num--;
+                    }else{
+                        num++;
+                    };
+                    $(self).siblings("#qNum").html(num);
+                    for(var i=0;i<allData.length;i++){
+                        for(var j=0;j<allData[i].goods.length;j++){
+                            if(allData[i].goods[j].id==id){
+                                allData[i].goods[j].num = num;
+                            }
+                        }
+                    }
+                    $('#totalPrice').html(quakooUtils.formatMoney(getTotalPrice() / 100, 2));
+                };
+            },function (ret,err) {
+                addDelFlag = true;
+            });
+        }
+
+    };
+    
+    //管理
+    var mType = 1;
+    function manage() {
+        if(mType == 2){
+            document.getElementById('rightBth').innerHTML = '管理';
+            document.getElementById('del').style.display = 'none';
+            document.getElementById('settle').style.display = 'block';
+            $('.total').show();
+            mType = 1;
+            $('#fl').removeClass("active")
+        }else{
+            if(quakooUtils.isBlack(allData)){
+                quakooMsg.toast('快去添加喜欢的商品吧!');
+            };
+            $('#fl').removeClass("active")
+            document.getElementById('rightBth').innerHTML = '完成';
+            document.getElementById('settle').style.display = 'none';
+            document.getElementById('del').style.display = 'block';
+            $('.total').hide();
+            mType = 2;
+        }
+    };
+
+
+    // //删除
+    function delGoods() {
+        var ids = [];
+        for(var i=0;i<allData.length;i++){
+            for(var j=0;j<allData[i].goods.length;j++){
+                if(allData[i].goods[j].check){
+                    ids.push(allData[i].goods[j].id);
+                }
+            }
+        }
+        if(quakooUtils.isBlack(ids)){
+            quakooMsg.toast('请选择你想删除的商品');
+            return ;
+        }
+        quakooMsg.showDialog('','确定删除商品？','取消','确定',function () {
+            quakooMsg.showProgress()
+            quakooData.ajaxSubmitData(config.getUrl_web_mall_delGood(),{ids:ids},function(ret,err) {
+                quakooMsg.hideProgress()
+                if(ret.success == true){
+                    if(api.pageParam.jumpType=='goods'){
+                        quakooDb.setItem('reloadShopping',true);
+                    }
+                    getLit()
+                    quakooMsg.toast('删除成功!');
+                }else{
+                    quakooMsg.toast('删除失败,请重试！');
+                }
+            })
+        })
+
+    };
+
+    // 结算
+    function checkout() {
+        var ids = '';
+        for(var i=0;i<allData.length;i++){
+            for(var j=0;j<allData[i].goods.length;j++){
+                if(allData[i].goods[j].check){
+                    ids += allData[i].goods[j].id + ',';
+                }
+            }
+        }
+        ids = ids.slice(0,ids.length-1)
+        if(quakooUtils.isBlack(ids)){
+            quakooMsg.toast('请选择要结算的订单！');
+            return
+        };
+        quakooMsg.showProgress()
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_createIndent(),{shopCartIds:ids},function (ret,err) {
+            quakooMsg.hideProgress()
+            if(ret.data && ret.success){
+                //打开支付订单页面 传当前定详情
+                quakooApp.openNewWindow('indent','indent.html',{data:ret});
+            }else{
+                quakooMsg.toast('结算失败，请重试！');
+            };
+        });
+    };
+    //打开店铺
+    function openStore(sid){
+        quakooApp.openNewWindow('store','../store/store.html',{id:sid});
+    };
+    //打开商品
+    function openIndex(id) {
+        quakooApp.openNewWindow('goodsIndexShoppingBag','../goods/goodsIndex.html',{id:id});
+    }
+</script>
+</html>

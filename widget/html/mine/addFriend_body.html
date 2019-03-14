@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>添加朋友</title>
+	<link rel="stylesheet" href="../../css/api.css" />
+	<link rel="stylesheet" href="../../css/commonWindow.css" />
+	<style type="text/css">
+		html,body{
+			width: 100%;
+			height: 100%;
+			background: #f4f4f4;
+		}
+		.main{
+			width: 100%;
+			background: #fff;
+			overflow: hidden;
+			padding: 23px 0 12px;
+			box-sizing: border-box;
+		}
+		.main>div{
+			text-align: center;
+			width: 50%;
+			float: left;
+		}
+		.main-left{
+			position: relative;
+		}
+		.main-left div{
+			position: absolute;
+			top: 10px;
+			right: 0;
+			width: 1px;
+			height: 74px;
+			background: #E3E3E3;
+		}
+		.main img,.main-right .img{
+			width: 46px;
+			height: 46px;
+			overflow: hidden;
+			margin-bottom: 12px;
+			display: inline-block;
+		}
+		.main p{
+			font-family: PingFangSC-Regular;
+			font-size: 15px;
+			color: #4E4E4E;
+			letter-spacing: 0;
+			line-height: 21px;
+		}
+		.main span{
+			font-family: PingFangSC-Regular;
+			font-size: 11px;
+			color: #B0B0B0;
+			letter-spacing: 0;
+			line-height: 16px;
+		}
+		.list{
+			display: none;
+		}
+		.list li{
+			width: 100%;
+			padding: 12px 19px;
+			box-sizing: border-box;
+			background: #fff;
+			margin-bottom: 1px;
+			overflow: hidden;
+		}
+		.list .img{
+			width: 52px;
+			height: 52px;
+			border-radius: 50%;
+			overflow: hidden;
+			float: left;
+		}
+		.list .img img{
+			display: block;
+		}
+		.list .info{
+			max-width: 60%;
+			margin-left: 16px;
+			float: left;
+			margin-top: 4px;
+		}
+		.list p{
+			font-family: PingFangSC-Regular;
+			font-size: 17px;
+			color: #222222;
+			letter-spacing: 0;
+			line-height: 24px;
+			margin-bottom: 2px;
+		}
+		.list span{
+			font-family: PingFangSC-Regular;
+			font-size: 13px;
+			color: #BCBCBC;
+			letter-spacing: 0;
+			line-height: 18px;
+		}
+		.list .right{
+			float: right;
+			width: 89px;
+			height: 37px;
+			border: 1px solid #EEEEEE;
+			border-radius: 2px;
+			line-height: 37px;
+			text-align: center;
+			font-family: PingFangSC-Medium;
+			font-size: 13px;
+			color: #282828;
+			background: #fff;
+			letter-spacing: 0;
+			margin-top: 8px;
+		}
+		.list .right.active{
+			background: #f9f9f9;
+			color: #b5b5b5;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="main-left" onclick="openSaoyisao()">
+			<img src="../../icon/saoyisao.png" alt="">
+			<p>扫一扫</p>
+			<span>扫描二维码添加好友</span>
+			<div></div>
+		</div>
+		<div class="main-right" onclick="openQRcode()">
+			<div class="img" id="qrcode"></div>
+			<p>我的二维码</p>
+			<span>扫一扫，加我为好友</span>
+		</div>
+	</div>
+	<div class="list">
+		<ul id="friendDom">
+
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/qrcode.min.js"></script>
+<script type="text/html" id="listTmp">
+	<%for(var i=0;i< list.length;i++){%>
+		<%if(list[i].id != user.id){%>
+			<li>
+				<div class="img">
+					<img src="<%=list[i].icon%>" alt="" style="<%=list[i].style%>">
+				</div>
+				<div class="info">
+					<p><%=list[i].name%></p>
+					<span><%=list[i].desc%></span>
+				</div>
+				<%if(list[i].friend){%>
+				<div class="right active">已添加</div>
+				<%}else{%>
+				<div class="right" onclick="addFriend('<%=list[i].id%>',this)">添加</div>
+				<%}%>
+			</li>
+		<%}%>
+	<%}%>
+</script>
+<script>
+	var id;
+    var qrcode;
+	apiready = function () {
+        qrcode = new QRCode('qrcode', {
+            text: ''+quakooUser.getUserInfo().id,
+            width: 46,
+            height: 46,
+            colorDark : '#000000',
+            colorLight : '#ffffff',
+            correctLevel : QRCode.CorrectLevel.H
+        });
+        if(api.pageParam.type=='RichScan'){
+            id = api.pageParam.id;
+            showSeanResult()
+		}else{
+            document.querySelector('.main').style.display = 'block';
+            document.querySelector('.list').style.display = 'none';
+		}
+	}
+	//添加好友
+	function addFriend(id,self) {
+		quakooData.ajaxSubmitData(config.getUrl_web_user_friendAdd(),{fuid:id},function (ret,err) {
+			if(ret){
+			    if(ret.success){
+			        quakooMsg.toast('添加成功')
+					//通知原生好友列表刷新
+                    api.accessNative({
+                        name: "reloadUpData",//
+                        extra: {}
+                    }, function (ret, err) {
+                    });
+					self.innerHTML = '已添加';
+					self.classList.add('active');
+			        self.onclick = function () {
+						
+                    }
+				}
+			}
+        })
+    }
+    //打开我的二维码
+    function openQRcode() {
+        quakooApp.openNewWindow('QRcode','QRcode.html');
+    };
+    //搜索结果
+    function getDataList(key) {
+		quakooData.ajaxGetData(config.getUrl_web_user_userSearch(),{name:key},function (ret) {
+
+		    if(ret && ret.success){
+                for(var i=0;i<ret.data.length;i++){
+                    if(ret.data[i].icon){
+                        var obj = quakooImg.processImg(ret.data[i].icon,52,52);
+                        ret.data[i].style = obj.style;
+                        ret.data[i].icon = obj.url;
+                    }else{
+                        ret.data[i].icon = '../../image/myIcon.png';
+                        ret.data[i].style = 'width:100%;height:100%;';
+                    }
+                    ret.data[i].id = ret.data[i].uid;
+				}
+                var html = template('listTmp',{list:ret.data,user:quakooUser.getUserInfo()})
+                document.getElementById('friendDom').innerHTML = html;
+                document.querySelector('.main').style.display = 'none';
+                document.querySelector('.list').style.display = 'block';
+			}
+        })
+    }
+    //扫一扫结果
+    function showSeanResult() {
+        quakooMsg.showProgress();
+        quakooData.ajaxSubmitData(config.getUrl_web_user_friendLoad(),{fuid:id},function (ret) {
+            quakooMsg.hideProgress();
+            if(ret){
+                if(ret.success){
+                    document.querySelector('.main').style.display = 'none';
+                    document.querySelector('.list').style.display = 'block';
+                    if(ret.data.icon){
+                        var obj = quakooImg.processImg(ret.data.icon,52,52);
+                        ret.data.style = obj.style;
+                    }else{
+                        ret.data.icon = '../../image/myIcon.png';
+                        ret.data.style = 'width:100%;height:100%;';
+                    }
+                    ret.data.id = ret.data.uid;
+                    var html = template('listTmp',{list:[ret.data],user:quakooUser.getUserInfo()})
+                    document.getElementById('friendDom').innerHTML = html;
+                }
+            }
+        })
+    }
+    //打开扫一扫
+    function openSaoyisao() {
+        quakooApp.scanning(function (ret) {
+            if(ret.value){
+                id = ret.value.url;
+                if(id==quakooUser.getUserInfo().id){
+                    quakooMsg.toast('不能添加自己为好友')
+                }else{
+                    //跳转搜索结果页
+                    showSeanResult()
+                }
+            }
+        })
+    }
+    //搜索为空
+    function changeLayout() {
+        document.querySelector('.main').style.display = 'block';
+        document.querySelector('.list').style.display = 'none';
+    }
+</script>
+</html>

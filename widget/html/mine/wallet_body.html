@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>我的钱包</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        html,body{
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
+
+        /*钱包*/
+        #money{
+            padding: 10px 0 19px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .money-content > p{
+            width: 100%;
+            font-family: STHeitiSC-Medium;
+            font-size: 26px;
+            color: #000000;
+            letter-spacing: 0;
+            line-height: 52px;
+            text-align: center;
+        }
+        .money-content > span{
+            width: 100%;
+            font-family: PingFangSC-Semibold;
+            font-size: 13px;
+            color: #999999;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .money-bottom{
+            margin-top: 23px;
+            display:-moz-box;
+            display:box;
+            display: -webkit-box;
+            -webkit-box-orient: horizontal;/* 横排显示*/
+            padding: 0 19px;
+            box-sizing: border-box;
+        }
+        .money-bottom > div{
+            height: 35px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            -webkit-box-flex: 1;
+      -webkit-box-align: center;
+            font-family: PingFangSC-Semibold;
+            font-size: 12px;
+            color: #444444;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 35px;
+        }
+        .money-bottom > div:nth-child(1){
+            margin-right: 15px;
+        }
+        #active{
+            background: #222222;
+            font-family: PingFangSC-Semibold;
+            font-size: 12px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .content{
+            width: 100%;
+            box-sizing: border-box;
+            padding: 55px 19px 10px;
+        }
+        .content p:first-of-type{
+            line-height: 24px;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #333333;
+            letter-spacing: -0.41px;
+            text-align: center;
+            margin-bottom: 23px;
+        }
+        .content p:last-of-type{
+            text-indent: 2em;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #666666;
+            letter-spacing: 0;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mine">
+        <!-- 钱包 -->
+        <div id="money">
+            <div class="money-content">
+                <p id="myMoney"></p>
+                <span>余额</span>
+            </div>
+            <div class="money-bottom">
+                <div onclick="openRecharge()">充值</div>
+                <div id="active" onclick="openWithdraw()">提现</div>
+            </div>
+        </div>
+        <div class="content">
+            <p>充值优惠</p>
+            <p id="youhui">
+                不管我们是否已为人父母，至少我们每个人，都曾经当过孩子。孩子，是人类永恒的话题。可我们却总发现，很多孩子每天不开心。她们无精打采，浑身充满了叛逆，攻击性行为。
+                不管我们是否已为人父母，至少我们每个人，都曾经当过孩子。孩子，是人类永恒的话题。不管我们是否已为人父母，至少我们每个人，都曾经当过孩子。孩子，是人类永恒的话题。可我们却总发现，很多孩子每天不开心。她们无精打采，浑身充满了叛逆，攻击性行为。
+                不管我们是否已为人父母，至少我们每个人，都曾经当过孩子。孩子，是人类永恒的话题。
+            </p>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    var myMoney = 0;
+    apiready = function () {
+        getMoney();
+        getYouhui();
+    };
+
+    //获取钱数
+    function getMoney() {
+        quakooMsg.showProgress();
+        quakooData.ajaxGetData(config.getUrl_web_pay_getMyMoney(),{},function (ret,err) {
+            quakooMsg.hideProgress();
+            if(ret.success == true){
+                myMoney = ret.data;
+                document.getElementById('myMoney').innerText = '￥' + quakooUtils.formatMoney(ret.data /100, 2);
+            }else{
+                document.getElementById('myMoney').innerText = '￥' + '0.00';
+            }
+        })
+    }
+    //获取充值优惠
+    function getYouhui() {
+        quakooData.ajaxGetData(config.getUrl_web_pay_getConfig(),{},function (ret,err) {
+            if(ret.success == true){
+                document.getElementById('youhui').innerText = ret.data.discounts;
+            }else{
+                document.getElementById('youhui').innerText = '暂无优惠';
+            }
+        })
+    }
+    //打开充值
+    function openRecharge(){
+        quakooApp.openNewWindow('recharge','recharge.html')
+    };
+    //打开提现
+    function openWithdraw(){
+        if(myMoney<=0){
+            quakooMsg.toast('余额不足，无法提现');
+            return ;
+        }
+        quakooApp.openNewWindow('withdraw','withdraw.html')
+    };
+
+</script>
+
+</html>

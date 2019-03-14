@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>我</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body,html{
+            background: #fff;
+        }
+        #myPage-header{
+            height: 166px;
+            /*display: none;*/
+        }
+        .header-top{
+            height: 100px;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+        .header-icon{
+            width: 84px;
+            height: 84px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-right: 16px;
+            float: left;
+        }
+        .header-icon > img{
+            display: block;
+        }
+        .header-icon .defaultImg{
+            width: 100%;height: 100%;
+        }
+        .header-name > span{
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-top: 13px;
+            margin-bottom: 5px;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .header-name > p{
+            height: 30px;
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #BCBCBC;
+            letter-spacing: 0;
+            line-height: 15px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2;
+        }
+        .header-name > div{
+            width: 89px;
+            height: 37px;
+            border: 1px solid #f4f4f4;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            position: absolute;
+            top:16px;
+            right: 12px;
+        }
+
+        .header-bottom{
+            clear: both;
+            height: 64px;
+            border-top: 1px solid #F4F4F4;
+            border-bottom: 1px solid #F4F4F4;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+        }
+        .header-bottom > div{
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+        }
+        .header-bottom > div > p{
+            width: 100%;
+            height: 18px;
+            line-height: 18px;
+            font-family: PingFangSC-Medium;
+            font-size: 18px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top:14px;
+            box-sizing: border-box;
+
+        }
+        .header-bottom > div > span{
+            width: 100%;
+            height: 12px;
+            line-height: 12px;
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #B1B1B1;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .header-bottom > :nth-child(1){
+            border-right: 1px solid #F4F4F4;
+        }
+        #trends-title{
+            border-left: 5px solid #333;
+            padding-left: 14px;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            margin: 23px 0;
+        }
+        #trends_titleTop{
+            width: 100%;
+            position: fixed;
+            top: -23px;
+            left: 0;
+            background: #ffffff;
+            border-bottom: 2px solid #F5F5F5;
+            border-left: 5px solid #333;
+            padding-left: 14px;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            margin: 23px 0;
+            display: none;
+        }
+        #trends_body{
+            width: 100%;
+        }
+        .trends-list{
+            width: 100%;
+            box-sizing: border-box;
+            padding:6px 20px 0 20px;
+            margin-top: 21px;
+        }
+        .trends-header{
+            width: 100%;
+            height: 44px;
+        }
+        .userIcon{
+            width: 44px;
+            height: 44px;
+            overflow: hidden;
+            border-radius: 50%;
+            float: left;
+        }
+        .userInfo{
+            width: 70%;
+            height: 44px;
+            margin-left:12px;
+            margin-top: 6px;
+            float: left;
+        }
+        .userInfo > span{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .userInfo > i{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #BBBBBB;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .trends-header>em{
+            width: 12px;
+            height: 14px;
+            float: right;
+            background: url("../../icon/deleteDym.png") no-repeat;
+            background-size: 100%;
+            margin-right: 10px;
+            margin-top: 15px;
+        }
+        .trends-list > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #505050;
+            letter-spacing: 0;
+            text-align: left;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2;
+            margin: 15px 0 11px 0;
+        }
+
+        .imgBox{
+            overflow: hidden;
+            float: left;
+        }
+        .imgBox1{
+            height: 278px;
+            width: 100%;
+        }
+        .imgBox2{
+            width: 49%;
+            height: 139px;
+        }
+        .imgBox3{
+            height: 139px;
+            width: 32%;
+        }
+        /*.imgBox > img{*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+        /*}*/
+        .imgWrap{
+            width: 100%;
+            height: 139px;
+            margin: 2px 0 2px 0;
+        }
+        .imgWrap > li:nth-child(2){
+            margin:0 2px 0 2px;
+        }
+
+        .header-name{
+            float: left;
+            width: 35%;
+            overflow: hidden;
+        }
+        .header-right{
+            float: right;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            width: 89px;
+            height: 37px;
+            line-height: 37px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 23px;
+        }
+        .header-right.active{
+            color: #ffffff;
+            border: 1px solid #D0021B;
+            background: #D0021B;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="mine">
+    <!-- 头部 -->
+    <div id="myPage-header">
+        <div class="header-top">
+            <div class="header-icon">
+                <img src="../../icon/icon108.png" alt="" id="icon" class="defaultImg">
+            </div>
+            <div class="header-name">
+                <span id="userName"></span>
+                <p id="userDesc"></p>
+            </div>
+            <div class="header-right">关注</div>
+        </div>
+        <div class="header-bottom">
+            <div id="focusDiv">
+                <p id="focous"></p>
+                <span>关注</span>
+            </div>
+            <div id="fansDiv">
+                <p id="fans"></p>
+                <span>粉丝</span>
+            </div>
+        </div>
+    </div>
+    <p id="trends-title">动态</p>
+    <p id="trends_titleTop">动态</p>
+    <div id="trends_body">
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="trendsList">
+    <%for(var i=0;i< list.length;i++){%>
+        <div class="trends-list">
+            <div class="trends-header">
+                <div class="userIcon">
+                    <img src="<%=list[i].thirdIcon%>" style="<%=list[i].iconStyle%>" alt="" >
+                </div>
+                <div class="userInfo">
+                    <%if(list[i].thirdName){%>
+                    <span><%=list[i].thirdName%></span>
+                    <%}else{%>
+                    <span><%=phone%></span>
+                    <%}%>
+                    <i><%=list[i].ctime%></i>
+                </div>
+                <%if(list[i].userOnOff=="on"){%>
+                <em onclick="deleteDym('<%=list[i].id%>')"></em>
+                <%}%>
+            </div>
+            <p onclick="openInfo('<%=list[i].id%>')"><%=list[i].content%></p>
+            <%if(list[i].tailorImg && list[i].tailorImg.length>0){%>
+                <%if(list[i].tailorImg.length==1){%>
+                    <ul class="imgWrap" style="height:278px;" onclick="openInfo('<%=list[i].id%>')">
+                        <li class="imgBox imgBox1">
+                            <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                        </li>
+                    </ul>
+                <%}else if(list[i].tailorImg.length==2){%>
+                    <ul class="imgWrap" style="height:278px;" onclick="openInfo('<%=list[i].id%>')">
+                        <li class="imgBox imgBox2" style="height:278px;">
+                            <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                        </li>
+                        <li class="imgBox imgBox2" style="height:278px;">
+                            <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                        </li>
+                    </ul>
+                <%}else if(list[i].tailorImg.length==3){%>
+                    <ul class="imgWrap" onclick="openInfo('<%=list[i].id%>')">
+                        <li class="imgBox imgBox3">
+                            <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                        </li>
+                        <li class="imgBox imgBox3">
+                            <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                        </li>
+                        <li class="imgBox imgBox3">
+                            <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+                        </li>
+                    </ul>
+                <%}else if(list[i].tailorImg.length==4){%>
+                    <ul class="imgWrap" onclick="openInfo('<%=list[i].id%>')">
+                        <li class="imgBox imgBox2">
+                            <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                        </li>
+                        <li class="imgBox imgBox2">
+                            <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                        </li>
+                    </ul>
+                    <ul class="imgWrap" onclick="openInfo('<%=list[i].id%>')">
+                        <li class="imgBox imgBox2">
+                            <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+                        </li>
+                        <li class="imgBox imgBox2">
+                            <img src="<%=list[i].tailorImg[3]%>" style="<%=list[i].style[3]%>" alt="">
+                        </li>
+                    </ul>
+                <%}else{%>
+                    <ul class="imgWrap" onclick="openInfo('<%=list[i].id%>')">
+                        <li class="imgBox imgBox3">
+                            <img src="<%=list[i].tailorImg[0]%>" style="<%=list[i].style[0]%>" alt="">
+                        </li>
+                        <li class="imgBox imgBox3">
+                            <img src="<%=list[i].tailorImg[1]%>" style="<%=list[i].style[1]%>" alt="">
+                        </li>
+                        <li class="imgBox imgBox3">
+                            <img src="<%=list[i].tailorImg[2]%>" style="<%=list[i].style[2]%>" alt="">
+                        </li>
+                    </ul>
+                    <ul class="imgWrap" onclick="openInfo('<%=list[i].id%>')">
+                        <%for(var k= 0; k < list[i].tailorImg.length-3; k++){%>
+                        <li class="imgBox imgBox3">
+                            <img src="<%=list[i].tailorImg[3+k]%>" style="<%=list[i].style[3+k]%>" alt="">
+                        </li>
+                        <%}%>
+                    </ul>
+                <%}%>
+            <%}%>
+        </div>
+    <%}%>
+</script>
+<script>
+    var phone;
+    var uid;
+    apiready=function(){
+        uid = api.pageParam.id;
+
+        if(uid != quakooUser.getUserInfo().id){
+            document.querySelector(".header-right").style.display = "block";
+        }else{
+            document.querySelector(".header-right").style.display = "none";
+        }
+
+        //获得关注和粉丝量
+        quakooData.ajaxGetData(config.getUrl_web_user_myMsg(), {uid:uid}, function(ret,err) {
+            if(ret.success){
+                if(quakooUtils.isNotBlack(ret.data)){
+                    if(ret.data.icon){
+                        var obj = quakooImg.processImg(ret.data.icon,84,84);
+                        document.getElementById('icon').classList.remove('defultImg')
+                        document.getElementById('icon').style.cssText = obj.style;
+                        document.getElementById('icon').src = obj.url;
+                        document.getElementById('icon').classList.remove('defaultImg')
+                    }
+                    phone = ret.data.phone;
+                    //名称
+                    if(quakooUtils.isNotBlack(ret.data.name)){
+                        document.getElementById("userName").innerHTML=ret.data.name;
+                    }else{
+                        document.getElementById("userName").innerHTML=ret.data.phone;
+                    }
+                    //关注数
+                    if(ret.data.focousNum<0){
+                        document.getElementById("focous").innerHTML=0;
+                    }else{
+                        document.getElementById("focous").innerHTML=ret.data.focousNum;
+                    }
+                    //粉丝数
+                    if(ret.data.fansNum<0){
+                        document.getElementById("fans").innerHTML=0;
+                    }else{
+                        document.getElementById("fans").innerHTML=ret.data.fansNum;
+                    }
+                    document.getElementById('focusDiv').onclick = function () {
+                        api.closeWin({name:"concern"})
+                        quakooApp.openNewWindow('concern','concern.html',{thirdId:uid});
+                    }
+                    document.getElementById('fansDiv').onclick = function () {
+                        api.closeWin({name:"fans"})
+                        quakooApp.openNewWindow('fans','fans.html',{thirdId:uid});
+                    }
+                    //个性签名
+                    if(quakooUtils.isNotBlack(ret.data.desc)){
+                        document.getElementById("userDesc").innerHTML = ret.data.desc;
+                    }
+                    //是否关注
+                    if(ret.data.focus){
+                        document.querySelector(".header-right").onclick  =function () {
+                            addAttention(this,1)
+                        }
+                        document.querySelector(".header-right").innerHTML = '已关注'
+                        document.querySelector(".header-right").classList.add('active');
+                    }else{
+                        document.querySelector(".header-right").onclick  =function () {
+                            addAttention(this,0)
+                        }
+                        document.querySelector(".header-right").innerHTML = '关注';
+                        document.querySelector(".header-right").classList.remove('active');
+                    }
+                }
+                new QuakooPage(addDataToHtml,config.getUrl_web_mall_getThirdDynamic(),{type:0,thirdId:uid})
+            }
+        })
+        pageScroll();
+    }
+    //更改头像之后，刷新头像
+    function editImg(url) {
+        var obj = quakooImg.processImg(url,84,84);
+        document.getElementById('icon').src = obj.url;
+        document.getElementById('icon').style = obj.style;
+    }
+    //获取动态
+    function addDataToHtml(results,append){
+        if(results){
+            for(var j=0;j<results.length;j++) {
+                results[j].ctime=quakooUtils.formatTimeToDayDate(results[j].ctime);
+                var iconObj = quakooImg.processImg(results[j].thirdIcon,44,44);
+                results[j].thirdIcon = iconObj.url;
+                results[j].iconStyle = iconObj.style;
+                if(results[j].thirdId == quakooUser.getUserInfo().id){
+                    results[j].userOnOff = "on"
+                }else{
+                    results[j].userOnOff = "off"
+                }
+                if (results[j].banners.length > 0) {
+                    results[j].tailorImg=[];
+                    results[j].style=[];
+                    if (results[j].banners.length == 1) {
+                        var width = api.winWidth - 38;
+                        var height = 278;
+                        var obj = quakooImg.processImg(results[j].banners[0], width, height)
+                        results[j].tailorImg.push(obj.url);
+                        results[j].style.push(obj.style);
+                    } else if (results[j].banners.length == 2 || results[j].banners.length == 4) {
+                        for (var k = 0; k < results[j].banners.length; k++) {
+                            var width = (api.winWidth - 38-4) * 0.49;
+                            var height ="";
+                            if(results[j].banners.length == 2 ){
+                                height = 278;
+                            }else{
+                                height = 139;
+                            }
+                            var obj = quakooImg.processImg(results[j].banners[k], width, height)
+                            results[j].tailorImg.push(obj.url);
+                            results[j].style.push(obj.style);
+                        }
+                    } else if (results[j].banners.length >= 3 && results[j].banners.length !== 4) {
+                        for (var n = 0; n < results[j].banners.length; n++) {
+                            var width = (api.winWidth - 38-4) * 0.32;
+                            var height = 139;
+                            var obj = quakooImg.processImg(results[j].banners[n], width, height);
+                            results[j].tailorImg.push(obj.url);
+                            results[j].style.push(obj.style);
+                        }
+                    }
+                }
+            }
+
+            var data ={list:results,phone:phone}
+            var html = template("trendsList",data);
+            if (append) {
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('trends_body').appendChild(div);
+                quakooMsg.hideProgress();
+            } else {
+                document.getElementById("trends_body").innerHTML=html;
+                quakooMsg.hideProgress();
+            }
+            document.getElementById("myPage-header").style.display="block";
+        }
+    }
+    //监听滚动
+    function pageScroll() {
+        if(quakooUtils.getScrollTop()>189){
+            document.getElementById("trends_titleTop").style.display="block";
+        }else{
+            document.getElementById("trends_titleTop").style.display="none";
+        }
+        setTimeout(function () {
+            pageScroll()
+        })
+    }
+    //删除动态
+    function deleteDym(id) {
+        quakooMsg.showDialog('动态删除','确认删除该条动态吗？','取消','确定',function () {
+            quakooMsg.showProgress();
+            quakooData.ajaxSubmitData(config.getUrl_web_mall_dynamicDel(),{id:id},function (ret,err) {
+                if(ret.success){
+                    apiready();
+                }
+            })
+        })
+    }
+    //跳转详情
+    function openInfo(id){
+        quakooApp.openNewWindow('style_index','../style/style_index.html',{id:id});
+    }
+    //    关注
+    var flag = true;
+    function addAttention(self,isAdd) {
+        if(flag){
+            flag = false;
+            if(isAdd==0){
+                quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansAdd(),{type:5,thirdId:uid},function (ret,err) {
+                    flag = true;
+                    if(ret.success){
+                        self.innerHTML = "已关注";
+                        document.getElementById("fans").innerHTML  = parseInt(document.getElementById("fans").innerHTML)+1;
+                        self.classList.add('active')
+                        self.onclick = function () {
+                            addAttention(self,1)
+                        }
+                        api.execScript({
+                            name:"style_index",
+                            frameName:"style_index_body",
+                            script:"userAttention(true)"
+                        })
+                    }
+                });
+            }else if(isAdd == 1){
+                quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansDelete(),{type:5,thirdId:uid},function (ret,err) {
+                    flag = true;
+                    if(ret.success){
+                        self.classList.remove('active');
+                        document.getElementById("fans").innerHTML  = parseInt(document.getElementById("fans").innerHTML)-1;
+                        self.innerHTML = "关注";
+                        self.onclick = function () {
+                            addAttention(self,0)
+                        }
+                        api.execScript({
+                            name:"style_index",
+                            frameName:"style_index_body",
+                            script:"userAttention(false)"
+                        })
+                    }
+                });
+            }
+
+        }
+
+    }
+</script>
+
+</html>

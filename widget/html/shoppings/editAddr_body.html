@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>收货地址</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <link rel="stylesheet" href="../../css/mui.min.css" />
+    <link rel="stylesheet" href="../../css/mui.picker.css" />
+    <link rel="stylesheet" href="../../css/mui.poppicker.css" />
+    <!--<link rel="stylesheet" href="../../css/mobileSelect.css" />-->
+    <style type="text/css">
+        body {
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        #addrMsg{
+            padding:0 19px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        #addrMsg>div{
+            line-height: 43px;
+            border-bottom: 1px solid #E3E3E3;
+            overflow: hidden;
+        }
+        #area{
+            height: 43px;
+            width: 78%;
+            float: left;
+        }
+        #area div{
+            float: left;
+            margin-right: 5px;
+        }
+        #addrMsg  i{
+            width: 22%;
+            display: inline-block;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: left;
+            float: left;
+        }
+        #addrMsg input,#addrMsg p,#area{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333;
+            letter-spacing: 0;
+            text-align: left;
+            width: 78%;
+            height: 43px;
+            float: left;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        #addrMsg p{
+            color: #999;
+        }
+        #addrMsg > :last-child{
+            height: 90px;
+            border:none;
+        }
+        #addr{
+            outline: none;
+            width: 78%;
+            /*height: 90px;*/
+            float: right;
+            padding: 13px 0;
+            line-height: 20px;
+            box-sizing: border-box;
+            resize: none;
+            color: #333;
+        }
+        .defaultAddr{
+            padding:0 19px;
+            height:45px;
+            background: #fff;
+            line-height: 45px;
+            margin-top: 12px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .defaultAddr > :nth-child(1){
+            float: left;
+        }
+        .defaultAddr > :nth-child(2){
+            float: right;
+            height: 45px;
+        }
+        .defaultAddr > :nth-child(2) > i{
+            width: 30px;
+            height: 45px;
+            display: inline-block;
+            background: url("../../icon/switch02.png") no-repeat;
+            background-size: 100%;
+            background-position: center;
+        }
+        .add-btn{
+            width: 100%;
+            height: 45px;
+            background: #222;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #F9F9F9;
+            letter-spacing: -0.39px;
+            text-align: center;
+            line-height: 45px;
+            position: fixed;
+            bottom: 0;
+        }
+        #addr{
+            outline: none;
+            width: 78%;
+            height: 90px;
+            float: right;
+            padding: 12px 0;
+            line-height: 20px;
+            box-sizing: border-box;
+            resize: none;
+            color: #333;
+            border: none;
+            margin: 0;
+            font-size: 14px;
+
+        }
+        .mui-poppicker-title{
+            color: #222;
+        }
+        .mui-poppicker-btn-cancel{
+            border: none;
+        }
+        .mui-poppicker-btn-ok{
+            background: #222;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="addrMsg">
+            <div><i>收货人:</i><input type="text" id="userName" placeholder="请输入收货人"></div>
+            <div><i>联系方式:</i><input type="number" id="phone" placeholder="请输入联系方式"></div>
+            <div>
+                <i>所在地区:</i>
+                <div id="area">
+                    <div id="areaFirst"></div>
+                    <div id="areaSecond"></div>
+                    <div id="areaThree"></div>
+                </div>
+            </div>
+            <div><i>详细地址:</i><textarea id="addr"></textarea></div>
+        </div>
+    </div>
+    <!--积分-->
+    <div class="defaultAddr">
+        <p>设置默认地址</p>
+        <p><i id="defAddr" onclick="check();"></i></p>
+    </div>
+    <div class="add-btn" onclick="addAddress();">保存并使用</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/mui.min.js"></script>
+<script type="text/javascript" src="../../script/mui.picker.all.js"></script>
+<script type="text/javascript" src="../../script/area.js"></script>
+<script>
+    var def = 1;
+    var areaFirst={};//省id+名称
+    var areaSecond={};//市id+名称
+    var areaThree={};//区id+名称
+    var id;//修改收货地址的id
+    var data;//收货地址的数据
+    apiready = function () {
+        if(api.pageParam.data){
+            data  =api.pageParam.data;
+            id = data.id;
+            def = data.def;
+            if(areaFirst){
+                areaFirst = JSON.parse(data.areaFirst);
+            }
+            if(areaSecond){
+                areaSecond = JSON.parse(data.areaSecond);
+            }
+            if(areaThree){
+                areaThree = JSON.parse(data.areaThree);
+            }
+            document.getElementById('userName').value = data.name;
+            document.getElementById('phone').value = data.phone;
+            if(data.areaFirstName){
+                document.getElementById('areaFirst').innerHTML = data.areaFirstName;
+            }
+            if(data.areaSecondName){
+                document.getElementById('areaSecond').innerHTML = data.areaSecondName;
+            }
+            if(data.areaThreeName){
+                document.getElementById('areaThree').innerHTML = data.areaThreeName;
+            }
+            document.getElementById('addr').value = data.address;
+            var dom = document.getElementById('defAddr');
+            if(def==1){
+                dom.style.background = 'url(../../icon/switch02.png) no-repeat center';
+                dom.style.backgroundSize = '100%';
+            }else{
+                dom.style.background = 'url(../../icon/switch01.png) no-repeat center';
+                dom.style.backgroundSize = '100%';
+            }
+        }
+        setCity()
+    }
+    function setCity(){
+        (function($, doc) {
+            var cityPicker1 = new $.PopPicker({
+                layer: 3
+            });
+            cityPicker1.setData(cityData);
+            cityPicker1.setTitle("选择地区");
+            var showCityPickerButton1 = doc.getElementById('area');
+            var areaName = doc.getElementById('areaFirst');
+            var areaInfo = doc.getElementById('areaSecond');
+            var provInfo = doc.getElementById('areaThree');
+            showCityPickerButton1.addEventListener('tap', function(event) {
+                cityPicker1.show(function(items) {
+                    if (quakooUtils.isNotBlack(items[0].text)&&quakooUtils.isNotBlack(items[1].text)&&quakooUtils.isNotBlack(items[2].text)) {
+                        areaName.innerHTML = items[0].text;
+                        areaInfo.innerHTML = items[1].text;
+                        if(!quakooUtils.isBlack(items[2].text)){
+                            provInfo.innerHTML = items[2].text;
+                        }
+                        areaFirst.id = items[0].value;
+                        areaFirst.name = items[0].text;
+                        areaSecond.id = items[1].value;
+                        areaSecond.name = items[1].text;
+                        areaThree.id = items[2].value;
+                        areaThree.name = items[2].text;
+                    }
+                });
+            }, false);
+        })(mui, document);
+    }
+
+    //切换默认地址
+    function check() {
+        var dom = document.getElementById('defAddr');
+        if(def == 1){
+            dom.style.background = 'url(../../icon/switch01.png) no-repeat center';
+            dom.style.backgroundSize = '100%';
+            def = 0;
+        }else {
+            dom.style.background = 'url(../../icon/switch02.png) no-repeat center';
+            dom.style.backgroundSize = '100%';
+            def = 1;
+        }
+    };
+    //添加
+    function addAddress() {
+        var parame = {};
+        if(id){
+            parame.id = parseInt(id);
+        }
+        parame.name = $api.val($api.byId('userName'));
+        parame.phone =  $api.val($api.byId("phone"));
+        parame.areaFirst = areaFirst;
+        parame.areaSecond = areaSecond;
+        parame.areaThree = areaThree;
+        parame.address = $api.val($api.byId('addr'));
+        parame.def = def;
+        if (quakooUtils.isBlack(parame.name)) {
+            quakooMsg.toast('请输入收货人');
+            return;
+        };
+        if (quakooUtils.isBlack(parame.phone)) {
+            quakooMsg.toast('请输入手机号');
+            return;
+        };
+        if (!quakooUtils.isMobileNum(parame.phone)) {
+            quakooMsg.toast('请输入正确的手机号');
+            return;
+        };
+        if (quakooUtils.isBlack(parame.areaFirst)) {
+            quakooMsg.toast('请输入地区');
+            return;
+        }
+        if (quakooUtils.isBlack(parame.address)) {
+            quakooMsg.toast('请输入详细地址');
+            return;
+        }
+        var url;
+        if(id){
+            url = config.getUrl_web_mall_updataAddress();
+        }else{
+            url = config.getUrl_web_mall_addAddr();
+        }
+        quakooMsg.showProgress()
+        quakooData.ajaxSubmitData(url,parame,function (ret,err) {
+            document.querySelector('.add-btn').onclick = function(){}
+            quakooMsg.hideProgress();
+            if(ret.success == true){
+                if(id){
+                    quakooMsg.toast('修改成功');
+                    api.execScript({
+                        name:'indent',
+                        frameName:"indent_body",
+                        script:"getAddress("+JSON.stringify(parame)+")"
+                    })
+                }else{
+                    quakooMsg.toast('添加成功');
+                    api.execScript({
+                        name:'indent',
+                        frameName:"indent_body",
+                        script:"getAddress("+JSON.stringify(ret.data)+")"
+                    })
+                }
+
+                setTimeout(function () {
+                    api.closeToWin({
+                        name:"indent"
+                    })
+                    // quakooApp.closeWin();
+                },400)
+            }else{
+                document.querySelector('.add-btn').onclick = function(){
+                    addAddress()
+                }
+                quakooMsg.toast(ret.msg);
+            }
+        })
+
+    }
+
+</script>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>修改个人信息</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+        #topbar > .bill-right > p{
+            position: absolute;
+            bottom:12px;
+            right:19px;
+            height:20px;
+            line-height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #ccc;
+            letter-spacing: 0;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();"></div>
+    <div>修改性别</div>
+    <div class="bill-right">
+        <p id="btn" style="display: block">保存</p>
+        <p id="submitBtn" onclick="submit()" style="display: none">保存</p>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    var newSex;
+    apiready = function () {
+        quakooApp.initFrameInWin(api.pageParam);
+        newSex = api.pageParam.sex;
+    }
+    //切换按钮状态
+    var submitBtn = document.getElementById('submitBtn');
+    var dom = document.getElementById('btn');
+
+    //激活状态
+    function switchBtnON(val){
+        submitBtn.style.color = '#222';
+        submitBtn.style.display = 'block';
+        dom.style.display = 'none';
+        newSex = val;
+    };
+    //失效状态
+    function switchBtnOFF(){
+        dom.style.color = '#ccc';
+        dom.style.display = 'block';
+        submitBtn.style.display = 'none';
+    };
+
+    //提交
+    function submit(){
+        quakooMsg.showProgress()
+        var parame = {};
+        parame.id = quakooUser.getUserInfo().id;
+        parame.sex = parseInt(newSex);
+        quakooData.ajaxSubmitData(config.getUrl_web_user_updataMyMsg(),parame,function(ret,err){
+            quakooMsg.hideProgress()
+            if(ret.success == true){
+                api.execScript({
+                    name:'homePage',
+                    frameName:'homePage_body',
+                    script:'apiready()'
+                });
+                setTimeout(function(){
+                    quakooApp.closeWin();
+                },300);
+                quakooMsg.toast(ret.msg)
+            }else{
+                quakooMsg.toast(ret.msg)
+            }
+        });
+    };
+
+</script>
+</html>

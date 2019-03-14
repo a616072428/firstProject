@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>投诉举报</title>
+	<link rel="stylesheet" href="../../css/api.css">
+	<link rel="stylesheet" href="../../css/common.css">
+	<style>
+		#main{
+			width: 100%;
+			box-sizing: border-box;
+			padding: 0 15px 30px;
+		}
+		.info{
+			width: 100%;
+			box-sizing: border-box;
+			padding: 15px;
+			font-size: 14px;
+			color: #999999;
+			line-height: 20px;
+			border: 1px solid #DEDEDE;
+			border-radius: 6px;
+		}
+		.info textarea{
+			width: 100%;
+			outline: none;
+			min-height: 125px;
+			margin-bottom: 10px;
+		}
+		.imgBox{
+			width: 100%;
+			overflow: hidden;
+		 }
+		.imgBox div{
+			float: left;
+			margin-right: 10px;
+			margin-bottom: 10px;
+			width: 60px;
+			height: 60px;
+			overflow: hidden;
+			border-radius: 6px;
+		}
+		.imgBox img{
+			display: block;
+		}
+		.sub{
+			width: 128px;height: 36px;
+			line-height: 36px;
+			text-align: center;
+			font-size: 14px;
+			color: #FFFFFF;
+			background: #222;
+			box-shadow: 0 2px 4px 0 rgba(0,0,0,0.30);
+			border-radius: 6px;
+			margin: 60px auto;
+		}
+		.defaultImg{
+			width: 100%;
+			height: 100%;
+		}
+		.complaintType{
+			width: 100%;
+			margin-bottom: 10px;
+		}
+		.complaintType p{
+			line-height: 40px;
+			font-size: 16px;
+		}
+		.complaintType li{
+			width: 100%;
+			height: 40px;line-height: 40px;
+		}
+		.complaintType em{
+			width: 20px;
+			height: 20px;
+			background: #ccc;
+			float: left;
+			margin-top: 10px;
+			margin-right: 10px;border-radius: 50%;
+		}
+		.complaintType em.active{
+			background: url("../../image/duigou.png") no-repeat center/cover;
+		}
+		.complaintType input{
+			outline: none;
+			width: 100%;height: 100%;
+			top: 0;left: 0;
+			opacity: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div class="complaintType">
+			<p>请选择类型</p>
+			<ul>
+				<li class="pr">
+					<em class="active"></em>泄露隐私
+					<input class="pa" type="radio" name="complaintType" value="1" onchange="getComplaint()" checked="checked">
+				</li>
+				<li class="pr">
+					<em class=""></em>虚假信息
+					<input class="pa" type="radio" name="complaintType" value="2" onchange="getComplaint()">
+				</li>
+				<li class="pr">
+					<em></em>欺诈消费
+					<input class="pa" type="radio" name="complaintType" value="3" onchange="getComplaint()">
+				</li>
+				<li class="pr">
+					<em></em>其他
+					<input class="pa" type="radio" name="complaintType" value="4" onchange="getComplaint()">
+				</li>
+			</ul>
+		</div>
+		<div class="info">
+			<textarea placeholder="请输入举报理由" id="content"></textarea>
+		</div>
+		<div class="sub" tapmode="itemOn" onclick="addReport()">提 交</div>
+	</div>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script>
+    apiready = function(){
+
+    }
+    function addReport() {
+        quakooMsg.showProgress()
+        var content = document.getElementById('content').value;
+        var complaintType = $("input[name=complaintType]:checked").val();
+        if(quakooUtils.isBlack(content)){
+            quakooMsg.hideProgress()
+            quakooMsg.toast('请输入举报理由')
+            return ;
+		}
+       setTimeout(function () {
+           quakooMsg.toast('提交成功')
+           document.getElementById('content').value='';
+           setTimeout(function () {
+               quakooApp.closeWin()
+           },500)
+       },500)
+
+    }
+    //获得举报类型
+    function getComplaint() {
+		$('.complaintType ul li em').removeClass('active')
+		$('.complaintType ul li').eq($("input[name=complaintType]:checked").val()-1).find('em').addClass('active')
+    }
+
+</script>
+</body>
+</html>

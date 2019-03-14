@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>修改个人信息</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+        #topbar > .bill-right > p{
+            position: absolute;
+            bottom:12px;
+            right:19px;
+            height:20px;
+            line-height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #ccc;
+            letter-spacing: 0;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();"></div>
+    <div id="headerName">修改个人信息</div>
+    <div class="bill-right">
+        <p id="btn" style="display: block">保存</p>
+        <p id="submitBtn" onclick="submit()" style="display: none">保存</p>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    var type;
+    var newMsg;
+    apiready = function () {
+        quakooApp.initFrameInWin(api.pageParam);
+        var headerDom = document.getElementById('headerName');
+        if(api.pageParam.type == 0){
+            headerDom.innerHTML = '修改昵称';
+            type = 0;
+        }else if(api.pageParam.type == 1){
+            headerDom.innerHTML = '修改年龄';
+            type = 1;
+        }else if(api.pageParam.type == 2){
+            headerDom.innerHTML = '修改身高';
+            type = 2;
+        }else if(api.pageParam.type == 3){
+            headerDom.innerHTML = '修改体重';
+            type = 3;
+        }else if(api.pageParam.type == 4){
+            headerDom.innerHTML = '修改腰围';
+            type = 4;
+        }else if(api.pageParam.type == 5){
+            headerDom.innerHTML = '修改胸围';
+            type = 5;
+        }else if(api.pageParam.type == 6){
+            headerDom.innerHTML = '修改臀围';
+            type = 6;
+        }else if(api.pageParam.type == 7){
+            headerDom.innerHTML = '修改腿长';
+            type = 7;
+        }else if(api.pageParam.type == 8){
+            headerDom.innerHTML = '修改罩杯';
+            type = 8;
+        }else if(api.pageParam.type == 9){
+            headerDom.innerHTML = '修改个性签名'
+            type = 9;
+        } ;
+    };
+
+    //切换按钮状态
+    var submitBtn = document.getElementById('submitBtn');
+    var dom = document.getElementById('btn');
+
+    //激活状态
+    function switchBtnON(val){
+        submitBtn.style.color = '#222';
+        submitBtn.style.display = 'block';
+        dom.style.display = 'none';
+        newMsg = val;
+    };
+    //失效状态
+    function switchBtnOFF(){
+        dom.style.color = '#ccc';
+        dom.style.display = 'block';
+        submitBtn.style.display = 'none';
+
+    };
+
+    //提交
+    function submit(){
+        var parame = {};
+        parame.id = quakooUser.getUserInfo().id;
+        if(type == 0){
+            if(quakooUtils.isBlack(newMsg)){
+                quakooMsg.toast('昵称不能为空');
+                return ;
+            }
+            if(newMsg.length>16){
+                quakooMsg.toast('请输入少于16个字符的昵称');
+                return ;
+            }
+            parame.name = newMsg;
+        }else if(type == 1){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的年龄');
+                return ;
+            }
+            if(parseInt(newMsg)>199){
+                quakooMsg.toast('请输入正确的年龄');
+                return ;
+            }
+            parame.age = newMsg;
+        }else if(type == 2){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的身高');
+                return ;
+            }
+            if(parseInt(newMsg)>400){
+                quakooMsg.toast('请输入正确的身高');
+                return ;
+            }
+            parame.height = newMsg;
+        }else if(type == 3){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的体重');
+                return ;
+            }
+            if(parseInt(newMsg)>400){
+                quakooMsg.toast('请输入正确的体重');
+                return ;
+            }
+            parame.weight = newMsg;
+        }else if( type == 4){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的腰围');
+                return ;
+            }
+            if(parseInt(newMsg)>500){
+                quakooMsg.toast('请输入正确的腰围');
+                return ;
+            }
+            parame.waistline = newMsg;
+        }else if(type == 5){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的胸围');
+                return ;
+            }
+            if(parseInt(newMsg)>200){
+                quakooMsg.toast('请输入正确的胸围');
+                return ;
+            }
+            parame.chest = newMsg;
+        }else if(type == 6){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的臀围');
+                return ;
+            }
+            if(parseInt(newMsg)>500){
+                quakooMsg.toast('请输入正确的臀围');
+                return ;
+            }
+            parame.hipline = newMsg;
+        }else if(type == 7){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的腿长');
+                return ;
+            }
+            if(parseInt(newMsg)>300){
+                quakooMsg.toast('请输入正确的腿长');
+                return ;
+            }
+            parame.leg = newMsg;
+        }else if(type == 8){
+            if(!quakooUtils.isNum(newMsg)){
+                quakooMsg.toast('请输入正确的罩杯');
+                return ;
+            }
+            if(parseInt(newMsg)>500){
+                quakooMsg.toast('请输入正确的罩杯');
+                return ;
+            }
+            parame.bar = newMsg;
+        }else if(type == 9){
+            if(quakooUtils.isBlack(newMsg)){
+                quakooMsg.toast('个性签名不能为空');
+                return ;
+            }
+            parame.desc = newMsg;
+        };
+
+        var user = quakooUser.getUserInfo();
+        for(var i in parame){
+            user[i] = parame[i];
+        }
+        quakooUser.setUserInfo(user)
+
+        quakooMsg.showProgress()
+        quakooData.ajaxSubmitData(config.getUrl_web_user_updataMyMsg(),parame,function(ret,err){
+            quakooMsg.hideProgress()
+            if(ret.success == true){
+                api.execScript({
+                    name:'homePage',
+                    frameName:'homePage_body',
+                    script:'apiready()'
+                });
+                if(type==0){
+                    api.execScript({
+                        name:"main",
+                        frameName:"my",
+                        script:"editName('"+parame.name+"')"
+                    })
+                }
+                // 个人信息发生改变，给原生发送通知
+                quakooUser.registerNative();
+                setTimeout(function(){
+                    quakooApp.closeWin();
+                },300);
+                quakooMsg.toast(ret.msg)
+            }else{
+                quakooMsg.toast(ret.msg)
+            }
+        });
+    };
+
+</script>
+</html>

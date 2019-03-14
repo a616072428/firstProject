@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>收货地址</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <link rel="stylesheet" href="../../css/mui.min.css"/>
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        #main{
+            box-sizing: border-box;
+            padding: 0 0 50px;
+            height: auto;
+        }
+        .indentAddr{
+            height: 110px;
+            background: #fff;
+            box-sizing: border-box;
+            position: relative;
+            padding: 20px 0;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        .addrLeft{
+            width: 70%;
+            height: 100%;
+            float: left;
+            position: relative;
+        }
+        .addrLeft>b{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            line-height: 20px;
+            color: #333333;
+            letter-spacing: -0.34px;
+            text-align: left;
+            display: block;
+        }
+        .addrLeft>span{
+            width: 90%;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #AEAEAE;
+            letter-spacing: 0;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            line-height: 18px;
+        }
+        .addrLeft > b > em{
+            width: 28px;
+            height: 16px;
+            background: #9E7443;
+            border-radius: 2px;
+            margin-left: 11px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+            text-align: center;
+            line-height: 16px;
+            vertical-align: top;
+        }
+        .addrLeft > b:nth-of-type(2){
+            margin-bottom: 11px;
+        }
+        .addrRight{
+            width: 30%;
+            height: 100%;
+            float: left;
+            position: relative;
+        }
+        .addrRight>span{
+            width: 85px;
+            height: 37px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            position: absolute;
+            line-height: 37px;
+            font-weight: 700;
+            top: 50%;
+            margin-top: -22px;
+            left: 50%;
+            margin-left: -42px;
+        }
+        .add-btn{
+            width: 100%;
+            height: 45px;
+            background: #222;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #F9F9F9;
+            letter-spacing: -0.39px;
+            text-align: center;
+            line-height: 45px;
+            position: fixed;
+            bottom: 0;
+        }
+        .default{
+            width: 66px;
+            height: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+        .default>span{
+            width: 100%;
+            height: 100%;
+            line-height: 110px;
+            text-align: center;
+            font-size: 13px;
+            color: #000000;
+            font-weight: 700;
+        }
+        .deletea{
+            width: 66px;
+            height: 100%;
+        }
+        .deletea>span{
+            width: 100%;
+            height: 100%;
+            line-height: 110px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .mui-table-view {
+            padding: 0 19px;
+        }
+        .mui-table-view-cell.mui-active{background: #ffffff}
+        .mui-table-view::before{height: 0}
+        .mui-table-view::after{height: 0}
+        .mui-table-view-cell::before{height: 0}
+        .mui-table-view-cell::after{height: 0}
+        .mui-table-view-cell>.mui-slider-left>.mui-btn, .mui-table-view-cell>.mui-slider-right>.mui-btn{padding: 0;}
+    </style>
+</head>
+<body>
+    <div id="main">
+
+    </div>
+    <div class="add-btn" onclick="editAddr('',2);">添加收货地址</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/mui.min.js"></script>
+<script type="text/html" id="addrTmp">
+    <%if(list){%>
+    <div class="mui-table-view" >
+        <%for(var i = 0; i < list.length; i++){%>
+        <div class="mui-table-view-cell" style="padding: 0;">
+            <div class="mui-slider-right mui-disabled">
+                <div class="mui-btn default mui-btn-grey" onclick="setDefault('<%=list[i].id%>')"><span>设置默认</span></div>
+                <div class="mui-btn deletea mui-btn-red" onclick="onDelete('<%=list[i].id%>')"><span>删除</span></div>
+            </div>
+            <div class="mui-slider-handle">
+                <div id="indent-addr"  class="indentAddr">
+                    <div class="addrLeft">
+                        <b><%=list[i].name%>
+                            <%if(list[i].def == 1){%>
+                            <em>默认</em>
+                            <%}%>
+                        </b>
+                        <b><%=list[i].phone%></b>
+                        <span><%=list[i].area%> <%=list[i].address%></span>
+                    </div>
+                    <div class="addrRight">
+                        <span onclick="updataAddr('<%=list[i].id%>');">修改</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%}%>
+    </div>
+    <%}%>
+</script>
+<script>
+    var addrList;
+    mui.init();
+
+    apiready = function () {
+        getAdderss();
+    }
+//    window.addEventListener('touchmove', setDefault, { passive: false })
+//    window.addEventListener('touchmove', onDelete, { passive: false })
+//    window.addEventListener('touchmove', updataAddr, { passive: false })
+    function getAdderss() {
+        quakooMsg.showProgress()
+        quakooData.ajaxGetData(config.getUrl_web_mall_myAddress(),{},function(ret,err){
+            quakooMsg.hideProgress()
+            if(ret.success == true){
+                for(var i=0;i<ret.data.length;i++){
+                    var areaFirstName='';
+                    var areaSecondName='';
+                    var areaThreeName='';
+                    if(ret.data[i].areaFirst && ret.data[i].areaFirst.indexOf('{')>=0){
+                        areaFirstName = JSON.parse(ret.data[i].areaFirst).name;
+                    }
+                    if(ret.data[i].areaSecond && ret.data[i].areaSecond.indexOf('{')>=0){
+                        areaSecondName = JSON.parse(ret.data[i].areaSecond).name;
+                    }
+                    if(ret.data[i].areaThree && ret.data[i].areaThree.indexOf('{')>=0){
+                        areaThreeName = JSON.parse(ret.data[i].areaThree).name;
+                    }
+                    ret.data[i].areaFirstName = areaFirstName;
+                    ret.data[i].areaSecondName = areaSecondName;
+                    ret.data[i].areaThreeName = areaThreeName;
+                    ret.data[i].area = areaFirstName + areaSecondName + areaThreeName;
+                }
+                addrList = ret.data;
+                var data = template('addrTmp',{list:ret.data})
+                document.getElementById('main').innerHTML = data;
+            }else{
+                document.getElementById('main').innerHTML = '';
+            }
+        });
+    }
+
+    //修改
+    function updataAddr(id) {
+        for(var i=0;i<addrList.length;i++){
+            if(addrList[i].id==id){
+                quakooApp.openNewWindow('editAddr','./editAddr.html',{data:addrList[i]});
+            }
+        }
+    }
+    //编辑
+    function editAddr() {
+        quakooApp.openNewWindow('editAddr','editAddr.html');
+    }
+    //设置默认
+    function setDefault(id){
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_setDefAddress(),{id:id},function(ret,err){
+            if(ret.success == true){
+                apiready();
+            }
+        })
+    }
+    //删除
+    function onDelete(id){
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_delAddress(),{id:id},function(ret,err){
+            if(ret.success == true){
+                apiready();
+            }
+        })
+    }
+</script>
+</html>

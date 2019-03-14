@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>搜索-商品</title>
+    <link rel="stylesheet" href="../../css/api.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css"/>
+    <style type="text/css">
+        html,body{
+            background: #fff;
+            width: 100%;height: 100%;
+        }
+        #body{
+            width: 100%;
+            padding-top: 26px;
+        }
+        .list-content{
+            margin-top: 17px;
+            padding: 0 19px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .list-content > div{
+            width:160px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+        .collect{
+            position: absolute;
+            width: 20px;height: 20px;
+            right: 12px;top: 14px;
+            background: url("../../icon/collectno.png") no-repeat center;
+            background-size: 100%;
+        }
+        .collect.active{
+            background: url("../../icon/collectyes.png") no-repeat center;
+            background-size: 100%;
+        }
+        .list-content > div:nth-of-type(2n+1){
+            float: left;
+        }
+        .list-content > div:nth-of-type(2n+0){
+            float: right;
+        }
+
+        .list-content > div .img{
+            width: 160px;
+            height: 160px;
+            overflow: hidden;
+        }
+        .list-content > div  img{
+            display: block;
+        }
+        .list-content > div > p{
+            margin-top: 19px;
+            font-family: TeluguMN-Bold;
+            font-size: 15px;
+            color: #111111;
+            letter-spacing: 0;
+            line-height: 18px;
+            text-align: center;
+            overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+        }
+        .list-content > div > span{
+            overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+            display: block;
+            line-height: 18px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .list-content > div > i{
+            margin-top: 9px;
+            display: block;
+            font-family: STHeitiSC-Medium;
+            font-size: 17px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        .sortBtn{
+            width: 100%;
+            position: fixed;top: 0;left: 0;background: #fff;
+            z-index: 999999;
+        }
+        .sortBtn ul{
+            width: 100%;
+            padding: 8px 19px;box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+        }
+        .sortBtn li{
+            padding: 3px 0;
+            font-size: 14px;
+            line-height: 20px;
+            color: #9B9B9B;
+        }
+        .sortBtn li em{
+            width: 6px;height: 13px;
+            margin-left: 2px;
+            background: url("../../icon/sort3.png") no-repeat 0 0;
+            vertical-align: text-top;
+            background-size: 100%;
+        }
+
+        .sortBtn li.active{
+            color: #505050;
+            border-bottom: 1px solid #505050;;
+        }
+    </style>
+</head>
+<body>
+    <div class="sortBtn">
+        <ul>
+            <li class="active" onclick="editStyle(this,4);">新品</li>
+            <li onclick="editStyle(this,2);">综合</li>
+            <li onclick="editStyle(this,3);">销量</li>
+            <li onclick="editStyle(this,1);">价格<em></em></li>
+        </ul>
+    </div>
+    <div id="body" class="list-content">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="listTmp">
+    <%for(var i = 0; i < list.length;i++){%>
+        <div onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>')">
+            <div class="img">
+                <img data-echo="<%=list[i].covers[0]%>" alt="" real-style="<%=list[i].style%>">
+            </div>
+            <p><%=list[i].title%></p>
+            <span><%=list[i].name%></span>
+            <i>￥<%=list[i].price%></i>
+            <%if(list[i].favorite){%>
+                <em class="collect active" onclick="toCollect('<%=list[i].id%>',1,this)"></em>
+            <%}else{%>
+                <em class="collect" onclick="toCollect('<%=list[i].id%>',2,this)"></em>
+            <%}%>
+        </div>
+    <%}%>
+</script>
+<script>
+    var sort = 4;
+    var keyWord = '';
+    var type = '';
+
+    apiready = function () {
+        keyWord = api.pageParam.key;
+        if(api.pageParam.type){
+            type = api.pageParam.type;
+        }
+        getDataList(keyWord)
+    };
+    function getDataList(key) {
+        if(key){
+            keyWord = key;
+        }
+        if(type){
+            new QuakooPage(addDataToHtml,config.getUrl_web_mall_getSearchByType(),{title:keyWord,sort:sort,type:type})
+        }else{
+            new QuakooPage(addDataToHtml,config.getUrl_web_mall_goodsSearch(),{title:keyWord,sort:sort})
+        }
+    }
+    //加载作品
+    function addDataToHtml(results,append){
+        for(var i=0;i<results.length;i++){
+            var obj = quakooImg.processImg(results[i].covers[0],160,278);
+            results[i].style = obj.style;
+            results[i].covers[0] = obj.url;
+            results[i].price = quakooUtils.formatMoney(results[i].price/100,2);
+        }
+        var data = {list: results};
+        var html = template('listTmp',data);
+        if (append){
+            document.getElementById('body').innerHTML += html;
+        } else {
+            document.getElementById('body').innerHTML = html;
+        }
+        api.parseTapmode();
+        setTimeout(function(){
+            echoExt.init({
+                offset: 0,
+                throttle: 0//设置图片延迟加载的时间
+            });
+        },100)
+    }
+    //改变样式
+    function editStyle(self,num) {
+        //价格0降序，1升序，点击改变
+        if(num==1){
+            self.onclick = function () {
+                editStyle(self,0)
+            }
+        }else if(num==0){
+            self.onclick = function () {
+                editStyle(self,1)
+            }
+        }
+        for(var i=0;i<document.querySelectorAll('.sortBtn li').length;i++){
+            document.querySelectorAll('.sortBtn li')[i].classList.remove('active');
+        }
+        self.classList.add('active');
+        sort = num;
+        getDataList()
+    }
+    // 2 收藏     1取消收藏
+    function toCollect(id,favoriteFlag,self,e) {
+        quakooUtils.stopEventBubble(e)
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        if(favoriteFlag==1){
+            quakooMsg.showProgress();
+            quakooData.ajaxGetData(config.getUrl_web_system_favoriteDelete(),{typeId:id,type:1},function (ret,err) {
+                quakooMsg.hideProgress();
+                if(ret && ret.success){
+                    quakooMsg.toast('取消成功');
+                    self.classList.toggle('active');
+                    self.onclick = function () {
+                        toCollect(id,2,self)
+                    }
+                    api.execScript({
+                        name:'main',
+                        frameName:'my',
+                        script:'editCollectNum("-")'
+                    });
+                }else{
+                    quakooMsg.toast(err.msg)
+                }
+            })
+        }else{
+            quakooMsg.showProgress();
+            quakooData.ajaxGetData(config.getUrl_web_system_favoriteAdd(),{typeId:id,type:1},function (ret,err) {
+                quakooMsg.hideProgress();
+                if(ret && ret.success){
+                    quakooMsg.toast('收藏成功');
+                    self.classList.toggle('active');
+                    self.onclick = function () {
+                        toCollect(id,1,self)
+                    }
+                    api.execScript({
+                        name:'main',
+                        frameName:'my',
+                        script:'editCollectNum("+")'
+                    });
+                }else{
+                    quakooMsg.toast(err.msg)
+                }
+            })
+        }
+    }
+    function openIndex(id,title) {
+        quakooApp.openNewWindow('goodsIndex','../goods/goodsIndex.html',{id:id,title:title});
+    }
+</script>
+</html>

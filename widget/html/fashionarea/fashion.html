@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>时尚专区</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+        /*tab切换*/
+        .switch-tab ul{
+            height:44px;
+            background: #fff;
+            border-bottom: 1px solid #F2F2F2;
+            box-sizing: border-box;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            box-sizing: border-box;
+        }
+        .switch-tab ul li{
+            height:44px;
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+        }
+        .switch-tab ul .active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #505050;
+            letter-spacing: 0;
+            border-bottom: 1px solid #242424;
+            box-sizing: border-box;
+        }
+        .switch-tab ul .active>div{
+            color: #505050 !important;
+        }
+        .switch-tab ul li>div{
+            width:100%;
+            height:45px;
+            font-family: PingFangSC-Regular;
+            line-height:45px;
+            text-align: center;
+            font-size: 14px;
+            color: #9B9B9B;
+            letter-spacing: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"   onclick="quakooApp.closeWin();">
+    </div>
+    <div>时尚专区</div>
+</div>
+<!--tab切换-->
+<div class="switch-tab">
+    <ul id="zoneDom">
+
+    </ul>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="zoneTmp">
+    <%for(var i=0;i< list.length;i++){%>
+        <%if(i==0){%>
+            <li class="st-item active" onclick="switchIndex(this,'<%=list[i].id%>')">
+        <%}else{%>
+            <li class="st-item" onclick="switchIndex(this,'<%=list[i].id%>')">
+        <%}%>
+                <div><%=list[i].name%></div>
+            </li>
+    <%}%>
+</script>
+<script>
+    apiready = function () {
+        quakooData.ajaxGetData(config.getUrl_web_mall_getZone(),{},function (ret,err) {
+            if(ret){
+                if(ret.success){
+                    var html = template('zoneTmp',{list:ret.data});
+                    document.getElementById('zoneDom').innerHTML = html;
+                    api.pageParam.id = ret.data[0].id;
+                    quakooApp.initFrameInWin(api.pageParam,{
+                        rect:{
+                            x:0,
+                            marginTop:api.safeArea.top + config.headHeight + 45,
+                            w:'auto',
+                            marginBottom:0
+                        }
+                    });
+                }else{
+                    quakooMsg.toast('暂无分类')
+                }
+            }else{
+                quakooMsg.toast(err.msg)
+            }
+        })
+
+    }
+    function switchIndex(self,id) {
+        document.querySelector('.st-item.active').classList.remove('active')
+        self.classList.add('active')
+        api.execScript({
+            name:"fashion",
+            frameName:"fashion_body",
+            script:"getData("+id+")"
+        })
+    }
+</script>
+</html>

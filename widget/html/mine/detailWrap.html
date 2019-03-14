@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title></title>
+    <link rel="stylesheet" href="../../css/api.css">
+    <link rel="stylesheet" href="../../css/commonWindow.css">
+    <style>
+        html,body{
+            width: 100%;height:100%;overflow: hidden;
+            background: rgba(0,0,0,0.3);
+        }
+        .detail{
+            position: fixed;
+            top: 0;left: 0;
+            right: 0;bottom: 0;
+            margin: auto;
+            width: 313px;
+            height: 385px;
+            background: #fff;
+            padding:30px 22px 0;
+            box-sizing: border-box;
+            z-index: 20;
+            overflow: hidden;
+        }
+        .detail > h1{
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #030303;
+            letter-spacing: -0.41px;
+            text-align: center;
+            margin-bottom: 17px;
+        }
+        .detail > p{
+            height: 290px;
+            padding-bottom: 44px;
+            box-sizing: border-box;
+            text-indent: 2em;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #959595;
+            letter-spacing: 0;
+            line-height: 20px;
+            overflow: auto;
+        }
+        .detail > div{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            background: #fff;
+            color: #000000;
+            letter-spacing: -0.34px;
+            text-align: center;
+            height: 44px;
+            border-top: 1px solid #f5f5f5;
+            box-sizing: border-box;
+            line-height: 44px;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="detail">
+    <h1>积分规则</h1>
+    <p>如果你得罪了老板，失去的只是一份工作；如果你得罪了客户，失去的不过是一份订单；是的，世上只有一个人可以得罪：你给她脸色看，你冲她发牢骚，
+        你大声顶撞她，甚至当 着她的面摔碗，她都不会记恨你，原因很简单，因为她是你的母亲。如果你得罪了老板，失去的只是一份工作；如果你得罪了客户，失去的不过是一份订单；是的，世上只有一个人可以得罪：你给她脸色看，你冲她发牢骚，
+        你大声顶撞她，甚至当 着她的面摔碗，她都不会记恨你，原因很简单，因为她是你的母亲。如果你得罪了老板，失去的只是一份工作；如果你得罪了客户，失去的不过是一份订单；是的，世上只有一个人可以得罪：你给她脸色看，你冲她发牢骚，
+        你大声顶撞她，甚至当 着她的面摔碗，她都不会记恨你，原因很简单，因为她是你的母亲。</p>
+    <div onclick="closeDetail();">我知道了</div>
+</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script>
+    //关闭说明
+    function closeDetail() {
+        api.closeFrame();
+    };
+</script>
+</html>

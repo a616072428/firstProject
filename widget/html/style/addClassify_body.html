@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>时尚圈</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #ffffff;
+        }
+        #main{
+            width: 100%;
+        }
+        #classifyBody{
+            width: 100%;
+        }
+        #classifyBody>li{
+            width: 93%;
+            height: 25px;
+            padding: 10px;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        #classifyBody>li>span{
+            width: 40%;
+            height: 100%;
+            line-height: 25px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #080808;
+            letter-spacing: 0;
+            text-align: left;
+            float: left;
+        }
+        #classifyBody>li>em{
+            width: 20px;
+            height: 20px;
+            background: url("../../icon/shop_no.png") no-repeat;
+            background-size: cover;
+            float: right;
+            margin-top: 2px;
+        }
+        #classifyBody>li>em.active{
+            background: url("../../icon/shop_ok.png") no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <ul id="classifyBody">
+    </ul>
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/html" id="styleNav">
+    <%for(var i=0;i< list.length;i++){%>
+        <li>
+            <span><%=list[i].name%></span>
+            <%if(styleIds.indexOf(list[i].id)>=0){%>
+            <em class="active" onclick="chooseStyle(this,'<%=list[i].id%>','<%=list[i].name%>')"></em>
+            <%}else{%>
+            <em class="" onclick="chooseStyle(this,'<%=list[i].id%>','<%=list[i].name%>')"></em>
+            <%}%>
+        </li>
+    <%}%>
+</script>
+<script>
+    var styleId=[],styleName=[],dataContent;
+    /*ios代码**/
+    apiready = function() {
+        dataContent = api.pageParam.dataContent;
+        styleId = api.pageParam.styleIds;
+        styleName = api.pageParam.styleName;
+        quakooData.ajaxGetData(config.getUrl_web_mall_style(),{},function(ret,err){
+            if(ret.success){
+                var data = {list:ret.data,styleIds:styleId};
+                var html = template("styleNav",data);
+                document.getElementById("classifyBody").innerHTML=html;
+            }
+        })
+        /*// 监听页面消失的时候，关掉页面就可以了
+        api.addEventListener({
+            name:'viewdisappear'
+        },function(){
+            api.closeWin();
+        });*/
+    };
+    //风格选中
+    function chooseStyle(self,id,name) {
+        if($(self).hasClass('active')){
+            styleId.remove(id)
+            styleName.remove(name)
+        }else{
+            styleId.push(id)
+            styleName.push(name)
+        }
+        $(self).toggleClass('active');
+
+        /*styleId = id;
+        styleName = name;
+        $("em").removeClass("active");
+        $(self).addClass("active");*/
+    }
+    //完成
+    function accomplish() {
+        // dataContent.styleName = styleName;
+        // dataContent.styleId = styleId;
+        api.execScript({
+            name:"root",
+            frameName:"style_fabu_body",
+            script:"changeClassify('"+styleId+"','"+styleName+"')"
+        })
+        quakooApp.closeWin();
+        // quakooApp.openNewWindow("style_fabu","style_fabu.html",{dataContent:dataContent});
+    };
+</script>
+</body>
+</html>

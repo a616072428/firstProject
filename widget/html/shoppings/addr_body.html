@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>收货地址</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+            height: auto;
+        }
+        #main{
+            padding-top: 12px;
+            padding-bottom: 45px;
+            box-sizing: border-box;
+        }
+        #indent-addr{
+            height: 85px;
+            background: #fff;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        #indent-addr > div{
+            float: left;
+        }
+        #indent-addr >:nth-child(1){
+            width: 18%;
+            height: 100%;
+        }
+        #indent-addr >:nth-child(1) > div{
+            width: 18px;
+            height: 18px;
+            background: url("../../icon/yes01.png") no-repeat;
+            background-size: 100%;
+            margin: 50% auto;
+        }
+        #indent-addr >:nth-child(2){
+            width: 82%;
+            height: 100%;
+            padding-top:14px;
+            box-sizing: border-box;
+        }
+        #indent-addr >:nth-child(2) > strong{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: -0.34px;
+            text-align: left;
+            width: 205px;
+        }
+        #indent-addr >:nth-child(2) > strong > em{
+            width: 28px;
+            height: 16px;
+            background: #9E7443;
+            border-radius: 2px;
+            margin-left: 11px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+            text-align: center;
+            line-height: 16px;
+            vertical-align: top;
+        }
+        #indent-addr >:nth-child(2) > span{
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #AEAEAE;
+            letter-spacing: 0;
+            width: 205px;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        #indent-addr >:nth-child(2) > i{
+            width: 54px;
+            height: 21px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 21px;
+            display: inline-block;
+            position: absolute;
+            right:19px;
+        }
+
+        .add-btn{
+            width: 100%;
+            height: 45px;
+            background: #222;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #F9F9F9;
+            letter-spacing: -0.39px;
+            text-align: center;
+            line-height: 45px;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+
+    <div class="add-btn" onclick="editAddr();">添加收货地址</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+
+<script type="text/html" id="addrTmp">
+    <%if(list){%>
+        <%for(var i = 0; i < list.length; i++){%>
+            <!--地址-->
+            <div id="indent-addr" onclick="useAddress('<%=i%>')">
+                <div>
+                    <%if(list[i].id == addrId){%>
+                        <div style=" background: url('../../icon/yes01.png') no-repeat; background-size: 100%;"></div>
+                    <%}else{%>
+                        <div style=" background: url('../../icon/no01.png') no-repeat; background-size: 100%;"></div>
+                    <%}%>
+                </div>
+                <div>
+                    <strong>
+                        <%=list[i].name%> <%=list[i].phone%>
+                        <%if(list[i].def == 1){%>
+                            <em>默认</em>
+                        <%}%>
+                    </strong>
+                    <span><%=list[i].area%> <%=list[i].address%></span>
+                    <i onclick="updataAddr('<%=list[i].id%>')">修改</i>
+                </div>
+            </div>
+        <%}%>
+    <%}%>
+</script>
+<script>
+    var addrList;
+    var addrId;
+    apiready = function () {
+        addrId = api.pageParam.addrId;
+        getAdderss();
+    }
+
+
+    function getAdderss() {
+        quakooMsg.showProgress();
+        quakooData.ajaxGetData(config.getUrl_web_mall_myAddress(),{},function(ret,err){
+            quakooMsg.hideProgress();
+            if(ret.success == true){
+
+                for(var i=0;i<ret.data.length;i++){
+                    var areaFirstName='';
+                    var areaSecondName='';
+                    var areaThreeName='';
+                    if(ret.data[i].areaFirst && ret.data[i].areaFirst.indexOf('{')>=0){
+                        areaFirstName = JSON.parse(ret.data[i].areaFirst).name;
+                    }
+                    if(ret.data[i].areaSecond && ret.data[i].areaSecond.indexOf('{')>=0){
+                        areaSecondName = JSON.parse(ret.data[i].areaSecond).name;
+                    }
+                    if(ret.data[i].areaThree && ret.data[i].areaThree.indexOf('{')>=0){
+                        areaThreeName = JSON.parse(ret.data[i].areaThree).name;
+                    }
+                    ret.data[i].areaFirstName = areaFirstName;
+                    ret.data[i].areaSecondName = areaSecondName;
+                    ret.data[i].areaThreeName = areaThreeName;
+                    ret.data[i].area = areaFirstName + areaSecondName + areaThreeName;
+                }
+
+                addrList = ret.data;
+                var data = template('addrTmp',{list:ret.data,addrId:addrId});
+                document.getElementById('main').innerHTML = data;
+            }else{
+                document.getElementById('main').innerHTML = '';
+            }
+        });
+    }
+
+    //选择地址
+    function useAddress(indexof) {
+        if(indexof != ''){
+            api.execScript({
+                name: 'indent',
+                frameName:'indent_body',
+                script: 'getAddress('+ JSON.stringify(addrList[indexof]) +')'
+            });
+            setTimeout(function() {
+                quakooApp.closeWin();
+            },200)
+        }else{
+            quakooMsg.toast('选择失败，请重新选择！')
+        }
+    }
+    //修改
+    function updataAddr(id) {
+        quakooUtils.stopEventBubble()
+        for(var i=0;i<addrList.length;i++){
+            if(addrList[i].id==id){
+                quakooApp.openNewWindow('editAddr','./editAddr.html',{data:addrList[i]});
+            }
+        }
+    }
+    //添加收货地址
+    function editAddr() {
+        quakooApp.openNewWindow('editAddr','./editAddr.html');
+    }
+
+</script>
+</html>

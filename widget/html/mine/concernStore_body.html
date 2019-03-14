@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--阻止自动判断电话-->
+    <meta name="format-detection" content="telephone=no"/>
+    <title>商品列表</title>
+    <link rel="stylesheet" href="../../css/api.css"/>
+    <link rel="stylesheet" href="../../css/commonWindow.css"/>
+    <style type="text/css">
+        body {
+            min-width: 320px;
+            background: #fff;
+        }
+        .list-content{
+            height: 76px;
+            padding: 12px 19px;
+            border-bottom: 1px solid #F5F5F5;
+            box-sizing: border-box;
+        }
+        .imgwrap{
+            width: 52px;
+            height: 52px;
+            overflow: hidden;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 16px;
+            float: left;
+            box-shadow: 2px 2px 2px #cccccc;
+        }
+
+        .nameWrap{
+            width: 44%;
+            height: 100%;
+            display: inline-block;
+            float: left;
+            overflow: hidden;
+        }
+        .nameWrap > span{
+            width: 100%;
+            display: block;
+            overflow: hidden;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-bottom: 5px;
+            margin-top: 3px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .nameWrap > p{
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #BCBCBC;
+            letter-spacing: 0;
+            padding-left: 0;
+
+        }
+
+        .concern{
+            width: 89px;
+            height: 37px;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            float: right;
+            margin-top: 7px;
+            color: #ffffff;
+            border: 1px solid #D0021B;
+            background: #D0021B;
+        }
+    </style>
+</head>
+<body id="body">
+<div id="main">
+    <!-- 内容 -->
+
+   <!-- <div class="list-content">
+        <div class="imgwrap">
+            <img src="../../icon/myIcon.png" alt="">
+        </div>
+        <div class="nameWrap">
+            <span>ACU</span>
+            <p>个性签名个性签名个性签名个性签名个性签名</p>
+        </div>
+
+        <div class="concern">关注</div>
+    </div>-->
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="storeList">
+    <%for(var i=0;i< list.length;i++){%>
+    <div class="list-content" onclick="openStore('<%=list[i].id%>')">
+        <div class="imgwrap">
+            <img src="<%=list[i].url%>" style="<%=list[i].style%>" alt="">
+        </div>
+        <%if(id.thirdId == id.userId){%>
+        <div class="nameWrap">
+            <span><%=list[i].name%></span>
+            <p><%=list[i].desc%></p>
+        </div>
+        <div class="concern" onclick="attention('<%=list[i].id%>')">已关注</div>
+        <%}else{%>
+        <div class="nameWrap" style="width: 75%">
+            <span><%=list[i].name%></span>
+            <p><%=list[i].desc%></p>
+        </div>
+        <%}%>
+    </div>
+    <%}%>
+</script>
+<script>
+    var thirdId;
+    apiready = function () {
+        thirdId = api.pageParam.thirdId;
+        new QuakooPage(addDataToHtml,config.getUrl_web_system_focusfansFocusInfo(),{type:4,uid:thirdId})
+    };
+    //收藏接口
+    function addDataToHtml(results,append){
+        if(results){
+            for(var i=0;i<results.length;i++){
+                var obj = quakooImg.processImg(results[i].icon,52,52);
+                results[i].url = obj.url;
+                results[i].style = obj.style
+            }
+            var data = {list:results,id:{thirdId:thirdId,userId:quakooUser.getUserInfo().id}};
+            var html =template("storeList",data)
+            if (append) {
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('main').appendChild(div);
+            } else {
+                document.getElementById("main").innerHTML=html
+            }
+        }
+    }
+
+    //取消关注
+    function attention(id){
+        quakooUtils.stopEventBubble()
+        quakooMsg.showDialog('','是否取消关注','取消','确定',function () {
+            quakooMsg.showProgress();
+            quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansDelete(),{type:4,thirdId:id},function(ret,err){
+                quakooMsg.hideProgress();
+                if(ret.success){
+                    quakooMsg.toast('取消成功')
+                    apiready()
+                    api.execScript({
+                        name:'main',
+                        frameName:'my',
+                        script:'editFavorite()'
+                    });
+                }
+            })
+        })
+
+    }
+    //打开店铺
+    function openStore(sid){
+        quakooApp.openNewWindow('store','../store/store.html',{id:sid});
+    };
+</script>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: url("../../image/bg.jpg") no-repeat #000000;
+            background-size: 100%;
+            color: #E1E1E1;
+            font-size: 15px;
+        }
+        .top{
+            width: 100%;
+            height: 25%;
+        }
+        .top>div:first-child{
+            width: 100%;
+            height: 30%;
+        }
+        .top em{
+            width: 20px;
+            height: 20px;
+            top: 34px;
+            left: 21px;
+            position: relative;
+        }
+
+        .logo{
+            width: 154px;
+            height: 30px;
+            position: relative;
+            top: 30%;
+            left: 30%;
+        }
+        .top>div:last-child{
+            width: 100%;
+            height: 70%;
+
+        }
+        .bottom{
+            width: 79%;
+            height: 60%;
+            padding: 37px 37px 0 37px;
+        }
+
+        .login div{
+            width: 60px;
+            height: 23px;
+            line-height: 23px;
+        }
+        .login div.active{
+            border-bottom: 2px solid #ffffff;
+        }
+        .user>div{
+            width: 100%;
+            height: 21px;
+            line-height: 21px;
+            margin-top: 5px;
+            padding-top: 22px;
+            padding-bottom: 5px;
+        }
+
+        .user>div>em{
+            width: 21px;
+            height: 21px;
+            float: left;
+            background-size: 100%;
+        }
+        .user>div>input{
+            height: 21px;
+            margin-left: 12px;
+            line-height: 21px;
+            float: left;
+            color: #ffffff;
+            border-radius: 0;
+        }
+
+        .remember{
+            font-size: 12px;
+        }
+        .remember span{
+            height: 21px;
+        }
+        .remember em{
+            width: 16px;
+            height: 16px;
+            border: 1px solid #3D3D3D;
+            border-radius: 2px;
+            margin-right: 7px;
+        }
+        .denglu{
+            width: 100%;
+            height: 36px;
+            line-height: 36px;
+            background: #626262;
+            border-radius: 2px;
+            margin-top: 30px;
+            font-size: 16px;
+            color: #808080;
+            letter-spacing: 0.69px;
+            text-align: center;
+        }
+        .newUser{
+            width: 100%;
+            height: 18px;
+            line-height: 18px;
+            font-size: 13px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 22px;
+            text-decoration:underline
+        }
+        .other{
+            width: 215px;
+            height: 40px;
+            margin: 50px auto 0;
+        }
+        .other div{
+            width: 40px;
+            height: 40px;
+        }
+        .other img{
+            width: 100%;
+            height: 100%;
+        }
+        #yzm{
+            float: right;
+            height: 37px;
+            width: 95px;
+            display: inline-block;
+            text-align: center;
+            border:1px solid #FFFFFF;
+            box-sizing: border-box;
+            font-family: PingFangSC-Light;
+            font-size: 13px;
+            color: #D7D7D7;
+            letter-spacing: 0;
+            line-height: 37px;
+            border-radius: 0;
+        }
+        .user div .clear{
+            width:14px;height:14px;background: url('../../icon/clear.png') no-repeat;background-size:100%;float: right;display: none
+        }
+        #seePass{
+            background: url('../../icon/offsee_b.png') no-repeat;background-size:100%;float: right;
+        }
+        #seePass.active{
+            background: url('../../icon/onsee_b.png') no-repeat;background-size:100%;
+        }
+        #loginCode{
+            border-bottom: 1px solid #3B3938;
+            padding: 8px 0;box-sizing: border-box;
+            height: 37px;line-height: 21px;margin-left: 0;width: 64%;
+            border-radius: 0;
+            -webkit-appearance:none;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <div>
+            <em onclick="quakooApp.closeWin()" tapmode="itemOn" ><img src="../../icon/close.png" alt="" style="width: 100%;height: 100%"/></em>
+        </div>
+        <div>
+            <div class="logo">
+                <img src="../../icon/logo.png" alt="" style="width: 100%;height: 100%"/>
+            </div>
+        </div>
+    </div>
+    <div id="bottom" class="bottom">
+        <div>
+            <div class="login" style="width:100%;height: 23px;">
+                <div id="fast" class="fl" tapmode="active" onclick="opentabs(1)">快捷登录</div>
+                <div id="pass" class="fl" style="margin-left: 36px" tapmode="active" onclick="opentabs(2)">密码登录</div>
+            </div>
+            <div class="user" id="pasLogin" style="display: none">
+                <div style="border-bottom: 1px solid #3B3938;">
+                    <em style="background: url('../../icon/user.png') no-repeat;background-size:100%;"></em>
+                    <input id="phone" type="number" placeholder="请输入手机号" onkeydown="dianji(this)" onfocus="focusEvent(this)" onblur="blurEvent(this)"/>
+                    <em class="clear" onclick="clearValue(this)"></em>
+                </div>
+                <div style="border-bottom: 1px solid #3B3938;">
+                    <em style="background: url('../../icon/password.png') no-repeat;background-size:100%;"></em>
+                    <input id="password" type="password" placeholder="请输入密码" onkeydown="dianji(this)" onfocus="focusEvent(this)" onblur="blurEvent(this)"/>
+                    <em id="seePass" style="" onclick="seePassword()"></em>
+                </div>
+                <div class="remember" style="padding-top: 10px;">
+                    <!--<div class="fl" onclick="rem()">
+                        <em id="remb" class="fl"></em>
+                        <span class="fl">记住密码</span>
+                    </div>-->
+                    <div class="fr">
+                        <span onclick="forgent()">忘记密码?</span>
+                    </div>
+                </div>
+            </div>
+            <div class="user" id="fastLogin">
+                <div style="border-bottom: 1px solid #3B3938;">
+                    <span class="fl">+86</span>
+                    <em style="background: url('../../icon/right_w.png') no-repeat;background-size:100%;height: 12px;width:7px;margin-left: 2px;margin-top: 4px"></em>
+                    <input id="tel" type="number" placeholder="请输入手机号" onkeydown="dianji(this)" onfocus="focusEvent(this,event)" onblur="blurEvent(this,event)"/>
+                    <em class="clear" onclick="clearValue(this)"></em>
+                </div>
+                <div style="height: 37px;line-height: 37px;padding-top: 0">
+                    <input id="loginCode" type="number" placeholder="请输入验证码" onkeydown="dianji(this)" onfocus="focusEvent(this,event)" onblur="blurEvent(this,event)" />
+                    <em id="yzm" onclick="quakooLogin.sms('login')">获取验证码</em>
+                </div>
+            </div>
+            <div id="login" class="denglu" onclick="denglu()">登录</div>
+            <div class="newUser" onclick="newUser()">新用户注册</div>
+            <!--三方登陆-->
+            <div class="other">
+                <div onclick="loginByQQ()" class="fl"><img src="../../icon/qq.png" alt=""/></div>
+                <div onclick="loginByWeChat()" class="fl" style="margin-left: 47px"><img src="../../icon/weixin.png" alt=""/></div>
+                <!--<div onclick="loginByWb()" class="fl" style="margin-left: 47px"><img src="../../icon/weibo.png" alt=""/></div>-->
+                <div onclick="" class="fl" style="margin-left: 47px"><img src="../../icon/weibo.png" alt=""/></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+    <script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script>
+        var remType =true;
+        var loginType;
+        var Height = $(window).height();   //获取当前页面高度
+
+        $(window).resize(function () {
+            $('body').height(Height);
+        });
+        apiready=function(){
+            //初始化验证码倒计时
+            quakooLogin.initSmsTime()
+            api.closeWin({name:"resetPass"})
+            //默认
+            opentabs(1);
+        }
+
+        function focusEvent(self){
+            if(self.id=="loginCode"){
+                document.getElementById(self.id).style.borderBottom="1px solid #fff"
+            }else{
+                document.getElementById(self.id).parentNode.style.borderBottom="1px solid #fff"
+            }
+        };
+
+        function blurEvent(self){
+            if(self.id=="loginCode"){
+                document.getElementById(self.id).style.borderBottom="1px solid #3B3938"
+            }else{
+                document.getElementById(self.id).parentNode.style.borderBottom="1px solid #3B3938"
+            }
+        };
+
+        function dianji(self) {
+            self.oninput = function () {
+                if(self.id == 'loginCode' || self.id == 'password'){
+                    return
+                }
+                if(self.value!=''){
+                    $(self).next('.clear').show();
+                    if(self.id=='tel' || self.id=='phone'){
+                        document.getElementById('login').style = "background: #FFFFFF;color: #222222;";
+                        document.getElementById('login').onclick = function () {
+                            denglu()
+                        }
+                    }
+                }else{
+                    $(self).next('.clear').hide();
+                    if(self.id=='tel' || self.id=='phone'){
+                        document.getElementById('login').style = "background: #626262;color: #808080;";
+                        document.getElementById('login').onclick = function () {
+
+                        }
+                    }
+                }
+            }
+        };
+        //清除手机号
+        function clearValue(self) {
+            self.previousElementSibling.value = '';
+            self.style.display = 'none';
+            self.previousElementSibling.focus();
+            document.getElementById('login').style = "background: #626262;color: #808080;";
+        }
+
+       //切换登录状态
+        function opentabs(type) {
+            if (type == 1) {
+                loginType = 1;
+                $("#fast").addClass("active");
+                $("#pass").removeClass("active");
+                $("#fastLogin").css("display", "block")
+                if(document.getElementById('tel').value==''){
+                    document.getElementById('login').style = "background: #626262;color: #808080;";
+                }else{
+                    document.getElementById('login').style =  "background: #FFFFFF;color: #222222;";
+                }
+                $("#pasLogin").css("display", "none")
+            } else if(type == 2) {
+                loginType = 2;
+                $("#pass").addClass("active");
+                $("#fast").removeClass("active")
+                $("#pasLogin").css("display", "block")
+                $("#fastLogin").css("display", "none")
+                if(document.getElementById('phone').value==''){
+                    document.getElementById('login').style = "background: #626262;color: #808080;";
+                }else{
+                    document.getElementById('login').style =  "background: #FFFFFF;color: #222222;";
+                }
+            }
+        }
+
+        //注册新用户 模板
+        function newUser(){
+            quakooApp.openNewWindow('register','./register.html',{},{bgColor:'rgba(0,0,0,0)',animation:{type:'fade',duration:400}})
+        };
+        //记住密码状态切换
+        function rem() {
+            if (remType) {
+                remType = false
+                document.getElementById("remb").style = "background: url('../../icon/remb.png') no-repeat;background-size:100%;"
+            } else {
+                remType = true
+                document.getElementById("remb").style = "background: url('') no-repeat;background-size:100%;"
+            }
+        }
+
+        // 登录
+        function denglu() {
+            var params = {};
+
+            if (loginType == 1) {
+                //快捷登录
+                params.phone = $api.byId("tel").value;
+                params.authCode = $api.byId("loginCode").value;
+                if (quakooUtils.isBlack(params.phone)) {
+                    quakooMsg.toast('请输入手机号');
+                    return;
+                }
+                if (!quakooUtils.isMobileNum(params.phone)) {
+                    quakooMsg.toast('请输入正确的手机号');
+                    return;
+                }
+                if (quakooUtils.isBlack(params.authCode)) {
+                    quakooMsg.toast('请输入验证码');
+                    return;
+                }
+            } else if (loginType == 2) {
+                //账号密码登录
+                params.phone = $api.byId("phone").value;
+                params.password = $api.byId("password").value;
+                if (quakooUtils.isBlack(params.phone)) {
+                    quakooMsg.toast('请输入手机号');
+                    return;
+                }
+                if (!quakooUtils.isMobileNum(params.phone)) {
+                    quakooMsg.toast('请输入正确的手机号');
+                    return;
+                }
+                if (quakooUtils.isBlack(params.password)) {
+                    quakooMsg.toast('请输入密码');
+                    return;
+                }
+            };
+            //请求登录
+            loginAjax(params)
+        };
+        function loginAjax(params) {
+
+            quakooMsg.showProgress();
+            quakooData.ajaxGetDataWithOutUser(config.getUrl_web_user_loginUrl(), params, function (ret, err) {
+                if(ret){
+                    if(ret.success){
+                        ret.data.realUser = true;
+                        quakooUser.setUserInfo(ret.data)
+                        quakooDb.setItem('indexHead',true);
+
+                        api.sendEvent({
+                            name: 'ExportLogin',
+                            extra: quakooUser.getUserInfo()
+                        });
+                        setTimeout(function () {
+                            quakooMsg.hideProgress();
+                            quakooApp.closeWin();
+                        }, 1500);
+                        quakooUser.registerNative();
+                    }else{
+                        quakooMsg.hideProgress();
+                        quakooMsg.toast(ret.msg);
+                    }
+                }else{
+                    quakooMsg.hideProgress();
+                    quakooMsg.toast(err.msg);
+                }
+            });
+        }
+        function forgent() {
+            quakooApp.openNewWindow("forgetPassword", "./forgetPassword.html")
+        }
+        //查看密码状态切换
+        function seePassword() {
+            if(document.getElementById("password").type=='password'){
+                document.getElementById("password").type = 'text'
+            }else{
+                document.getElementById("password").type = 'password'
+            }
+            document.getElementById("seePass").classList.toggle('active');
+        }
+        function loginByWeChat() {
+            quakooMsg.showProgress();
+            var wx = api.require('wx');
+            wx.isInstalled(function(ret, err) {
+                if (ret.installed) {
+                    wx.auth({
+                        apiKey: ''
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            wx.getToken({
+                                apiKey: '',
+                                apiSecret: '',
+                                code: ret.code
+                            }, function(ret, err) {
+                                if (ret.status) {
+                                    var openId = ret.openId;
+                                    quakooData.ajaxGetDataWithOutUser(config.getUrl_web_user_checkThird(),{weixinId:ret.openId},function (ret,err) {
+                                        if(ret){
+                                            if(ret.success){
+                                                if(ret.data){
+                                                    //代表微信未绑定手机号，跳转注册页
+                                                    quakooMsg.hideProgress();
+                                                    quakooMsg.toast('请绑定手机号');
+                                                    quakooApp.openNewWindow('register','./register.html',{type:"wx",openId:openId},{bgColor:'rgba(0,0,0,0)',animation:{type:'fade',duration:400}})
+                                                }else{
+                                                    //代表微信号已绑定，直接登陆
+                                                    loginAjax({weixinId:openId})
+                                                }
+                                            }
+                                        }else{
+                                            quakooMsg.hideProgress()
+                                        }
+                                    })
+                                } else {
+                                    quakooMsg.hideProgress()
+                                }
+                            });
+                        } else {
+                            quakooMsg.hideProgress()
+                            if(err.code==3){
+
+                            }
+                        }
+                    });
+                } else {
+                    quakooMsg.hideProgress()
+                    alert('当前设备未安装微信客户端');
+                }
+            });
+        }
+        function loginByQQ() {
+            quakooMsg.showProgress();
+            var qq = api.require('QQPlus');
+            qq.installed(function(ret, err) {
+                if (ret.status) {
+                    qq.login(function(ret, err) {
+                        if (ret.status) {
+                            var openId = ret.openId;
+                            //验证三方账号是否注册过
+                            quakooData.ajaxGetDataWithOutUser(config.getUrl_web_user_checkThird(),{qqId:ret.openId},function (ret,err) {
+                                if(ret){
+                                    if(ret.success){
+                                        if(ret.data){
+                                            quakooMsg.hideProgress();
+                                            quakooMsg.toast('请绑定手机号');
+                                            quakooApp.openNewWindow('register','./register.html',{type:"qq",openId:openId},{bgColor:'rgba(0,0,0,0)',animation:{type:'fade',duration:400}})
+                                        }else{
+                                            loginAjax({qqId:openId})
+                                        }
+                                    }
+                                }else{
+                                    quakooMsg.hideProgress()
+                                }
+                            })
+                        } else {
+                            quakooMsg.hideProgress()
+                        }
+                    });
+                } else {
+                    api.alert({ msg: "当前设备未安装QQ客户端" });
+                }
+            });
+        }
+        function loginByWb() {
+            var weibo = api.require('weibo');
+            weibo.isInstalled(
+                function(ret) {
+                    if (ret.status) {
+                        weibo.auth(function(ret, err) {
+                            if (ret.status) {
+                                weibo.getUserInfo({
+                                    token: ret.token,
+                                    userId: ret.userId
+                                }, function(ret, err) {
+                                    if (ret.status) {
+                                        // var userid= JSON.parse(ret.userInfo).userId
+                                        /*ajaxGetRegister(getUserBywbIdUrl,{openid:userid},function (ret,err) {
+                                            if(ret){
+                                                if(!ret.success){
+                                                    openRegister('bindphone','./bindphone.html',{openId:ret.userInfo.userId,type:3})
+                                                }else{
+                                                    setUserInfo(ret.user[0]);
+                                                    api.closeToWin({
+                                                        name:rootWindowName
+                                                    })
+                                                }
+                                            }
+                                        })*/
+                                    }
+                                });
+                            }else{
+
+                            }
+                        });
+                    } else {
+                        alert('当前设备未安装新浪微博客户端');
+                    }
+                }
+            );
+
+        }
+    </script>
+</body>
+</html>

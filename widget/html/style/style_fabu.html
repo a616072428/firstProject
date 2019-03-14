@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../../css/api.css">
+    <link rel="stylesheet" href="../../css/commonWindow.css">
+    <title>宝宝食谱</title>
+    <style>
+        body{
+            width: 100%;
+            background: #F2F2F2;
+            position: relative;
+        }
+        #topbar{
+            width: 100%;
+            background: #FFFFFF;
+        }
+
+        #right{
+            width: 50px;
+            height: 20px;
+            line-height: 20px;
+            position: absolute;
+            right:19px;
+            bottom:12px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="closeWindows();"></div>
+    <div id="right" onclick="pushComment()">发布</div>
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script>
+    apiready = function () {
+        if(api.systemType=='ios'){
+            isIos()
+        }else if(api.systemType=='android'){
+            isAndroid()
+        }
+    };
+    //IOS代码
+    function isIos() {
+        //win窗口中打开的FRAME距离顶部的高度（win窗口头部高度）
+        var winHeadHeight = 45;
+        //win窗口中打开的FRAME距离底部的高度（win窗口底部高度）
+        var winBottomHeight = 0;
+        var statusBarAppearance = api.statusBarAppearance;//是否支持沉浸式
+        var header = $api.dom('#topbar');
+        $api.fixStatusBar(header);
+        header.style.display = 'block';
+        winHeadHeight = header.offsetHeight;
+        if(quakooUtils.isNotBlack(api.pageParam.dataContent)){
+            quakooApp.openFrame('style_fabu_body','style_fabu_body.html',api.pageParam,winHeadHeight,winBottomHeight)
+        }else{
+            quakooApp.openFrame('style_fabu_body','style_fabu_body.html',{},winHeadHeight,winBottomHeight)
+        }
+    }
+    /* android代码 **/
+    function isAndroid() {
+        //win窗口中打开的FRAME距离顶部的高度（win窗口头部高度）
+        var winHeadHeight = 45;
+        //win窗口中打开的FRAME距离底部的高度（win窗口底部高度）
+        var winBottomHeight = 0;
+        var statusBarAppearance = api.statusBarAppearance;//是否支持沉浸式
+        var header = $api.dom('#topbar');
+        $api.fixStatusBar(header);
+        header.style.display = 'block';
+        winHeadHeight = header.offsetHeight;
+        if(quakooUtils.isNotBlack(api.pageParam.dataContent)){
+            api.addEventListener({
+                name: 'ImageLab'
+            }, function(ret, err) {
+                if(ret.value.picture.length >= api.pageParam.dataContent.picture.length){
+                    ret.value.styleId = api.pageParam.dataContent.styleId;
+                    ret.value.styleName = api.pageParam.dataContent.styleName;
+                    ret.value.imgNum = api.pageParam.dataContent.imgNum;
+                    ret.value = JSON.stringify(ret.value);
+                    api.execScript({
+                        frameName:'style_fabu_body',
+                        script:'showNew('+ret.value+')'
+                    })
+                }
+            });
+            quakooApp.openFrame('style_fabu_body','style_fabu_body.html',api.pageParam,winHeadHeight,winBottomHeight)
+        }else{
+            quakooApp.openFrame('style_fabu_body','style_fabu_body.html',{},winHeadHeight,winBottomHeight)
+        }
+        //添加安卓退出按钮事件
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            closeWindows();
+        });
+    }
+    //关闭
+    function closeWindows() {
+        api.confirm({
+            title: '',
+            msg: '动态还未发布，确认退出吗？',
+            buttons: ['确定', '取消']
+        }, function(ret, err){
+            var index = ret.buttonIndex;
+            if(index==1){
+                api.execScript({
+                    name:'main',
+                    script:"onOpenTab('style')"
+                });
+                api.closeWin({
+                    name: api.winName
+                });
+                quakooDb.removeItem('refreshOk')
+                //ios关闭页面
+                api.accessNative({
+                    name:"dismSelf",
+                    extra: {
+
+                    }
+                },function (ret,err) {
+
+                })
+            }
+        });
+    }
+    //异步调用发布
+    function pushComment() {
+        if(api.systemType=='ios'){
+            api.execScript({
+                frameName:'style_fabu_body',
+                script:'pushCommentIos()'
+            })
+        }else if(api.systemType=='android'){
+            api.execScript({
+                frameName:'style_fabu_body',
+                script:'pushCommentAndroid()'
+            })
+        }
+
+    }
+</script>
+</body>
+</html>

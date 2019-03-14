@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background:  url("../../image/bg.jpg") no-repeat #000000;
+            background-size: 100%;
+            color: #E1E1E1;
+            font-size: 15px;
+        }
+        .top{
+            width: 100%;
+            height: 25%;
+        }
+        .top>div:first-child{
+            width: 100%;
+            height: 30%;
+        }
+        .top em{
+            width: 20px;
+            height: 20px;
+            top: 34px;
+            left: 21px;
+            position: relative;
+        }
+
+        .logo{
+            width: 154px;
+            height: 30px;
+            position: relative;
+            top: 30%;
+            left: 30%;
+        }
+        .top>div:last-child{
+            width: 100%;
+            height: 70%;
+        }
+        #register{
+            width: 79%;
+            height: 60%;
+            padding: 37px 37px 0 37px;
+        }
+        .login div{
+            width: 60px;
+            height: 23px;
+            line-height: 23px;
+        }
+        .login div.active{
+            border-bottom: 2px solid #ffffff;
+        }
+        .user>div{
+            width: 100%;
+            height: 21px;
+            line-height: 21px;
+            margin-top: 5px;
+            padding-top: 22px;
+            padding-bottom: 5px;
+        }
+
+        .user>div>em{
+            width: 21px;
+            height: 21px;
+            float: left;
+            background-size: 100%;
+        }
+        .user>div>input{
+            height: 21px;
+            margin-left: 12px;
+            line-height: 21px;
+            float: left;
+            color: #ffffff;
+            border-radius: 0;
+        }
+
+        .remember{
+            font-size: 12px;
+        }
+        .remember span{
+            height: 21px;
+        }
+        .remember em{
+            width: 16px;
+            height: 16px;
+            border: 1px solid #3D3D3D;
+            border-radius: 2px;
+            margin-right: 7px;
+        }
+        .denglu{
+            width: 100%;
+            height: 36px;
+            line-height: 36px;
+            background: #626262;
+            border-radius: 2px;
+            margin-top: 30px;
+            font-size: 16px;
+            color: #808080;
+            letter-spacing: 0.69px;
+            text-align: center;
+        }
+        .newUser{
+            width: 100%;
+            height: 18px;
+            line-height: 18px;
+            font-size: 13px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 22px;
+            text-decoration:underline
+        }
+        .other{
+            width: 215px;
+            height: 40px;
+            margin: 50px auto 0;
+        }
+        .other div{
+            width: 40px;
+            height: 40px;
+        }
+        .other img{
+            width: 100%;
+            height: 100%;
+        }
+        #yzm{
+            float: right;
+            height: 37px;
+            width: 95px;
+            display: inline-block;
+            text-align: center;
+            border:1px solid #FFFFFF;
+            box-sizing: border-box;
+            font-family: PingFangSC-Light;
+            font-size: 13px;
+            color: #D7D7D7;
+            letter-spacing: 0;
+            line-height: 37px;
+            border-radius: 0;
+        }
+        #newCode,
+        #yzm{
+            border-radius: 0;
+        }
+        .user div .clear{
+            width:14px;height:14px;background: url('../../icon/clear.png') no-repeat;background-size:100%;float: right;display: none
+        }
+        #seePass{
+            background: url('../../icon/offsee_b.png') no-repeat;background-size:100%;float: right;
+        }
+        #seePass.active{
+            background: url('../../icon/onsee_b.png') no-repeat;background-size:100%;
+        }
+        #loginCode{
+            border-bottom: 1px solid #3B3938;
+            padding: 8px 0;box-sizing: border-box;
+            height: 37px;line-height: 21px;margin-left: 0;width: 64%;
+            border-radius: 0;
+            -webkit-appearance:none;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <div>
+            <em onclick="quakooApp.closeWin()" tapmode="itemOn" ><img src="../../icon/close.png" alt="" style="width: 100%;height: 100%"/></em>
+        </div>
+        <div>
+            <div class="logo">
+                <img src="../../icon/logo.png" alt="" style="width: 100%;height: 100%"/>
+            </div>
+        </div>
+    </div>
+    <div id="register">
+        <div>
+            <div class="user">
+                <div style="border-bottom: 1px solid #3B3938;">
+                    <input  id="tel" type="number" placeholder="请输入手机号" style="margin-left: 0" onkeydown="dianji(this)" onfocus="focusEvent(this)" onblur="blurEvent(this)"/>
+                    <em class="clear" onclick="clearValue(this)"></em>
+                </div>
+                <div style="height: 37px;line-height: 37px;padding-top: 0">
+                    <input id="newCode" type="number" placeholder="请输入验证码" onkeydown="dianji(this)" onfocus="focusEvent(this)" onblur="blurEvent(this)" style="border-bottom: 1px solid #3B3938;height: 37px;line-height: 37px;margin-left: 0px;width: 65%"/>
+                    <em id="yzm" onclick="quakooLogin.sms('register')">获取验证码</em>
+                </div>
+            </div>
+            <div id="reg" class="denglu" onclick="register()">注册</div>
+            <div class="newUser" style="color:#747474;text-decoration:none">注册代表您已同意<span style="color: #ffffff;text-decoration:underline">《蜜柚用户协议》</span> </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+    <script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+    <script>
+        var Height = $(window).height();   //获取当前页面高度
+        $(window).resize(function () {
+            $('body').height(Height);
+        });
+
+        var openId='';
+        apiready=function(){
+            quakooLogin.initSmsTime();
+            if(api.pageParam.openId){
+                openId = api.pageParam.openId;
+            }
+            //判断是否是三方登陆进行注册的
+            if(api.pageParam.type){
+                document.getElementById('yzm').onclick = function () {
+                    quakooLogin.sms('login')
+                }
+                document.getElementById('reg').innerHTML = '绑定手机号';
+            }
+            /*//添加安卓退出按钮事件
+            api.addEventListener({
+                name: 'keyback'
+            }, function(ret, err) {
+                quakooApp.closeWin()
+            });*/
+            api.closeWin({name:"resetPass"})
+            //默认
+        }
+
+        function focusEvent(self){
+            if(self.id=="newCode"){
+                document.getElementById(self.id).style.borderBottom="1px solid #fff"
+            }else{
+                document.getElementById(self.id).parentNode.style.borderBottom="1px solid #fff"
+            }
+        };
+
+        function blurEvent(self){
+            if(self.id=="newCode"){
+                document.getElementById(self.id).style.borderBottom="1px solid #3B3938"
+            }else{
+                document.getElementById(self.id).parentNode.style.borderBottom="1px solid #3B3938"
+            }
+        };
+
+        function dianji(self) {
+            self.oninput = function () {
+                if(self.id == 'loginCode' || self.id == 'password'){
+                    return
+                }
+                if(self.value!=''){
+                    $(self).next('.clear').show();
+                    if(self.id=='tel'){
+                        document.getElementById('reg').style = "background: #FFFFFF;color: #222222;";
+                        document.getElementById('reg').onclick = function () {
+                            register()
+                        }
+                    }
+                }else{
+                    $(self).next('.clear').hide();
+                    if(self.id=='tel'){
+                        document.getElementById('reg').style = "background: #626262;color: #808080;";
+                        document.getElementById('reg').onclick = function () {
+
+                        }
+                    }
+                }
+            }
+        };
+        //清除手机号
+        function clearValue(self) {
+            self.previousElementSibling.value = '';
+            self.style.display = 'none';
+            self.previousElementSibling.focus();
+            document.getElementById('reg').style = "background: #626262;color: #808080;";
+        }
+        // 注册
+        function register() {
+            var params = {};
+            params.phone = $api.byId("tel").value;
+            params.code = $api.byId("newCode").value;
+            if (quakooUtils.isBlack(params.phone)) {
+                quakooMsg.toast('请输入手机号');
+                return;
+            }
+            if(!quakooUtils.isMobileNum(params.phone)){
+                quakooMsg.toast('请输入正确的手机号');
+                return;
+            }
+            if (quakooUtils.isBlack(params.code)) {
+                quakooMsg.toast('请输入验证码');
+                return;
+            }
+            quakooApp.openNewWindow("creatPassword", "./creatPassword.html", {phone: params.phone, code: params.code, openId:openId,type:api.pageParam.type});
+        }
+    </script>
+</body>
+</html>

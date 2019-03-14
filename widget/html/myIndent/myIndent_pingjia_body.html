@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>待评价</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        html,body{
+            height: 100%;
+            min-width: 320px;
+            background: #f5f5f5;
+            position: relative;
+        }
+        #main{
+            background: #f5f5f5;
+        }
+        #indent-wrap{
+            background: #fff;
+            padding: 10px 19px 0 19px;
+            box-sizing: border-box;
+        }
+        .indentWrap{
+            margin-top: 10px;
+            background: #fff;
+            padding:21px 19px 0 19px;
+            box-sizing: border-box;
+        }
+        .indentWrap:first-child{
+            margin-top: 0;
+        }
+        .header{
+            height: 47px;
+            line-height: 47px;
+            border-bottom: 1px solid #f2f2f2;
+            box-sizing: border-box;
+            margin-bottom: 8px;
+        }
+        .header > div{
+            width: 20px;
+            height: 20px;
+            border: 1px solid #EAEAEA;
+            border-radius: 2px;
+            box-sizing: border-box;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .header > i{
+            width: 23px;
+            height: 23px;
+            background: url("../../icon/storeIcon.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            vertical-align: middle;
+        }
+        .header > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .header > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #9E7443;
+            letter-spacing: 0;
+            display: inline-block;
+            float: right;
+        }
+
+
+        .indent-indenx{
+            height: 100px;
+            margin-bottom: 6px;
+        }
+        .indent-indenx > p{
+            width: 20px;
+            height: 20px;
+            border: 1px solid #EAEAEA;
+            border-radius: 2px;
+            box-sizing: border-box;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 40px;
+        }
+        .imgWrap{
+            width: 66px;
+            height: 100px;
+            overflow: hidden;
+            display: inline-block;
+            margin-right: 10px;
+            float: left;
+        }
+        .right{
+            width: 62%;
+            height: 100px;
+            float: left;
+        }
+        .right > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-top: 16px;
+            display: block;
+            width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+        }
+        .right > i{
+            font-family: PingFangSC-Light;
+            font-size: 12px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 19px;
+            display: block;
+        }
+        .right > b{
+            font-family: STHeitiSC-Medium;
+            font-size: 16px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .right > b > i{
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #222222;
+            letter-spacing: 0;
+            float: right;
+        }
+
+        .total{
+            height: 45px;
+            border:1px solid #f2f2f2;
+            border-right: none;
+            border-left: none;
+            box-sizing: border-box;
+            line-height: 45px;
+        }
+        .total >:nth-child(1){
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #171717;
+            letter-spacing: 0;
+        }
+
+        .total >:nth-child(1){
+            width: 25%;
+            display: inline-block;
+        }
+        .total >:nth-child(2){
+            width: 68%;
+            display: inline-block;
+            text-align: right;
+        }
+        .total >:nth-child(1) > i{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #B3B3B3;
+            letter-spacing: 0;
+            margin-left: 13px;
+        }
+        .total >:nth-child(2) > span{
+            width: 28px;
+            height: 16px;
+            background: #9E7443;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+            text-align: center;
+            line-height: 16px;
+            vertical-align: top;
+            margin-top: 15px;
+        }
+        .total > :nth-child(2) > i{
+            font-family: STHeitiSC-Medium;
+            font-size: 15px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .total > :nth-child(2) > b{
+            font-family: STHeitiSC-Medium;
+            font-size: 11px;
+            color: #A1A1A1;
+            letter-spacing: 0;
+            text-align: left;
+            text-decoration:line-through;
+        }
+        .bottom{
+            height: 64px;
+            line-height: 64px;
+            text-align: right;
+        }
+        .bottom > :nth-child(1){
+            /*height: 36px;
+            width: 36px;
+            background: url("../../icon/zhuanfa.jpg") no-repeat;
+            background-size: 70%;
+            background-position: center;
+            float: left;
+            margin-top: 14px;*/
+        }
+        .bottom > :nth-child(4){
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 64px;
+            margin-right: 10px;
+            float: right;
+        }
+        .bottom > :nth-child(3){
+            display: inline-block;
+            width: 89px;
+            height: 37px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            margin-top: 14px;
+            float: right;
+        }
+        .bottom > :nth-child(2){
+            display: inline-block;
+            width: 89px;
+            height: 37px;
+            border: 1px solid #9E7443;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #9E7443;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 37px;
+            margin-top: 14px;
+            margin-left: 10px;
+            margin-right: 10px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/html" id="pingjiaList">
+    <%for(var i=0;i < list.length;i++){%>
+    <div id="indent-wrap"  class="indentWrap">
+        <div class="header"  onclick="openReceipts('<%=list[i].id%>')">
+            <i></i>
+            <span><%=list[i].subordinate.name%></span>
+            <p>交易成功</p>
+        </div>
+        <%for(var j=0;j < list[i].goods.length;j++){%>
+        <div class="indent-indenx"   onclick="openReceipts('<%=list[i].id%>')">
+            <div class="imgWrap">
+                <img src="<%=list[i].goods[j].url%>" style="<%=list[i].goods[j].style%>" alt="">
+            </div>
+            <div class="right">
+                <span><%=list[i].goods[j].title%></span>
+                <i><%=list[i].goods[j].colorName%>&nbsp;&nbsp;&nbsp;&nbsp;<%=list[i].goods[j].size%></i>
+                <b>￥<%=list[i].goods[j].price%> <i>x<%=list[i].goods[j].num%></i></b>
+            </div>
+        </div>
+        <%}%>
+        <div class="total"  onclick="openReceipts('<%=list[i].id%>')">
+            <p>小计<i><%=list[i].goodsNum%>件</i></p>
+            <p>
+                <%if(userInfo.userExpenseLevelInfo){%>
+                <%if(userInfo.userExpenseLevelInfo.levelName){%>
+                <span><%=userInfo.userExpenseLevelInfo.levelName%></span>
+                <%}}%>
+                <i>￥<%=list[i].totlp%></i>
+                <%if(userInfo.userExpenseLevelInfo){%>
+                <%if(userInfo.userExpenseLevelInfo.levelName){%>
+                <b>￥<%=list[i].gtp%></b>
+                <%}}%>
+            </p>
+        </div>
+        <div class="bottom">
+            <span></span>
+            <p onclick='toComment(<%=list[i].list%>)'>评价</p>
+            <p onclick="openApplyShouhou('<%=list[i].sid%>','<%=list[i].id%>');">申请售后</p>
+            <i onclick="deleComments('<%=list[i].id%>')">删除</i>
+        </div>
+    </div>
+    <%}%>
+</script>
+
+<script>
+    var content=[];
+    apiready = function () {
+        new QuakooPage(addDataToHtml,config.getUrl_web_mall_getMyNoAppraiseIndent(),{})
+    }
+
+    function addDataToHtml(results,append){
+        if(results){
+            for(var i=0;i<results.length;i++){
+                var list = [];
+                results[i].goodsNum = 0;
+                for(var j=0;j<results[i].goods.length;j++){
+                    results[i].goodsNum += results[i].goods[j].num;
+                    var width = 66;
+                    var height = 100;
+                    var obj = quakooImg.processImg(results[i].goods[j].cover, width, height);
+                    results[i].goods[j].url = obj.url;
+                    results[i].goods[j].style = obj.style;
+                    results[i].goods[j].price = quakooUtils.formatMoney(results[i].goods[j].price /100, 2);
+                    if(results[i].goods[j].color){
+                        results[i].goods[j].colorName = results[i].goods[j].color.split('"')[7];
+                    }
+                    var listObj = {};
+                    listObj.id = results[i].goods[j].id;
+                    listObj.subOrderId = results[i].id;
+                    listObj.title = results[i].goods[j].title;
+                    listObj.color = results[i].goods[j].colorName;
+                    listObj.size = results[i].goods[j].size;
+                    listObj.cover = results[i].goods[j].cover;
+                    listObj.skuid = results[i].goods[j].skuid;
+                    list.push(listObj)
+                }
+                results[i].list = JSON.stringify(list);
+                results[i].gtp = quakooUtils.formatMoney(results[i].goodsTotalPrice /100, 2);
+                results[i].totlp = quakooUtils.formatMoney(results[i].totalPrice /100, 2);
+            }
+            var data = {list: results,userInfo:quakooUser.getUserInfo()};
+            var html = template('pingjiaList',data);
+            if (append) {
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('main').appendChild(div);
+                content = content.concat(results);
+            } else {
+                content = results;
+                document.getElementById('main').innerHTML = html;
+            }
+        }
+    }
+    //删除订单
+    function deleComments(did){
+        api.confirm({
+            title: '',
+            msg: '确认删除此订单吗?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if(ret.buttonIndex==1){
+                quakooData.ajaxSubmitData(config.getUrl_web_mall_delIndent(),{id:did},function(ret,err){
+                    if(ret.success==true){
+                        apiready()
+                        api.execScript({
+                            name:"main",
+                            frameName:"my",
+                            script:"getMyOrderMessage()"
+                        })
+                    }
+                })
+            }
+        });
+
+    }
+    //打开售后
+    function openApplyShouhou(sid,subOrderId) {
+        quakooApp.openNewWindow('applyShou','../myIndent/applyShou.html',{sid:sid,subOrderId:subOrderId});
+    }
+    //打开详情
+    function openReceipts(id){
+        for(var i=0;i<content.length;i++){
+            if(content[i].id==id){
+                quakooApp.openNewWindow("receipts","./receipts.html",{parm:content[i],type:0})
+            }
+        }
+    }
+    //打开详情
+    function toComment(list){
+        quakooApp.openNewWindow("comment","./comment.html",{list:list})
+    }
+</script>
+</html>

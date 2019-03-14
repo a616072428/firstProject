@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>个人主页</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        #edit{
+            background: #fff;
+            padding:13px 19px 12px 19px;
+            box-sizing: border-box;
+        }
+        #editVal,#editDescVal{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            border:none;
+            background: #fff;
+            height: 20px;
+            line-height: 20px;
+            width: 100%;
+        }
+        #editDescVal{
+            resize: none;
+            display: none;
+            min-height: 200px;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<div id="body">
+    <div id="edit">
+        <input type="text" id="editVal" />
+        <textarea name="" id="editDescVal" cols="30" rows="10"></textarea>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    var selfVal;
+    apiready = function () {
+
+        if(api.pageParam.type == 0){
+            document.getElementById('editVal').setAttribute('type','text')
+            document.getElementById('editVal').value = api.pageParam.value;
+        }else if(api.pageParam.type == 1 || api.pageParam.type == 2|| api.pageParam.type == 3|| api.pageParam.type == 4|| api.pageParam.type == 5|| api.pageParam.type == 6|| api.pageParam.type == 7|| api.pageParam.type == 8){
+            document.getElementById('editVal').setAttribute('type','number')
+            document.getElementById('editVal').value = api.pageParam.value;
+        }else if(api.pageParam.type == 9){
+            document.getElementById('editVal').style.display='none';
+            document.getElementById('editDescVal').style.display='block';
+            document.getElementById('editDescVal').value = api.pageParam.value;
+        }
+
+
+        selfVal = api.pageParam.value;
+
+        var dom;
+        if(api.pageParam.type==9){
+            dom = document.getElementById('editDescVal');
+        }else{
+            dom = document.getElementById('editVal');
+        }
+        dom.oninput = function(){
+            var value = dom.value;
+            if(value == ''){
+                api.execScript({
+                    name:'editPerMsg',
+                    script:'switchBtnOFF()'
+                });
+            }else if(selfVal != value){
+                api.execScript({
+                    name:'editPerMsg',
+                    script:'switchBtnON("'+ value +'")'
+                });
+            };
+        };
+    };
+
+
+
+</script>
+</html>

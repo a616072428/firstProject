@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    	<meta name="apple-mobile-web-app-capable" content="yes">
+    	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>搜索</title>
+		<link rel="stylesheet" href="../../css/api.css" />
+		<link rel="stylesheet" href="../../css/commonWindow.css" />
+		<style type="text/css">
+			body{
+				min-width: 320px;
+                background: #fff;
+			}
+            #header{
+                background: #000;
+				display: none;
+            }
+            #header > #header-seek{
+                height:50px;
+                padding: 10px 11px 10px 19px;
+                box-sizing: border-box;
+                position: relative;
+            }
+            #header-seek > div{
+                width: 35px;
+                height:30px;
+                background:url('../../icon/sousuo.png') no-repeat;
+                background-repeat: no-repeat;
+                background-size: 60%;
+                background-position: 7px center;
+                position: absolute;
+                top:10px;
+                left: 19px;
+            }
+            #seek{
+                width: 86%;
+                height: 30px;
+                background: #f3f3f3;
+                border: none;
+                border-radius: 0;
+                font-family: PingFangSC-Regular;
+                font-size: 13px;
+                color: #333;
+                letter-spacing: 0;
+                text-align: left;
+				line-height: 20px;
+				box-sizing: border-box;
+				padding: 5px 0 5px 35px;
+            }
+            #header > #header-seek > span{
+                font-family: PingFangSC-Regular;
+                font-size: 13px;
+                color: #A7A7A7;
+                letter-spacing: 0;
+                margin-left: 11px;
+            }
+			.switch-tab{
+				/*display: none;*/
+			}
+            .switch-tab ul{
+                width:100%;
+                height:44px;
+                border-radius: 4px 4px 0 0;
+                background: #fff;
+                border-bottom: 1px solid #F2F2F2;
+                box-sizing: border-box;
+            }
+            .switch-tab ul li{
+                width:50%;
+                height:44px;
+                float:left;
+                box-sizing: border-box;
+                border-radius: 0;
+            }
+            .switch-tab ul .active{
+                font-family: PingFangSC-Medium;
+                font-size: 14px;
+                color: #505050;
+                letter-spacing: 0;
+                border-bottom: 1px solid #242424;
+            }
+            .switch-tab ul .active>div{
+               color: #505050 !important;
+           }
+            .switch-tab ul li>div{
+                width:100%;
+                height:45px;
+                font-size: 14px;
+                color: #9B9B9B;
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 45px;
+            }
+			#history,#hot{
+				padding-left: 21px;
+			}
+			#searchBtn{
+				position: relative;
+				visibility: hidden;
+			}
+			.del{
+				width: 18px;
+				height:18px;
+				background:url('../../icon/del.png') no-repeat;
+				background-repeat: no-repeat;
+				background-size: 100%;
+				position: absolute;
+				right: 12px;
+				top:21px;
+			}
+			#hot{
+				clear: both;
+			}
+			#history > div > span,
+			#hot > div > span{
+				font-family: PingFangSC-Regular;
+				font-size: 12px;
+				color: #CCCCCC;
+				letter-spacing: 0;
+				text-align: left;
+				margin-top: 18px;
+			}
+			#history > div:nth-child(2) > ul > li,
+			#hot > div:nth-child(2) > ul > li{
+				min-width: 56px;
+				padding: 0 5px;
+				height: 30px;
+				background: #F4F4F4;
+				font-family: PingFangSC-Regular;
+				font-size: 12px;
+				color: #505050;
+				letter-spacing: 0;
+				text-align: center;
+				line-height: 30px;
+				float: left;
+				margin-right: 12px;
+				margin-top:11px;
+			}
+			input[type=search]::-webkit-search-cancel-button{
+				-webkit-appearance: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="header">
+            <div id="header-seek">
+                <input id="seek" type="search" placeholder="连衣裙">
+                <div></div>
+                <span onclick="quakooApp.closeWin();">取消</span>
+            </div>
+            <div class="switch-tab" id="searchResult">
+                <ul>
+                    <li class="st-item active" onclick="switchFrameGroupIndex(0)">
+                        <div>商品</div>
+                    </li>
+                    <li class="st-item" onclick="switchFrameGroupIndex(1)">
+                        <div>店铺</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+		<div id="searchBtn">
+			<div class="del" onclick="delHistory()"></div>
+			<div id="history">
+				<div>
+					<span>历史搜索</span>
+				</div>
+				<div>
+					<ul id="historySearch">
+
+					</ul>
+				</div>
+			</div>
+			<div id="hot">
+				<div>
+					<span>热门搜索</span>
+				</div>
+				<div>
+					<ul id="hotUl">
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+	<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/template-native.js"></script>
+	<script type="text/html" id="historySearchList">
+		<%for(var i=0;i< list.length;i++){%>
+			<li onclick="initInput('<%=list[i]%>')"><%=list[i]%></li>
+		<%}%>
+	</script>
+	<script type="text/html" id="hotList">
+		<%for(var i=0;i< list.length;i++){%>
+			<li onclick="initInput('<%=list[i].name%>')"><%=list[i].name%></li>
+		<%}%>
+	</script>
+
+	<script>
+		var type;
+		var keyWord='';
+		var flag=true;
+		var defaultIndex = 0;
+		apiready = function () {
+            api.addEventListener({
+                name:'viewappear'
+            }, function(ret, err){
+                api.setStatusBarStyle({
+                    style: 'light',
+                    color:'rgba(0,0,0)'
+                });
+            });
+            api.setStatusBarStyle({
+                style: 'light',
+                color:'rgba(0,0,0)'
+            });
+
+		    type = api.pageParam.type;
+            document.getElementById('header').style.paddingTop = api.safeArea.top + 'px';
+            document.getElementById('header').style.display = "block";
+            document.getElementById('searchBtn').style.visibility = "visible";
+            getSearchHistory();
+            getHot()
+
+            //按回车，进行搜索
+		    document.getElementById('seek').onkeypress = function(e){
+                var keycode = e.keyCode;
+                if(keycode=='13') {
+                    document.getElementById('seek').blur();
+                    e.preventDefault();
+                    keyWord =  document.getElementById('seek').value;
+                    if(quakooUtils.isBlack(keyWord)){
+                        quakooMsg.toast('请输入你想搜索的内容');
+						return ;
+					}
+                    document.getElementById('searchBtn').style.display = 'none';
+                    if(flag){
+						flag = false;
+                        showFrame()
+					}else{
+                        api.execScript({
+                        	name:"search",
+                        	frameName:"search_shangpin",
+                        	script:"getDataList('"+keyWord+"')"
+                        })
+                        api.execScript({
+                            name:"search",
+                            frameName:"search_dianpu",
+                            script:"getDataList('"+keyWord+"')"
+                        })
+					}
+					addHistory()
+                }
+			}
+            $(document).on('input propertychange','#seek',function (e) {
+                if (e.type === "input" || e.orignalEvent.propertyName === "value") {
+                    if(this.value.length == 0){
+                        api.closeFrameGroup({name:"search"});
+                        flag = true;
+                        document.activeElement.focus();
+                        document.getElementById('searchBtn').style.display = 'block';
+                    }else{
+                        // document.activeElement.blur();
+                    }
+                }
+            });
+        };
+		function showFrame() {
+            var titleHeight = api.safeArea.top;
+            var res = api.pageParam;
+            window_width = api.winWidth;
+            api.openFrameGroup ({
+                name: 'search',
+                background:'#fff',
+                scrollEnabled:true,
+                preload:1,
+                rect : {
+                    x : 0,
+                    marginTop : document.getElementById('header').offsetHeight,
+                    w : 'auto',
+                    marginBottom : 0
+                },
+                index:defaultIndex,
+                frames: [{
+                    name: 'search_shangpin',
+                    url: 'search_shangpin.html', //分类
+                    bgColor :'rgba(0,0,0,0)',
+                    pageParam:{index:0,key:keyWord,type:type}
+                },{
+                    name: 'search_dianpu',
+                    url: 'search_dianpu.html', //品牌
+                    bgColor :'rgba(0,0,0,0)',
+                    pageParam:{index:1,key:keyWord,type:type}
+                }]
+            }, function(ret, err){
+                switchFrameCallback(ret.index);
+            })
+        }
+        function switchFrameGroupIndex(index){
+            defaultIndex = index;
+            api.setFrameGroupIndex({
+                name : "search",
+                index : index,
+                scroll : true
+            });
+            switchFrameCallback(index)
+        }
+        function switchFrameCallback(index) {
+            var stitem = document.querySelectorAll(".st-item");
+            for (var i = 0; i < stitem.length; i++) {
+                if (i == index) {
+                    stitem[i].classList.add("active")
+                    stitem[i].style.color = "#505050";
+                } else {
+                    stitem[i].classList.remove("active")
+                    stitem[i].style.color = "#A3A3A3";
+                }
+            }
+		};
+        //获取最近搜索
+        function getSearchHistory() {
+            if(quakooDb.getItem('search')){
+                var arr = JSON.parse(quakooDb.getItem('search'));
+                for(var i = 0;i<arr.length;i++){
+                    if(arr[i]==''||arr[i]==null||typeof(arr[i])==undefined){
+                        arr.splice(i,1);
+                        i=i-1;
+                    }
+                }
+                var data = {list: arr};
+                var html = template("historySearchList", data);
+                document.getElementById('historySearch').innerHTML = html;
+            }else{
+                document.getElementById('historySearch').innerHTML = '';
+            }
+        };
+        //添加历史搜索
+        function addHistory() {
+            if(quakooDb.getItem('search')){
+                var arr = JSON.parse(quakooDb.getItem('search'));
+                arr.push(keyWord);
+                function unique2(arr){
+                    var arr2 = arr.sort();
+                    var res = [arr2[0]];
+                    for(var i=1; i<arr2.length; i++){
+                        if(arr2[i] !== res[res.length-1]){
+                            res.push(arr2[i]);
+                        }
+                    }
+                    return res;
+                }
+                var doc = unique2(arr);
+                quakooDb.setItem('search',JSON.stringify(doc))
+            }else{
+                var arr = [];
+                arr.push(keyWord);
+                quakooDb.setItem('search',JSON.stringify(arr))
+            }
+            getSearchHistory()
+        }
+        //删除历史记录
+        function delHistory() {
+            if(quakooDb.getItem('search')) {
+                quakooMsg.showDialog('删除历史搜索', '是否删除历史搜索?', '取消', '确定', function () {
+                    quakooDb.removeItem('search');
+                    document.getElementById('historySearch').innerHTML = '';
+                })
+            }else{
+                quakooMsg.toast('暂无历史搜索');
+			}
+        }
+        //点击历史搜索或热门搜索
+        function initInput(val) {
+            keyWord = val;
+            addHistory()
+            document.getElementById('seek').value = keyWord;
+            document.getElementById('searchBtn').style.display = 'none';
+            showFrame()
+        }
+        //获得热门搜索
+		function getHot() {
+			quakooMsg.showProgress();
+            quakooData.ajaxGetData(config.getUrl_web_mall_hotSearchAll(),{},function (ret,err) {
+                quakooMsg.hideProgress();
+                if(ret){
+                    var data ={
+                        list:ret.data
+                    }
+                    var html = template('hotList',data);
+                    document.getElementById('hotUl').innerHTML = html;
+                }
+            })
+        }
+	</script>
+</html>

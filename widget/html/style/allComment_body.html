@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>时尚圈</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #ffffff;
+        }
+        #main{
+            width: 100%;
+        }
+        #userComment{
+            width: 100%;
+            margin-bottom: 75px;
+        }
+        .commentTop{
+            width: 100%;
+            height: 47px;
+            display: none;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        .commentTop>span:nth-child(1){
+            margin-left: 19px;
+            margin-top: 15px;
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            font-weight: 700;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .commentTop>span:nth-child(2){
+            margin-left: 10px;
+            margin-top: 16px;
+            ont-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #BBBBBB;
+            letter-spacing: 0;
+        }
+        #commentList{
+            width: 100%;
+        }
+        #commentList li{
+            width: 92%;
+            max-height: 300px;
+            padding: 15px;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        #noComment{
+            height: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #C1C1C1;
+            line-height: 30px;
+            display: none;
+        }
+        #commentList li:last-child{
+            border-bottom: 0;
+        }
+        .iconInfo{
+            width: 100%;
+            height: 29px;
+        }
+
+        .commentIcon{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            float: left;
+            overflow: hidden;
+        }
+        /*.commentIcon>img{*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*}*/
+        .commentName{
+            height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #5E5E5E;
+            letter-spacing: 0;
+            text-align: left;
+            float: left;
+            margin-left: 12px;
+            margin-top: 4px;
+        }
+        .commentName>em{
+            width: 18px;
+            height: 12px;
+            background: #9E7443;
+            border-radius: 1.25px;
+            font-family: PingFangSC-Regular;
+            font-size: 2vw;
+            color: #FAFAFA;
+            letter-spacing: -0.12px;
+            text-align: center;
+            margin-left: 6px;
+            margin-top: 4px;
+            line-height: 12px;
+            float: right;
+        }
+        .commentTime{
+            height: 18px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #C4C4C4;
+            letter-spacing: 0;
+            text-align: left;
+            float: right;
+            margin-top: 4px;
+        }
+        .commentInfo{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #7F7F7F;
+            letter-spacing: 0;
+            margin-top: 11px;
+        }
+        .operation{
+            width: 100%;
+            height: 18px;
+            margin-top: 11px;
+        }
+        .del{
+            width: 14px;
+            height: 14px;
+            float: right;
+            background:url("../../icon/del.png") no-repeat center/cover;
+        }
+        #opaSupport{
+            width: 18px;
+            height: 18px;
+            background: url("../../icon/dianzan01.png") no-repeat;
+            background-size: 18px;
+            float: left;
+        }
+        #opaSupport.active{
+            background: url("../../icon/dianzan02.png") no-repeat;
+            background-size: 18px;
+        }
+        .operation>span:nth-child(2){
+            height: 17px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #D2D2D2;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 4px;
+            float: left;
+        }
+        .operation>em:nth-child(3){
+            width: 16px;
+            height: 12px;
+            margin-left: 23px;
+            background: url("../../icon/huifu.png") no-repeat;
+            background-size: cover;
+            float: left;
+            margin-top: 2px;
+        }
+        .operation>span:nth-child(4){
+            height: 17px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #D2D2D2;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 5px;
+            float: left;
+        }
+        .operationInfo{
+            width: 94%;
+            background: #F9F9F9;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #646464;
+            letter-spacing: 0;
+            text-align: left;
+            margin-top: 16px;
+            padding: 10px;
+        }
+        .operationContent{
+            width: 100%;
+            margin-bottom: 4px;
+            overflow: hidden;
+        }
+        .operationContent>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #828282;
+            letter-spacing: 0;
+            text-align: left;
+            float: left;width: 94%;
+        }
+        .operationContent .del{
+            margin-top: 3px;
+        }
+        .operationElse>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #578FE0;
+            letter-spacing: 0;
+            text-align: left;
+            display: inline-block;
+        }
+        .operationElse>em{
+            width: 12px;
+            height: 12px;
+            background: url("../../icon/more_bottom.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            line-height: 12px;
+            margin-left: 4px;
+            margin-bottom: -3px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="main">
+    <ul id="commentList">
+
+    </ul>
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/html" id="styleNav">
+    <%for(var i=0;i< list.length;i++){%>
+        <%if(list[i].lastCommentId == 0){%>
+        <li>
+            <div class="iconInfo">
+                <div class="commentIcon">
+                    <%if(list[i].iconUrl){%>
+                    <img src="<%=list[i].iconUrl%>" style="<%=list[i].iconStyle%>" alt=""/>
+                    <%}else{%>
+                    <img src="../../icon/icon108.png" style="width: 100%;height: 100%;" alt=""/>
+                    <%}%>
+                </div>
+                <div class="commentName"><%=list[i].user.name%>
+                    <%if(list[i].userExpenseLevelInfo){%>
+                    <em><%=list[i].userExpenseLevelInfo.levelName%></em>
+                    <%}%>
+                </div>
+                <div class="commentTime"><%=list[i].ctime%></div>
+            </div>
+            <div class="commentInfo"><%=list[i].content%></div>
+            <div class="operation">
+                <%if(list[i].support){%>
+                <em id="opaSupport" class="active" onclick="tagsDouble(this,<%=list[i].id%>)"></em>
+                <%}else{%>
+                <em id="opaSupport" onclick="tagsDouble(this,<%=list[i].id%>)"></em>
+                <%}%>
+                <span id="supportNum<%=list[i].id%>"><%=list[i].supportNum%></span>
+                <em></em>
+                <span tapmode="itemOn" onclick="diaoyongComment('<%=list[i].id%>')">回复</span>
+                <%if(loginId==list[i].uid){%>
+                <div class="del" onclick="delComment('<%=list[i].id%>')"></div>
+                <%}%>
+            </div>
+            <%if(list[i].replyComments && list[i].replyComments.length>0){%>
+            <div class="operationInfo">
+                <div class="operationContent">
+                    <span><%=list[i].replyComments[0].user.name%><%if(list[i].replyComments[0].user.id == thirdId){%>(作者)<%}%>:&nbsp;<%=list[i].replyComments[0].content%></span>
+                    <%if(loginId==list[i].replyComments[0].user.id){%>
+                    <div class="del" onclick="delComment('<%=list[i].replyComments[0].id%>')"></div>
+                    <%}%>
+                </div>
+                <%if(list[i].lastNum>1){%>
+                <div class="operationElse ">
+                    <span onclick="oneComment('<%=list[i].id%>')">共<%=list[i].lastNum%>条回复</span><em></em>
+                </div>
+                <%}%>
+            </div>
+            <%}%>
+        </li>
+        <%}%>
+    <%}%>
+</script>
+<script>
+    var typeId,thirdId;
+    var commentData={};
+    apiready = function() {
+        typeId = api.pageParam.typeId;
+        thirdId = api.pageParam.thirdId;
+        getData();
+    };
+    function getData() {
+        new QuakooPage(addDataToHtml,config.getUrl_web_system_commentPager(),{type:2,typeId:typeId});
+    }
+    function addDataToHtml(results,append) {
+        quakooMsg.showProgress();
+        for(var i=0;i<results.length;i++){
+            results[i].ctime = quakooUtils.getDateDiff(results[i].ctime);
+            var obj = quakooImg.processImg(results[i].user.icon,29,29);
+            results[i].iconUrl = obj.url;
+            results[i].iconStyle = obj.style;
+            commentData[results[i].id]=results[i];
+        }
+        var data = {list:results,thirdId:thirdId,loginId:quakooUser.getUserInfo().id};
+        var html = template("styleNav",data);
+        if (append) {
+            var div = document.createElement("div");
+            div.innerHTML = html;
+            document.getElementById('commentList').appendChild(div);
+            setTimeout(function () {
+                quakooMsg.hideProgress();
+            },200)
+        } else {
+            document.getElementById("commentList").innerHTML=html;
+            quakooMsg.hideProgress()
+        }
+    }
+    //删除自己发表的评论
+    function delComment(id) {
+        quakooMsg.showDialog('提示','确认删除该评论吗？','取消','确认',function () {
+            quakooData.ajaxSubmitData(config.getUrl_web_system_commentDel(),{id:id},function (ret) {
+                if(ret && ret.success){
+                    quakooMsg.toast('删除成功');
+                    getData();
+                    api.execScript({
+                        name:'style_index',
+                        frameName:'style_index_body',
+                        script:'getComment()'
+                    })
+                }
+            })
+        })
+    }
+    //调用发布评论
+    function diaoyongComment(userid){
+        api.execScript({
+            name:'allComment',
+            script:'diaoyongComment('+userid+')'
+        })
+    }
+    //跳单个评论的全部回复
+    function oneComment(id) {
+        quakooApp.openNewWindow('oneComment','./oneComment.html',{parm:commentData[id],id:id,thirdId:thirdId});
+    }
+    //点赞
+    var tag=true;
+    function tagsDouble(self,id) {
+        quakooMsg.showProgress();
+        var className = $(self).attr("class");
+        if(tag){
+            tag=false;
+            if(className=='active'){
+                quakooData.ajaxSubmitData(config.getUrl_web_system_supportDelete(),{type:7,typeId:id},function (ret,err) {
+                    tag=true;
+                    if(ret.success){
+                        $(self).attr("class","");
+                        quakooMsg.toast('已取消点赞')
+                        var num = document.getElementById("supportNum"+id).innerHTML;
+                        document.getElementById("supportNum"+id).innerHTML = parseInt(num)-1;
+                        api.execScript({
+                            name:"style_index",
+                            frameName:"style_index_body",
+                            script:"getComment()"
+                        })
+                        quakooMsg.hideProgress();
+                    }
+                });
+            }else{
+                quakooData.ajaxSubmitData(config.getUrl_web_system_supportAdd(),{type:7,typeId:id},function (ret,err) {
+                    tag=true;
+                    if(ret.success){
+                        $(self).attr("class","active");
+                        quakooMsg.toast('点赞成功')
+                        var num = document.getElementById("supportNum"+id).innerHTML;
+                        document.getElementById("supportNum"+id).innerHTML = parseInt(num)+1;
+                        api.execScript({
+                            name:"style_index",
+                            frameName:"style_index_body",
+                            script:"getComment()"
+                        })
+                        quakooMsg.hideProgress();
+                    }
+                });
+            }
+        }
+    }
+</script>
+</body>
+</html>

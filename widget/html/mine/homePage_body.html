@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>个人主页</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+
+        #HP-icon{
+            height: 97px;
+            background: #fff;
+            padding:0 16px 0 19px;
+        }
+
+        #HP-icon > :nth-child(1){
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #222222;
+            letter-spacing: 0;
+            line-height: 97px;
+            text-align: left;
+            float: left;
+            width: 76%;
+        }
+        #HP-icon > :nth-child(2){
+            width: 63px;
+            height: 63px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-top: 17px;
+            float: left;
+        }
+        #HP-icon .iconImg{
+            width: 63px;height: 63px;
+            overflow: hidden;
+        }
+        #HP-icon  img{
+            display: block;
+        }
+        #HP-icon > i{
+            width: 14px;
+            height: 97px;
+            display: inline-block;
+            float: right;
+            background: url("../../icon/right_b.png") no-repeat;
+            background-position: center;
+            background-size: 70%;
+        }
+
+        #HP-msg{
+            height: 274px;
+            background: #fff;
+            margin:12px 0;
+            padding:0 16px 0 19px;
+            box-sizing: border-box;
+        }
+        .listStyle{
+            height:45px;
+            line-height: 45px;
+            border-top: 1px solid #f5f5f5;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #B3B3B3;
+            letter-spacing: 0;
+        }
+        .listStyle > :nth-child(1){
+            color: #222222;
+            float: left;
+        }
+        .listStyle > :nth-child(3){
+            max-width: 200px;
+            color: #999999;
+            float: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .listStyle > i{
+            width: 15px;
+            height: 15px;
+            margin-top: 15px;
+            display: inline-block;
+            background: url("../../icon/right_b.png") no-repeat;
+            background-size: 60%;
+            background-position: right center;
+            vertical-align: sub;
+            float: right;
+        }
+        .rank{
+            width: 28px;
+            height: 16px;
+            background: #9E7443;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+            line-height: 16px;
+            text-align: center;
+            margin-right: 2px;
+        }
+        .twoCode{
+            width: 18px;
+            height: 18px;
+            background: url("../../image/twoCode.png") no-repeat;
+            background-size: 100%;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        #HP-three{
+            height: 321px;
+            background: #fff;
+            padding:0 16px 0 19px;
+            box-sizing: border-box;
+        }
+        /*地点三级联动选择样式*/
+        .mobileSelect {
+            position: relative;
+            z-index: 0;
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: opacity 0.4s, z-index 0.4s;
+            transition: opacity 0.4s, z-index 0.4s;
+        }
+        .mobileSelect * {
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .mobileSelect .grayLayer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: #eee;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 888;
+            display: block;
+        }
+        .mobileSelect .content {
+            width: 100%;
+            display: block;
+            position: fixed;
+            z-index: 889;
+            color: black;
+            -webkit-transition: all 0.4s;
+            transition: all 0.4s;
+            bottom: -350px;
+            left: 0;
+            background: white;
+        }
+        .mobileSelect .content .fixWidth {
+            width: 90%;
+            margin: 0 auto;
+            position: relative;
+        }
+        .mobileSelect .content .fixWidth:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+        .mobileSelect .content .btnBar {
+            border-bottom: 1px solid #DCDCDC;
+            font-size: 15px;
+            height: 45px;
+            position: relative;
+            text-align: center;
+            line-height: 45px;
+        }
+        .mobileSelect .content .btnBar .cancel,
+        .mobileSelect .content .btnBar .ensure {
+            height: 45px;
+            width: 55px;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+        }
+        .mobileSelect .content .btnBar .cancel {
+            left: 0;
+            color: #666;
+        }
+        .mobileSelect .content .btnBar .ensure {
+            right: 0;
+            color: #1e83d3;
+        }
+        .mobileSelect .content .btnBar .title {
+            font-size: 15px;
+            padding: 0 15%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .mobileSelect .content .panel:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+        .mobileSelect .content .panel .wheels {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        .mobileSelect .content .panel .wheel {
+            position: relative;
+            z-index: 0;
+            float: left;
+            width: 50%;
+            height: 200px;
+            overflow: hidden;
+            -webkit-transition: width 0.3s ease;
+            transition: width 0.3s ease;
+        }
+        .mobileSelect .content .panel .wheel .selectContainer {
+            display: block;
+            text-align: center;
+            -webkit-transition: -webkit-transform 0.18s ease-out;
+            transition: -webkit-transform 0.18s ease-out;
+            transition: transform 0.18s ease-out;
+            transition: transform 0.18s ease-out, -webkit-transform 0.18s ease-out;
+        }
+        .mobileSelect .content .panel .wheel .selectContainer li {
+            font-size: 15px;
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .mobileSelect .content .panel .selectLine {
+            height: 40px;
+            width: 100%;
+            position: absolute;
+            top: 80px;
+            pointer-events: none;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border-top: 1px solid #DCDCDC;
+            border-bottom: 1px solid #DCDCDC;
+        }
+        .mobileSelect .content .panel .shadowMask {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 200px;
+            background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), color-stop(rgba(255, 255, 255, 0)), to(#ffffff));
+            background: -webkit-linear-gradient(top, #ffffff, rgba(255, 255, 255, 0), #ffffff);
+            background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0), #ffffff);
+            opacity: 0.9;
+            pointer-events: none;
+        }
+        .mobileSelect-show {
+            opacity: 1;
+            z-index: 10000;
+            visibility: visible;
+        }
+        .mobileSelect-show .content {
+            bottom: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="body">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/mobileSelect.js"></script>
+<script type="text/html" id="msgTmp">
+    <%if(list){%>
+        <div id="HP-icon" onclick="updataIcon();">
+            <div>头像</div>
+                <div class="iconImg">
+                    <%if(list.icon){%>
+                    <img id="icon" src="<%=list.icon%>" alt="" style="<%=list.style%>">
+                    <%}else{%>
+                    <img id="icon" src="../../icon/icon108.png" style="width: 100%;height: 100%;" alt="">
+                    <%}%>
+                </div>
+            <i></i>
+        </div>
+        <div id="HP-msg">
+            <div class="listStyle" onclick="openEdit(0,'<%=list.name%>');">
+                <p>昵称</p>
+                <i></i>
+                <p><%=list.name%></p>
+            </div>
+            <div class="listStyle" onclick="openRenkIndex();">
+                <p>会员等级</p>
+                <i></i>
+                <%if(list.userExpenseLevelInfo){%>
+                <p><span class="rank"><%=list.userExpenseLevelInfo.levelName%></span></p>
+                <%}%>
+                <p><i></i></p>
+            </div>
+            <div class="listStyle" onclick="openQRcode()">
+                <p>我的二维码</p>
+                <i></i>
+                <p><span class="twoCode"></span></p>
+            </div>
+            <div class="listStyle" onclick="openEdit(1,'<%=list.age%>');">
+                <p>年龄</p>
+                <i></i>
+                <p><%=list.age%> </p>
+            </div>
+            <div class="listStyle"  id="sex">
+                <p>性别</p>
+                <i></i>
+                <%if(list.sex == 0){%>
+                    <p>未知</p>
+                <%}else if(list.sex == 1){%>
+                    <p>男</p>
+                <%}else if(list.sex == 2){%>
+                    <p>女</p>
+                <%}%>
+            </div>
+            <div class="listStyle" onclick="openEdit(9,'<%=list.desc%>');">
+                <p>个性签名</p>
+                <i></i>
+                <p><%=list.desc%></p>
+            </div>
+        </div>
+        <div id="HP-three">
+            <div class="listStyle" onclick="openEdit(2,'<%=list.height%>');">
+                <p>身高</p>
+                <i></i>
+                <p><%=list.height%>CM</p>
+            </div>
+            <div class="listStyle" onclick="openEdit(3,'<%=list.weight%>');">
+                <p>体重</p>
+                <i></i>
+                <p><%=list.weight%>KG</p>
+            </div>
+            <div class="listStyle" onclick="openEdit(4,'<%=list.waistline%>');">
+                <p>腰围</p>
+                <i></i>
+                <p><%=list.waistline%>CM</p>
+            </div>
+            <div class="listStyle" onclick="openEdit(5,'<%=list.chest%>');">
+                <p>胸围</p>
+                <i></i>
+                <p><%=list.chest%>CM</p>
+            </div>
+            <div class="listStyle" onclick="openEdit(6,'<%=list.hipline%>');">
+                <p>臀围</p>
+                <i></i>
+                <p><%=list.hipline%>CM</p>
+            </div>
+            <div class="listStyle" onclick="openEdit(7,'<%=list.leg%>');">
+                <p>腿长</p>
+                <i></i>
+                <p><%=list.leg%>CM</p>
+            </div>
+            <div class="listStyle" onclick="openEdit(8,'<%=list.bar%>');">
+                <p>罩杯</p>
+                <i></i>
+                <p><%=list.bar%></p>
+            </div>
+        </div>
+    <%}%>
+</script>
+<script>
+    var levelName = '';
+    apiready = function () {
+
+        //    获取我的信息
+        getMyMsg();
+
+    };
+
+    // 获取我的信息
+    function getMyMsg(){
+        quakooMsg.showProgress()
+        quakooData.ajaxGetData(config.getUrl_web_user_myMsg(),{uid:quakooUser.getUserInfo().id},function(ret,err) {
+            quakooMsg.hideProgress()
+            if(ret.success == true){
+                if(ret.data){
+                    if(ret.data.userExpenseLevelInfo){
+                        levelName = ret.data.userExpenseLevelInfo.levelName;
+                    }
+                    if(ret.data.icon){
+                        var obj = quakooImg.processImg(ret.data.icon,63,63);
+                        ret.data.style = obj.style;
+                        ret.data.icon = obj.url;
+                    }
+                    var data = { list:ret.data};
+                    var html = template('msgTmp',data);
+                    document.getElementById('body').innerHTML = html;
+                    setMuiSex(ret.data.sex)
+                }
+
+            }else{
+                document.getElementById('body').innerHTML = '';
+            }
+        })
+    };
+    //打开编辑
+    function openEdit(type,val) {
+        quakooApp.openNewWindow('editPerMsg','editPerMsg.html',{type:type,value:val});
+    };
+
+    //打开我的二维码
+    function openQRcode() {
+        quakooApp.openNewWindow('QRcode','QRcode.html');
+    };
+    function setMuiSex(sex) {
+        var data = [];
+        data.push(parseInt(sex)-1);
+        var mobileSelect5 = new MobileSelect({
+            trigger: '#sex',
+            title: '性别',
+            wheels: [{data:['男','女']}],
+            position:data,
+            triggerDisplayData:false,
+            callback:function(indexArr, data){
+                var parame = {};
+                parame.id = quakooUser.getUserInfo().id;
+                if(data=='男'){
+                    parame.sex = 1;
+                }else if(data=='女'){
+                    parame.sex = 2;
+                }
+                quakooData.ajaxSubmitData(config.getUrl_web_user_updataMyMsg(),parame,function(ret,err){
+                    quakooMsg.hideProgress()
+                    if(ret.success == true){
+                        document.querySelectorAll('#sex p')[1].innerHTML = data;
+                        quakooMsg.toast(ret.msg)
+                    }else{
+                        quakooMsg.toast(ret.msg)
+                    }
+                });
+            }
+        });
+    }
+   /* //打开我的性别
+    function openSex(sex) {
+
+        // quakooApp.openNewWindow('editSex','editSex.html',{sex:sex});
+    };*/
+
+    //打开会员等级
+    function openRenkIndex() {
+        quakooApp.openNewWindow('rankIndex','rankIndex.html',{levelName:levelName});
+    };
+    var iconFlag = true;
+    function updataIcon() {
+        quakooImg.openAlbumAndUpload(1,function (ret,err) {
+            var url = ret.value.url;
+            quakooMsg.showProgress()
+            quakooData.ajaxSubmitData(config.getUrl_web_user_updataMyMsg(),{icon:url,id:quakooUser.getUserInfo().id},function (ret1,err) {
+                quakooMsg.hideProgress()
+                if(ret1.success == true){
+                    quakooMsg.toast('上传成功');
+                    var info = quakooUser.getUserInfo();
+                    info.icon = url;
+                    quakooUser.setUserInfo(info)
+                    var obj = quakooImg.processImg(url,63,63);
+                    document.getElementById('icon').src = obj.url;
+                    document.getElementById('icon').style = obj.style;
+                    document.getElementById('icon').onerror = function(){
+                        if(iconFlag){
+                            iconFlag = false;
+                            document.getElementById('icon').src = obj.url+"?t="+Math.random();
+                        }else{
+                            document.getElementById('icon').src = url+"?t="+Math.random();
+                        }
+                    }
+                    api.execScript({
+                        name:"setting",
+                        frameName:"setting_body",
+                        script:"editImg('"+url+"')"
+                    })
+                    api.execScript({
+                        name:"main",
+                        frameName:"my",
+                        script:"editImg('"+url+"')"
+                    })
+                    api.execScript({
+                        name:"myPage",
+                        frameName:"myPage_body",
+                        script:"editImg('"+url+"')"
+                    })
+                    // 个人信息发生改变，给原生发送通知
+                    quakooUser.registerNative();
+                }else{
+                    quakooMsg.toast(ret1.msg)
+                }
+            })
+        })
+    }
+</script>
+</html>

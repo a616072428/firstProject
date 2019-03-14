@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>直播回放</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+        }
+        #topbar > div:nth-child(2){
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+        }
+
+        .live-store{
+            width: 100%;
+            box-sizing: border-box;
+            padding: 18px 19px;
+            border-bottom:1px solid #F5F5F5;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .live-store .img{
+            width: 78px;height: 78px;
+            float: left;
+            overflow: hidden;margin-right: 12px;
+        }
+        .live-store .img img{
+            display: block;
+        }
+        .live-info{
+            float: left;
+            max-width: 67%;
+            height: 78px;
+            box-sizing: border-box;
+            overflow: hidden;
+            padding: 17px 0;
+        }
+        .live-info p{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #505050;
+            letter-spacing: 0;
+            line-height: 20px;
+            height: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
+        .live-info span{
+            font-family: PingFangSC-Medium;
+            font-size: 12px;
+            color: #9B9B9B;
+            letter-spacing: 0;
+            line-height:17px;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();">
+    </div>
+    <div>直播回放</div>
+</div>
+<div class="live-store">
+    <div class="img">
+        <img id="icon" src="../../image/dianpuTest.jpg" alt="" style="width: 100%;height: 100%;">
+    </div>
+    <div class="live-info">
+        <p id="name"></p>
+        <span id="videoNum"></span>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+        if(api.pageParam.name){
+            document.getElementById('name').innerHTML = api.pageParam.name;
+        }
+        if(api.pageParam.videoNum){
+            document.getElementById('videoNum').innerHTML = '共' + api.pageParam.videoNum + '条回放';
+        }
+        if(api.pageParam.icon){
+            var obj1 = quakooImg.processImg(api.pageParam.icon,78,78);
+            document.getElementById('icon').src = obj1.url;
+            document.getElementById('icon').style.cssText = obj1.style;
+        }else{
+            document.getElementById('icon').src = '../../icon/icon108.png';
+        }
+        quakooApp.initFrameInWin(api.pageParam,{
+            rect:{
+                x: '0',
+                marginTop : api.safeArea.top + config.headHeight + document.querySelector('.live-store').offsetHeight + 1,
+                w: 'auto',
+                marginBottom : 0
+            }
+        });
+    }
+</script>
+</html>

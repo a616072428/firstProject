@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>店铺</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+
+        #footer{
+            height: 49px;
+            width: 100%;
+            z-index: 1000;
+            border-top: 1px solid #ccc;
+            position: fixed;
+            left: 0;
+            bottom:0;
+        }
+        #footer > div{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #2B2B2B;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 49px;
+            float: left;
+            line-height: 24px;
+            box-sizing: border-box;
+        }
+        #footer > :nth-child(1){
+            width: 33%;
+            border-right: 1px solid #E3E3E3;
+            margin-top: 13px;
+            box-sizing: border-box;
+        }
+        #footer > :nth-child(2){
+            width: 33%;
+            margin-top: 13px;
+        }
+        #footer > :nth-child(3){
+            width: 17%;
+            height: 100%;
+            line-height: 49px;
+            border-left: 1px solid #E3E3E3;
+        }
+
+        #footer > :nth-child(3) > i{
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            background: url("../../icon/kefu.png") no-repeat;
+            background-size:100%;
+        }
+        #footer > :nth-child(3) > p{
+            line-height: 0;
+            font-family: PingFangSC-Regular;
+            font-size: 9px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: -10px;
+        }
+        #footer > :nth-child(4){
+            width: 17%;
+            height: 100%;
+            line-height: 49px;
+            border-left: 1px solid #E3E3E3;
+        }
+
+        #footer > :nth-child(4) > i{
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            background: url("../../image/share.png") no-repeat;
+            background-size:100%;
+        }
+        #footer > :nth-child(4) > p{
+            line-height: 0;
+            font-family: PingFangSC-Regular;
+            font-size: 9px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: -10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="footer" >
+    <div onclick="openStoreIndex();">店铺详情</div>
+    <div onclick="openClassify();">商品分类</div>
+    <div onclick="openChat()" >
+        <i></i>
+        <p>联系客服</p>
+    </div>
+    <div onclick="openShareStore()" >
+        <i></i>
+        <p>分享</p>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    var id;
+    var shareImg;
+    var shareDesc;
+    apiready = function () {
+        //监听返回键
+        api.addEventListener({
+            name:"keyback"
+        },function () {
+            quakooDb.removeItem('store_head')
+            quakooDb.removeItem('storeGoods')
+            quakooDb.removeItem('storeTrends')
+            quakooApp.closeWin();
+        })
+        if(api.pageParam.id){
+            id = api.pageParam.id;
+            openFrame()
+        }else{
+            api.addEventListener({
+                name:"goodsIndexListener"
+            },function (ret) {
+                if(ret.value){
+                    if(ret.value.id){
+                        id = ret.value.id;
+                        openFrame()
+                    }
+                }
+            })
+        }
+
+
+    };
+    function openFrame() {
+        //解决iPhoneX系列兼容
+        var botHeight = 0;
+        var strSV = parseFloat(api.systemVersion,10);
+        if(api.systemType=='ios' && strSV >= 12){
+            if(api.safeArea.top>20){
+                botHeight = api.safeArea.bottom;
+                document.getElementById('footer').style.paddingBottom = botHeight + 'px';
+            }
+        }
+       /* api.openFrameGroup ({
+            name: 'store',
+            background:'#fff',
+            scrollEnabled:true,
+            preload:1,
+            rect : {
+                x : 0,
+                marginTop : api.safeArea.top + 45 + 44,
+                w : 'auto',
+                marginBottom: 50 + botHeight
+            },
+            index:0,
+            frames: [{
+                name: 'storeGoods',
+                url: 'storeGoods_body.html', //商品
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:0,id:id,top:api.safeArea.top}
+            },{
+                name: 'storeTrends',
+                url: 'storeTrends_body.html', //店铺
+                bgColor :'rgba(0,0,0,0)',
+                pageParam:{index:1,id:id,top:api.safeArea.top}
+            }]
+        }, function(ret, err){
+            if(quakooDb.getItem('store_head')){
+                api.execScript({
+                    frameName:"store_head",
+                    script:"switchFrameCallback("+ret.index+")"
+                })
+            }
+        })*/
+        //打开内容frame
+        quakooApp.openFrame('store_body','./store_body.html',{id:id,top:api.safeArea.top,winName:api.winName,showDynamic:api.pageParam.showDynamic},0,0,{
+            rect:{
+                x : 0,
+                marginTop : api.safeArea.top + 45 + 44,
+                w : 'auto',
+                marginBottom: 50 + botHeight
+            },
+            bgColor:"#fff"
+        })
+        //打开头部frame
+        quakooApp.openFrame('store_head','./store_head.html',{id:id,top:api.safeArea.top,winName:api.winName,showDynamic:api.pageParam.showDynamic},0,0,{
+            rect:{
+                x:0,
+                marginTop: 0,
+                w: 'auto',
+                h: api.safeArea.top + 45 + 91 + 92
+            },
+            bgColor:"#fff"
+        })
+        quakooData.ajaxSubmitDataNoProgress(config.getUrl_web_mall_getBrandIndex(),{id:id},function(ret,err){
+            if(ret.success == true){
+                shareDesc = ret.data.name;
+                shareImg = ret.data.icon;
+            }
+        })
+    }
+
+    //打开分类
+    function openClassify() {
+        quakooApp.openNewWindow('sClassify','sClassify.html',{sid:id});
+    }
+
+    //打开店铺详情
+    function openStoreIndex(){
+        quakooApp.openNewWindow('storeIndex','storeIndex.html',{id:id});
+    }
+    //打开联系客服
+    function openChat(){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        var user = quakooUser.getUserInfo();
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_subordinateLoadChatUid(),{id:id},function(ret,err){
+            if(ret.success){
+                quakooApp.openNativePage('customerChat',{
+                    uid: user.id+'',
+                    uicon: user.icon,
+                    id: ret.data.uid+'',
+                    name: ret.data.name,
+                    icon: ret.data.icon
+                },1)
+            }
+        })
+    }
+
+    //分享
+    var shareFlag = true;
+    function openShareStore() {
+        if(shareFlag){
+            shareFlag = false;
+            if(shareImg){
+                quakooMsg.showProgress();
+
+                var img = quakooImg.processImg(shareImg,80,80).url;
+                //获取图片本地路径
+                api.imageCache({
+                    url: img
+                }, function(ret, err) {
+                    quakooMsg.hideProgress();
+
+                    if (ret.status) {
+                        quakooShare.openShare('蜜柚时尚',shareDesc,ret.url,config.storeShareUrl(),{id:id})
+                    }else{
+                        quakooShare.openShare('蜜柚时尚',shareDesc,'widget://icon/icon108.png',config.storeShareUrl(),{id:id})
+                    }
+                    setTimeout(function () {
+                        shareFlag = true;
+                    },500)
+                });
+            }else{
+                quakooShare.openShare('蜜柚时尚',shareDesc,'widget://icon/icon108.png',config.storeShareUrl(),{id:id})
+                setTimeout(function () {
+                    shareFlag = true;
+                },500)
+            }
+        }
+
+
+    }
+</script>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>充值</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+            box-sizing: border-box;
+        }
+        #body{
+            padding: 0 5%;
+        }
+        #status{
+            width: 100%;
+            height: 248px;
+            padding-top: 64px;
+            box-sizing: border-box;
+        }
+        .icon{
+            width:85px;
+            height: 83px;
+            background: url("../../icon/status.png") no-repeat;
+            background-size: 100%;
+            margin: 0 auto;
+        }
+        .staText{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 24px;
+            color: #333333;
+            letter-spacing: -0.58px;
+            text-align: center;
+            margin-top: 18px;
+            margin-bottom: 50px;
+        }
+        #index > li{
+            line-height: 45px;
+            border-bottom: 1px solid #f5f5f5;
+            box-sizing: border-box;
+        }
+        #index > li:nth-child(1){
+            border-top: 1px solid #f5f5f5;
+            box-sizing: border-box;
+        }
+        #index > li > i{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #999999;
+            letter-spacing: -0.34px;
+        }
+        #index > li > strong{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            float: right;
+        }
+        #ok{
+            width:100%;
+            height: 44.5px;
+            background: #222222;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #F9F9F9;
+            letter-spacing: -0.39px;
+            text-align: center;
+            line-height: 44.5px;
+            margin-top: 23px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+</head>
+<body>
+<div id="body">
+    <div id="status">
+        <div class="icon"></div>
+        <p class="staText">充值成功</p>
+    </div>
+    <ul id="index">
+        <li><i>到款账户</i><strong id="name">微信</strong></li>
+        <li><i>充值金额</i><strong id="money">0.00</strong></li>
+    </ul>
+    <div id="ok" onclick="success();">完成</div>
+</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    apiready = function () {
+        var type = '';
+        if(api.pageParam.type == 1){
+            type = '支付宝';
+        }else{
+            type = '微信';
+        }
+        document.getElementById('name').innerHTML = type;
+        if(api.pageParam.money){
+            document.getElementById('money').innerHTML = '￥' + quakooUtils.formatMoney(api.pageParam.money,2);
+        }
+    }
+    
+    function success() {
+        quakooApp.closeWin();
+    }
+</script>
+</html>

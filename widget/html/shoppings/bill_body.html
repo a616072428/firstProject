@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>发票</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #f5f5f5;
+        }
+        #class-header{
+            height: 45px;
+            background: #fff;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            padding: 13px 0 12px 0;
+            box-sizing: border-box;
+        }
+        #class-header > div{
+            height: 24px;
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #AEAEAE;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 24px;
+        }
+        #class-header > :nth-child(1){
+            border-right: 1px solid #E3E3E3;
+        }
+        #class-header div.active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+        }
+
+        .bill-title{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #999999;
+            letter-spacing: 0;
+            padding:13px 0 12px 19px;
+        }
+
+        .perUnit-herder{
+            height: 44px;
+            background: #fff;
+            padding: 0 19px;
+            box-sizing: border-box;
+        }
+        .perUnit-herder > div{
+            width: 100%;
+            height: 43px;
+            border-bottom: 1px solid #E3E3E3;
+            margin:0 auto;
+        }
+        #per{
+            margin-right: 24%;
+        }
+        #Details{
+            margin-right: 17%;
+        }
+        #per,
+        #unit,
+        #Details,
+        #classify{
+            float: left;
+        }
+        .perUnit-herder div p{
+            width: 18px;
+            height: 18px;
+            background: url('../../icon/shop_no.png') no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            vertical-align: sub;
+            margin-right: 4px;
+        }
+        .perUnit-herder div p.active{
+            width: 18px;
+            height: 18px;
+            background: url('../../icon/shop_ok.png') no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            vertical-align: sub;
+            margin-right: 4px;
+        }
+        /*#per > p,
+        #unit > p,
+        #Details > p,
+        #classify > p{
+
+        }*/
+        #per > span,
+        #unit > span,
+        #Details > span,
+        #classify > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: left;
+            line-height: 44px;
+        }
+
+        .perMsg{
+            clear: both;
+            background: #fff;
+            padding: 12px 19px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            box-sizing: border-box;
+        }
+        #perMsg{
+            margin-left: 23px;
+        }
+        .unitMsg{
+            height: 90px;
+            background: #fff;
+            padding:0 19px;
+        }
+        .unitMsg > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: left;
+            height: 44px;
+            line-height: 44px;
+        }
+        .unitMsg > p > i{
+            width: 73px;
+            display: inline-block;
+        }
+        .unitMsg > :nth-child(2){
+            height: 43px;
+            border-top: 1px solid #E3E3E3;
+        }
+        #perMsg,
+        #unitTitle,
+        #unitNumber{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            /*color: #DEDEDE;*/
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .classifyBottom > div{
+            border-bottom: none;
+        }
+
+        .submit-btn{
+            width: 100%;
+            height: 45px;
+            background: #222;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #F9F9F9;
+            letter-spacing: -0.39px;
+            text-align: center;
+            line-height: 45px;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <!--发票类型-->
+    <div id="class-header">
+        <div class="dianzi active" onclick="billTab(1);">电子发票</div>
+        <div class="zhizi" onclick="billTab(2);">纸质发票</div>
+    </div>
+
+    <p class="bill-title">发票信息</p>
+
+    <div class="perUnit-herder">
+        <div>
+            <div id="per" onclick="getMsg(1);">
+                <p id="pCheck" ></p>
+                <span>个人</span>
+            </div>
+            <div id="unit" onclick="getMsg(2);">
+                <p id="uCheck"></p>
+                <span>单位</span>
+            </div>
+        </div>
+    </div>
+    <!--个人-->
+    <div class="perMsg" id="pMsg" style="display: none">
+        <p><i>个人名称</i><input type="text" id="perMsg" placeholder="请输入开票人姓名"></p>
+    </div>
+
+    <!--单位-->
+    <div class="unitMsg" id="unitMsg" style="display: none">
+        <p><i>发票抬头</i><input type="text" id="unitTitle" placeholder="请输入发票抬头"></p>
+        <p><i>税号</i><input type="text" id="unitNumber" placeholder="请输入税号"></p>
+    </div>
+
+    <p class="bill-title" id="putBillMsgHead">收票人信息</p>
+    <div class="unitMsg" id="putBillMsg">
+        <p><i>手机号</i><input type="number" id="phone" placeholder="请输入手机号"></p>
+        <p><i>邮箱</i><input type="email" id="email" placeholder="请输入邮箱"></p>
+    </div>
+
+    <p class="bill-title">发票内容</p>
+    <div class="perUnit-herder classifyBottom">
+        <div>
+            <div id="Details" onclick="billConent(1)">
+                <p id="billDetails" ></p>
+                <span>商品明细</span>
+            </div>
+            <div id="classify" onclick="billConent(2)">
+                <p id="billClass" ></p>
+                <span>商品类别</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="submit-btn" onclick="submit();">确认</div>
+
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script>
+    //发票类型    1电子，2纸质
+    var billType;
+    //发票信息，1个人，2单位
+    var style;
+    //发票内容类型 1明细，2类别
+    var contentType;
+    apiready = function () {
+        if(api.pageParam.billData){
+            var data = api.pageParam.billData;
+
+            if(data.receiverName){
+                document.getElementById('perMsg').value = data.receiverName;
+            }
+            if(data.receiverPhone){
+                document.getElementById('phone').value = data.receiverPhone;
+            }
+            if(data.receiverEmail){
+                document.getElementById('email').value = data.receiverEmail;
+            }
+            if(data.header){
+                document.getElementById('unitTitle').value = data.header;
+            }
+            if(data.dutyNum){
+                document.getElementById('unitNumber').value = data.dutyNum;
+            }
+            if(data.type==2){
+                document.querySelector('.zhizi').classList.add('active')
+                document.querySelector('.dianzi').classList.remove('active')
+            }else{
+                document.querySelector('.zhizi').classList.remove('active')
+                document.querySelector('.dianzi').classList.add('active')
+            }
+            billType = data.type;
+            style = data.style;
+            contentType = data.contentType;
+            getMsg(data.style)
+            billConent(data.contentType)
+        }else{
+            document.querySelector('.zhizi').classList.remove('active')
+            document.querySelector('.dianzi').classList.add('active')
+            billType = 1;
+            getMsg(1)
+        }
+    };
+
+    //发票类别
+    function billTab(type) {
+        if(type==1){
+            document.querySelector('.zhizi').classList.remove('active')
+            document.querySelector('.dianzi').classList.add('active')
+            billType = 1;
+        }else if(type==2){
+            document.querySelector('.zhizi').classList.add('active')
+            document.querySelector('.dianzi').classList.remove('active')
+            billType = 2;
+        }
+        billType = type;
+        getMsg(1)
+    };
+    //发票信息
+    function getMsg(type){
+        style = type;
+        if(billType==1){
+            if(style == 1) {
+                document.getElementById('pCheck').classList.add('active');
+                document.getElementById('uCheck').classList.remove('active');
+                document.getElementById('pMsg').style.display = 'none';
+                document.getElementById('unitMsg').style.display = 'none';
+                document.getElementById('putBillMsgHead').style.display = 'block';
+                document.getElementById('putBillMsg').style.display = 'block';
+            }else{
+                document.getElementById('pCheck').classList.remove('active');
+                document.getElementById('uCheck').classList.add('active');
+                document.getElementById('pMsg').style.display = 'none';
+                document.getElementById('unitMsg').style.display = 'block';
+                document.getElementById('putBillMsgHead').style.display = 'block';
+                document.getElementById('putBillMsg').style.display = 'block';
+            };
+        }else{
+            if(style == 1) {
+                document.getElementById('pCheck').classList.add('active');
+                document.getElementById('uCheck').classList.remove('active');
+                document.getElementById('pMsg').style.display = 'block';
+                document.getElementById('unitMsg').style.display = 'none';
+                document.getElementById('putBillMsgHead').style.display = 'none';
+                document.getElementById('putBillMsg').style.display = 'none';
+            }else{
+                document.getElementById('pCheck').classList.remove('active');
+                document.getElementById('uCheck').classList.add('active');
+                document.getElementById('pMsg').style.display = 'none';
+                document.getElementById('unitMsg').style.display = 'block';
+                document.getElementById('putBillMsgHead').style.display = 'none';
+                document.getElementById('putBillMsg').style.display = 'none';
+            };
+        }
+
+
+    };
+    //发票明细
+    function billConent(type){
+        contentType = type;
+        if(contentType==1){
+            document.getElementById('billDetails').classList.add('active');
+            document.getElementById('billClass').classList.remove('active');
+        }else{
+            document.getElementById('billDetails').classList.remove('active');
+            document.getElementById('billClass').classList.add('active');
+        }
+    };
+
+    //组装数据
+    function submit(){
+        var parme = {};
+        parme.type = billType; // 1电子 2纸质
+        parme.style = style;//1个人 2单位
+        parme.contentType = contentType;
+        parme.receiverName = $api.val($api.byId('perMsg')); //开票人姓名
+        parme.receiverPhone = $api.val($api.byId('phone')); //收票人手机号
+        parme.receiverEmail = $api.val($api.byId('email')); //收票人邮箱
+        parme.header = $api.val($api.byId('unitTitle')); //发票title
+        parme.dutyNum = $api.val($api.byId('unitNumber')); //发票税号
+
+        if(quakooUtils.isBlack(parme.style)){
+            quakooMsg.toast('请选择个人或单位');
+            return;
+        }
+
+        if(billType==1){
+            if(style==1){
+                if(quakooUtils.isBlack(parme.receiverPhone)){
+                    quakooMsg.toast('请输入收票人手机号');
+                    return
+                }
+                if(!quakooUtils.isMobileNum(parme.receiverPhone)){
+                    quakooMsg.toast('请输入正确的手机号');
+                    return
+                }
+                if(quakooUtils.isBlack(parme.receiverEmail)){
+                    quakooMsg.toast('请输入收票人邮箱');
+                    return
+                }
+                if(!quakooUtils.isEmail(parme.receiverEmail)){
+                    quakooMsg.toast('请输入正确的邮箱');
+                    return
+                }
+                parme.receiverName = ''; //开票人姓名
+                parme.header = ''; //发票title
+                parme.dutyNum = ''; //发票税号
+            }else{
+                if(quakooUtils.isBlack(parme.header)){
+                    quakooMsg.toast('请输入发票抬头');
+                    return
+                }
+                if(quakooUtils.isBlack(parme.dutyNum)){
+                    quakooMsg.toast('请输入税号');
+                    return
+                }
+                if(quakooUtils.isBlack(parme.receiverPhone)){
+                    quakooMsg.toast('请输入收票人手机号');
+                    return
+                }
+                if(!quakooUtils.isMobileNum(parme.receiverPhone)){
+                    quakooMsg.toast('请输入正确的手机号');
+                    return
+                }
+                if(quakooUtils.isBlack(parme.receiverEmail)){
+                    quakooMsg.toast('请输入收票人邮箱');
+                    return
+                }
+                if(!quakooUtils.isEmail(parme.receiverEmail)){
+                    quakooMsg.toast('请输入正确的邮箱');
+                    return
+                }
+                parme.receiverName = ''; //开票人姓名
+            }
+        }else{
+            if(style==1){
+                if(quakooUtils.isBlack(parme.receiverName)){
+                    quakooMsg.toast('请输入个人名称');
+                    return
+                }
+                parme.header = ''; //发票title
+                parme.dutyNum = ''; //发票税号
+                parme.receiverPhone = ''; //收票人手机号
+                parme.receiverEmail = ''; //收票人邮箱
+            }else{
+                if(quakooUtils.isBlack(parme.header)){
+                    quakooMsg.toast('请输入发票抬头');
+                    return
+                }
+                if(quakooUtils.isBlack(parme.dutyNum)){
+                    quakooMsg.toast('请输入税号');
+                    return
+                }
+                parme.receiverName = ''; //开票人姓名
+                parme.receiverPhone = ''; //收票人手机号
+                parme.receiverEmail = ''; //收票人邮箱
+            }
+        }
+        if(quakooUtils.isBlack( parme.contentType)){
+            quakooMsg.toast('请选择发票内容');
+            return
+        }
+        api.execScript({
+            name: 'indent',
+            frameName:'indent_body',
+            script: 'getBills('+ JSON.stringify(parme) +')'
+        });
+        quakooApp.closeWin();
+    };
+
+
+</script>
+</html>

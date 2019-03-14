@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name = "format-detection" content = "telephone=no">
+    <title>支付订单</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        html,body{
+            background: #f5f5f5;
+        }
+        #indent-addr{
+            margin:10px 0 12px 0;
+            height: 85px;
+            background: #fff;
+            box-sizing: border-box;
+            position: relative;
+            clear: both;
+        }
+        #indent-addr > div{
+            float: left;
+        }
+        #indent-addr >:nth-child(1){
+            width: 18%;
+            height: 100%;
+            background: url("../../icon/addr.png") no-repeat;
+            background-size: 30%;
+            background-position: 50% center;
+        }
+        #indent-addr >:nth-child(2){
+            width: 82%;
+            height: 100%;
+            padding:15px 16px 0 0;
+            box-sizing: border-box;
+        }
+        #indent-addr >:nth-child(2) > strong{
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #333333;
+            letter-spacing: -0.31px;
+            text-align: center;
+        }
+        #indent-addr >:nth-child(2) > strong > em{
+            width: 28px;
+            height: 16px;
+            background: #9E7443;
+            border-radius: 2px;
+            margin-left: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+            text-align: center;
+            line-height: 16px;
+            vertical-align: top;
+        }
+        #indent-addr >:nth-child(2) > span{
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #AEAEAE;
+            letter-spacing: 0;
+            width: 243px;
+        }
+        #indent-addr >:nth-child(2) > i{
+            width: 15px;
+            height: 15px;
+            background: url("../../icon/right_b.png") no-repeat;
+            background-size: 60%;
+            display: inline-block;
+            position: absolute;
+            right:10px;
+            top: 35px;
+        }
+
+
+        /*定单详情*/
+        #indent-index{
+            background: #fff;
+            height: 100%;
+            padding:14px 5% 12px 5%;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+        .index-header{
+            border-bottom:1px solid #DDDDDD;
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+        }
+        .index-header > span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            margin-left: 8px;
+        }
+        .index-header > i{
+            width: 23px;
+            height: 23px;
+            display: inline-block;
+            background: url("../../icon/storeIcon.png") no-repeat;
+            background-size: 100%;
+            float: left;
+        }
+        /*商品列表*/
+        .goods-list > li{
+            margin-bottom: 6px;
+            overflow: hidden;
+        }
+        .imgBox{
+            width: 66px;
+            height: 100px;
+            float: left;
+            overflow: hidden;
+        }
+        .rightBox{
+            width: 68%;
+            float: left;
+            margin-left: 21px;
+            margin-top: 16px;
+        }
+        .rightBox > :nth-child(1){
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .rightBox > :nth-child(2){
+            font-family: PingFangSC-Light;
+            font-size: 12px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 19px;
+        }
+        .rightBox > :nth-child(3){
+            font-family: STHeitiSC-Medium;
+            font-size: 16px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .rightBox > :nth-child(3) > em{
+            float: right;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #222222;
+            letter-spacing: 0;
+        }
+
+        /*优惠券*/
+        .indent-ticket,/*优惠券*/
+        .indent-integral,/*积分*/
+        .indent-deliver,/*配送*/
+        .indent-remainMsg,/*留言*/
+        .indent-total/*小计*/{
+            height:45px;
+            line-height: 45px;
+            border-top: 1px solid #f5f5f5;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #B3B3B3;
+            letter-spacing: 0;
+            clear: both;
+        }
+        .indent-ticket > :nth-child(1){
+            color: #B3B3B3;
+            float: left;
+        }
+        .indent-ticket > :nth-child(2){
+            color: #353535;
+            float: right;
+        }
+        .indent-ticket > :nth-child(2) > i{
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            background: url("../../icon/right_b.png") no-repeat;
+            background-size: 60%;
+            background-position: right center;
+            vertical-align: sub;
+        }
+
+        /*积分*/
+        .indent-integral > :nth-child(1){
+            float: left;
+        }
+        .indent-integral > :nth-child(2){
+            float: right;
+            height: 45px;
+        }
+        .indent-integral > :nth-child(2) > i{
+            width: 30px;
+            height: 45px;
+            display: inline-block;
+            background: url("../../icon/switch01.png") no-repeat;
+            background-size: 100%;
+            background-position: center;
+        }
+        /*配送*/
+        .indent-deliver > :nth-child(1){
+            float: left;
+        }
+        .indent-deliver > :nth-child(2){
+            float: right;
+            color: #353535;
+        }
+
+
+        /*小计*/
+        .indent-total > p{
+            width: 40%;
+            color: #171717;
+            float: left;
+        }
+        .indent-total > p > em{
+            color: #B3B3B3;
+            margin-left:13px;
+        }
+        .indent-total > div{
+            width: 60%;
+            float: left;
+            text-align: right;
+        }
+        .indent-total > div > i{
+            width: 28px;
+            height: 16px;
+            display: inline-block;
+            background: #9E7443;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            text-align: center;
+            line-height: 17px;
+            vertical-align: top;
+            margin-top: 15px;
+        }
+        .indent-total > div > span{
+            font-family: STHeitiSC-Medium;
+            font-size: 15px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: left;
+            margin:0 8px;
+        }
+        .indent-total > div > b{
+            font-family: STHeitiSC-Medium;
+            font-size: 11px;
+            color: #A1A1A1;
+            letter-spacing: 0;
+            text-align: left;
+            text-decoration:line-through;
+        }
+
+        /*发票*/
+        .indent-bill{
+            clear: both;
+            height: 46px;
+            background: #fff;
+            border: none;
+            padding: 0 5%;
+            margin:12px 0;
+        }
+        /*订单金额详情*/
+        .indentMoney-index{
+            height: 242px;
+            padding:6px 12px;
+            box-sizing: border-box;
+            background: #fff;
+            border-bottom: 82px solid #f5f5f5;
+        }
+        .indentMoney-index > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 0;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+        .indentMoney-index > :last-child{
+            margin-bottom: 0;
+        }
+        .indentMoney-index > p > em{
+            float: right;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        #submitIndent{
+            width: 100%;
+            height: 44px;
+            background: #fff;
+            border-top: 1px solid #f5f5f5;
+            position: fixed;
+            bottom: 0;
+        }
+        #submitIndent > :nth-child(1){
+            width: 68%;
+            float: left;
+            text-align: right;
+            padding-right: 6px;
+            box-sizing: border-box;
+        }
+        #submitIndent > :nth-child(1) > em{
+            font-family: PingFangSC-Medium;
+            font-size: 12px;
+            color: #A5A5A5;
+            letter-spacing: 0;
+            line-height: 45px;
+        }
+        #submitIndent > :nth-child(1) > i{
+            font-family: STHeitiSC-Medium;
+            font-size: 20px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            vertical-align: middle;
+        }
+        #submitIndent > :nth-child(2){
+            width: 32%;
+            background: #222222;
+            float: left;
+            line-height: 45px;
+            text-align: center;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #F9F9F9;
+            letter-spacing: -0.39px;
+        }
+        #remainMsgVal{
+            width: 77%;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="body">
+        <div id="main">
+            <!--地址-->
+            <div id="indent-addr" onclick="openAddr('<%=list.defaultUserAddress.id%>');">
+                <div></div>
+                <div>
+                    <strong id="nameAndPhone">李敏荣安17835424211<em>默认</em>
+                    </strong>
+                    <span id="addr">北京市丰台区</span>
+                    <i></i>
+                </div>
+            </div>
+            <div id="indent-index">
+                <div class="index-header">
+                    <i></i>
+                    <span>阿里巴巴阿里巴巴</span>
+                </div>
+                <!--订单列表-->
+                <ul class="goods-list">
+                    <li>
+                        <div class="imgBox">
+                            <img src="<%=list.subs[i].goods[g].cover%>" style="<%=list.subs[i].goods[g].style%>">
+                        </div>
+                        <div class="rightBox">
+                            <p>撒的方式答复撒的方式答复撒的方式答复撒的方式答复撒的方式答复撒的方式答复撒的方式答复</p>
+                            <p>是地方撒 XL</p>
+                            <p>￥200<em>x5</em></p>
+                        </div>
+                    </li>
+                </ul>
+                <!--优惠券-->
+                <div class="indent-ticket">
+                    <p>优惠券</p>
+                    <p id="coupon<%=list.subs[i].id%>" onclick="openShoppingsCoupon('<%=list.subs[i].id%>');">请选择优惠券<i></i></p>
+                </div>
+                <!--积分-->
+                <div class="indent-integral">
+                    <p>积分(可用0积分抵0元)</p>
+                    <p id="intge"><i onclick="useIntegral('<%=list.subs[i].id%>','<%=list.subs[i].useScore%>','<%=list.subs[i].useScorePrice%>')" id="defIntge<%=list.subs[i].id%>"></i></p>
+                </div>
+                <!--配送-->
+                <div class="indent-deliver"  id="deliver<%=list.subs[i].id%>" >
+                    <p>配送</p>
+                    <p>免邮</p>
+                </div>
+                <!--留言-->
+                <div class="indent-remainMsg">
+                    <p>买家留言：<input type="text" id="remainMsgVal" onblur="getRemainMsg('<%=list.subs[i].id%>')" placeholder="请输入留言"></p>
+                </div>
+                <div class="indent-total">
+                    <p>小计<em>12件</em></p>
+                    <div>
+                        <span id="subPrice<%=list.subs[i].id%>">¥200</span>
+                        <b>￥400</b>
+                    </div>
+                </div>
+            </div>
+            <!--发票-->
+            <div class="indent-ticket indent-bill" id="bill" onclick="openBill();">
+                <p>发票</p>
+                <p id="billType">请选择发票类型<i></i></p>
+            </div>
+            <!--订单金额详情-->
+            <div class="indentMoney-index">
+                <p>商品金额 <em id="goodsPrice"></em></p>
+                <p>优惠券<em id="coup">-¥0.00</em></p>
+                <p>积分<em id="jifen">-¥0.00</em></p>
+                <p>运费<em id="postAge"></em></p>
+                <p>会员折扣<em id="discountPrice"></em></p>
+            </div>
+
+        </div>
+
+        <div id="submitIndent">
+            <div><em>合计：</em><i id="totalPrice"></i></div>
+            <div onclick="subOrder()">提交订单</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+
+<script type="text/html" id="indentTmp">
+<%if(list){%>
+    <div id="main">
+        <!--地址-->
+        <%if(list.defaultUserAddress){%>
+        <div id="indent-addr" onclick="openAddr('<%=list.defaultUserAddress.id%>');">
+            <div></div>
+            <div>
+                <strong id="nameAndPhone"><%=list.defaultUserAddress.name%> <%=list.defaultUserAddress.phone%>
+                    <%if(list.defaultUserAddress.def == 1){%>
+                    <em>默认</em>
+                    <%}%>
+                </strong>
+                <span id="addr"><%=list.defaultUserAddress.area%> <%=list.defaultUserAddress.address%></span>
+                <i></i>
+            </div>
+        </div>
+        <%}else{%>
+        <div id="indent-addr" onclick="openAddr();">
+            <div></div>
+            <div>
+                <strong id="nameAndPhone"></strong>
+                <span id="addr"></span>
+                <i></i>
+            </div>
+        </div>
+        <%}%>
+        <!--订单详情-->
+        <%for(var i = 0; i < list.subs.length; i++){%>
+            <div id="indent-index">
+                <div class="index-header">
+                    <i></i>
+                    <span><%=list.subs[i].name%></span>
+                </div>
+                <!--订单列表-->
+                <ul class="goods-list">
+                    <%for(var g = 0; g < list.subs[i].goods.length; g++){%>
+                        <li>
+                            <div class="imgBox">
+                                <img src="<%=list.subs[i].goods[g].cover%>" style="<%=list.subs[i].goods[g].style%>">
+                            </div>
+                            <div class="rightBox">
+                                <p><%=list.subs[i].goods[g].title%></p>
+                                <p><%=list.subs[i].goods[g].color.name%> <%=list.subs[i].goods[g].size%></p>
+                                <p>￥<%=list.subs[i].goods[g].Price%><em>x<%=list.subs[i].goods[g].num%></em></p>
+                            </div>
+                        </li>
+                    <%}%>
+                </ul>
+                <!--优惠券-->
+                <div class="indent-ticket">
+                    <p>优惠券</p>
+                    <p id="coupon<%=list.subs[i].id%>" onclick="openShoppingsCoupon('<%=list.subs[i].id%>');">请选择优惠券<i></i></p>
+                </div>
+                <!--积分-->
+                <div class="indent-integral">
+                    <p>积分(可用<%=list.subs[i].useScore%>积分抵<%=list.subs[i].UseScorePrice%>元)</p>
+                    <p id="intge"><i onclick="useIntegral('<%=list.subs[i].id%>','<%=list.subs[i].useScore%>','<%=list.subs[i].useScorePrice%>')" id="defIntge<%=list.subs[i].id%>"></i></p>
+                </div>
+                <!--配送-->
+                <div class="indent-deliver"  id="deliver<%=list.subs[i].id%>" >
+                    <p>配送</p>
+                    <%if(list.subs[i].postagePrice == 0){%>
+                        <p>免邮</p>
+                    <%}%>
+                    <p><%=list.subs[i].postageP%>元</p>
+                </div>
+                <!--留言-->
+                <div class="indent-remainMsg">
+                    <p>买家留言：<input type="text" id="remainMsgVal" onblur="getRemainMsg('<%=list.subs[i].id%>')" placeholder="请输入留言"></p>
+                </div>
+                <div class="indent-total">
+                    <p>小计<em><%=list.subs[i].goodsNum%>件</em></p>
+                    <div>
+                        <%if(list.subs[i].userExpenseLevelInfo){%>
+                            <i><%=list.subs[i].userExpenseLevelInfo.levelName%></i>
+                        <%}%>
+                        <span id="subPrice<%=list.subs[i].id%>">¥<%=list.subs[i].totalPrice%></span>
+                        <b>¥<%=list.subs[i].goodsTotalPrice%></b>
+                    </div>
+                </div>
+            </div>
+        <%}%>
+        <!--发票-->
+        <div class="indent-ticket indent-bill" id="bill" onclick="openBill();">
+            <p>发票</p>
+            <p id="billType">请选择发票类型<i></i></p>
+        </div>
+        <!--订单金额详情-->
+        <div class="indentMoney-index">
+            <p>商品金额 <em id="goodsPrice"></em></p>
+            <p>优惠券<em id="coup">-¥0.00</em></p>
+            <p>积分<em id="jifen">-¥0.00</em></p>
+            <p>运费<em id="postAge"></em></p>
+            <p>会员折扣<em id="discountPrice"></em></p>
+        </div>
+
+    </div>
+
+    <div id="submitIndent">
+        <div><em>合计：</em><i id="totalPrice"></i></div>
+        <div onclick="subOrder()">提交订单</div>
+    </div>
+<%}%>
+</script>
+
+<script>
+    //订单各项信息集合
+    var mapObj = {};
+    //发票信息
+    var billData;
+    //实际需要支付的金额
+    var totalP;
+    var reqOrder = {};
+    var indexIndex;
+    var couponId;//去使用优惠券的id, 跳转优惠券页面的时候赋值
+    var reqPostages=[];//选择完地址之后，获取运费的参数，格式 [{"sid":1,"params":[{"skuid":1,"num":1}]}]
+    apiready = function () {
+        addToHtml(api.pageParam.data);
+        indexIndex = api.pageParam.data;
+        indentTotalIdenx(-1);
+    };
+    //数据渲染到页面
+    function addToHtml(ret) {
+        if(ret.data != ''){
+            //存入默认地址
+            if(ret.data.defaultUserAddress){
+                reqOrder.userAddressId = ret.data.defaultUserAddress.id;
+                ret.data.defaultUserAddress.area = JSON.parse(ret.data.defaultUserAddress.areaFirst).name + JSON.parse(ret.data.defaultUserAddress.areaSecond).name + JSON.parse(ret.data.defaultUserAddress.areaThree).name;
+            }else{
+                reqOrder.userAddressId = '';
+            }
+            ret.data.totalPrice = quakooUtils.formatMoney(ret.data.totalPrice / 100, 2);
+            for(var i = 0; i < ret.data.subs.length; i++){
+                var goodsArr = [];
+                var reqPostage = {sid:ret.data.subs[i].id,params:[]};
+                //每个店铺的订单数量
+                ret.data.subs[i].goodsNum = 0;
+                for(var g = 0; g < ret.data.subs[i].goods.length; g++){
+                    //拼装获取运费所需的参数
+                    reqPostage.params.push({skuid:ret.data.subs[i].goods[g].skuid,num:ret.data.subs[i].goods[g].num});
+                    //每个店铺的商品件数小计
+                    ret.data.subs[i].goodsNum += ret.data.subs[i].goods[g].num;
+                    //格式化价格
+                    ret.data.subs[i].goods[g].Price = quakooUtils.formatMoney(ret.data.subs[i].goods[g].price / 100, 2)
+                    //图片样式处理（渲染的时候绑定style）
+                    var listicon = ret.data.subs[i].goods[g].cover;
+                    var width = 66;
+                    var height = 100;
+                    var obj = quakooImg.processImg(listicon,width,height);
+                    ret.data.subs[i].goods[g].style = obj.style;
+                    ret.data.subs[i].goods[g].color = JSON.parse( ret.data.subs[i].goods[g].color);
+                    var goodsItem = {};
+                    goodsItem.id = ret.data.subs[i].goods[g].id;
+                    goodsItem.format = '';
+                    goodsItem.skuid = ret.data.subs[i].goods[g].skuid;
+                    // goodsItem.color = ret.data.subs[i].goods[g].color;
+                    // goodsItem.size = ret.data.subs[i].goods[g].size;
+                    goodsItem.price = ret.data.subs[i].goods[g].price;
+                    goodsItem.num = ret.data.subs[i].goods[g].num;
+                    goodsItem.shopCartId = ret.data.subs[i].goods[g].shopCartId;
+                    goodsItem.recommendId = ret.data.subs[i].goods[g].recommendId;
+                    goodsArr.push(goodsItem);
+                };
+                reqPostages.push(reqPostage);
+                //组装每个店铺的各项金额
+                mapObj[ret.data.subs[i].id] = {
+                    id:ret.data.subs[i].id,
+                    postagePrice:ret.data.subs[i].postagePrice,
+                    useScore:0,
+                    useScorePrice:0,
+                    goodsTotalPrice:ret.data.subs[i].goodsTotalPrice,
+                    discount:1,
+                    totalPrice:ret.data.subs[i].totalPrice,
+                    discountPrice:ret.data.subs[i].discountPrice,
+                    coupP:0,
+                    couponId:0,
+                    goods:goodsArr,
+                    invoice:'',
+                    desc:''
+                };
+                //获取所有的折扣力度存到数组 有些商品没有折扣
+                if(ret.data.subs[i].userExpenseLevelInfo){
+                    mapObj[ret.data.subs[i].id].discount = ret.data.subs[i].userExpenseLevelInfo.discount;
+                }
+                //邮费
+                ret.data.subs[i].postageP = quakooUtils.formatMoney(ret.data.subs[i].postagePrice / 100, 2);
+                //积分可抵扣金额
+                ret.data.subs[i].UseScorePrice = quakooUtils.formatMoney(ret.data.subs[i].useScorePrice / 100, 2);
+                //格式化折扣后价格
+                ret.data.subs[i].totalPrice = quakooUtils.formatMoney(ret.data.subs[i].totalPrice / 100, 2);
+                //格式化商品总额
+                ret.data.subs[i].goodsTotalPrice = quakooUtils.formatMoney(ret.data.subs[i].goodsTotalPrice / 100, 2);
+                //格式化会员折扣金额
+                ret.data.subs[i].discountPrice = quakooUtils.formatMoney(ret.data.subs[i].discountPrice / 100, 2);
+            };
+
+            var data = {list: ret.data};
+            var html = template('indentTmp',data);
+            document.getElementById('body').innerHTML = html;
+            var strSV = parseFloat(api.systemVersion,10);
+            if(api.systemType=='ios' && strSV >= 12){
+                if(api.pageParam.top>20){
+                    document.getElementById('submitIndent').style.paddingBottom = '34px';
+                }
+            }
+        }else{
+            document.getElementById('body').innerHTML = '';
+        }
+    };
+
+
+    //是否使用积分
+    var def = 1;
+    function useIntegral(id,useScore,money){
+        //积分dom
+        var dom = document.getElementById('defIntge'+ id);
+        //如果所减金额是0
+        if(money == '0' || money == 0){
+            quakooMsg.toast('暂无可用积分！');
+            return;
+        };
+        if(def == 1){
+            quakooMsg.showDialog('','使用积分后不可使用优惠券，是否使用积分?','取消','确认',function () {
+                //清除优惠券信息
+                document.getElementById('coupon'+id).style.display = 'none';
+                mapObj[id].coupP = 0;
+                mapObj[id].ucid = 0;
+                //改变状态和积分金额
+                dom.style.background = 'url(../../icon/switch02.png) no-repeat center';
+                dom.style.backgroundSize = '100%';
+                def = 0;
+                // 减去积分后的金额
+                mapObj[id].useScore = useScore;
+                mapObj[id].useScorePrice = parseInt(money);
+                indentTotalIdenx(id);
+            })
+        } else {
+            dom.style.background = 'url(../../icon/switch01.png) no-repeat center';
+            dom.style.backgroundSize = '100%';
+            //显示优惠券选择
+            document.getElementById('coupon'+id).style.display = 'block';
+            document.getElementById('coupon'+id).innerHTML = '请选择优惠券<i></i>';
+            document.getElementById('coupon'+id).onclick = function(){
+                openShoppingsCoupon(id,0);
+            }
+            def = 1;
+            mapObj[id].useScore = 0;
+            mapObj[id].useScorePrice = 0;
+            indentTotalIdenx(id);
+        };
+
+    };
+
+    //获取选择优惠券
+    function getChack(data){
+        if(data){
+            if(data.type==1){
+                document.getElementById('coupon' + data.sid).innerHTML = '满' + quakooUtils.formatMoney(data.fullPrice / 100,2) + '减' + quakooUtils.formatMoney(data.subtractPrice / 100,2) + '<i></i>';
+            }else if(data.type==2){
+                document.getElementById('coupon' + data.sid).innerHTML = '减' + quakooUtils.formatMoney(data.subtractPrice / 100,2) + '<i></i>';
+            }
+            document.getElementById('coupon'+data.sid).onclick = function(){
+                openShoppingsCoupon(data.sid,data.id);
+            }
+            mapObj[data.sid].coupP = data.subtractPrice;
+            mapObj[data.sid].ucid = data.id;
+            indentTotalIdenx(data.sid);
+
+        }else{
+            document.getElementById('coupon'+couponId).innerHTML = '请选择优惠券<i></i>';
+            document.getElementById('coupon'+couponId).onclick = function(){
+                openShoppingsCoupon(couponId);
+            }
+            def = 1;
+            mapObj[couponId].coupP = 0;
+            mapObj[couponId].ucid = 0;
+            indentTotalIdenx(couponId);
+        }
+
+    };
+    //获取选择的地址
+    function getAddress(data){
+
+        reqOrder.userAddressId = data.id;
+        document.getElementById('nameAndPhone').innerHTML =  data.name + '  ' + data.phone;
+        if(data.def==1){
+            document.getElementById('nameAndPhone').innerHTML +=  '<em>默认</em>';
+        }
+        if(typeof data.areaFirst == 'string'){
+            data.area = JSON.parse(data.areaFirst).name + JSON.parse(data.areaSecond).name + JSON.parse(data.areaThree).name;
+        }else{
+            data.area = data.areaFirst.name + data.areaSecond.name + data.areaThree.name;
+        }
+        document.getElementById('addr').innerHTML =  data.area + '  ' + data.address;
+        document.getElementById('indent-addr').onclick = function () {
+            openAddr(data.id);
+        };
+        //根据地址获取运费
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_postageGetPrice(),{userAddressId:data.id,reqPostages:reqPostages},function (ret) {
+            if(ret){
+                if(ret.success){
+                    for(var i in ret.data){
+                        if(ret.data[i]==0){
+                            document.getElementById('deliver' + i).innerHTML = '<p>配送</p><p>免邮</p>'
+                        }else{
+                            document.getElementById('deliver' + i).innerHTML = '<p>配送</p><p>'+quakooUtils.formatMoney(ret.data[i]/100,2)+'元</p>'
+                        }
+                        mapObj[i].postagePrice = ret.data[i];
+                        indentTotalIdenx(i);
+                    }
+                }
+            }
+        })
+    };
+    function changeAddr(data) {
+        if(data.id== reqOrder.userAddressId){
+            getAddress(data)
+        }
+    }
+
+    // 获取发票信息
+    function getBills(data){
+        if(quakooUtils.isBlack(data)){
+            reqOrder.invoice = {};
+        }else{
+            reqOrder.invoice = data;
+            billData = data;
+        };
+        //判断发票类型
+        if(data.type == 1){
+            document.getElementById('billType').innerHTML = '电子发票' + '<i></i>';
+        }else{
+            document.getElementById('billType').innerHTML = '普通纸质发票' + '<i></i>';
+        }
+    };
+
+    //获取买家留言
+    function getRemainMsg(id) {
+        var msgVal = $api.val($api.byId('remainMsgVal'));
+        if(quakooUtils.isNotBlack(msgVal)){
+            mapObj[id].desc = msgVal;
+        }else{
+            mapObj[id].desc = '';
+        }
+        // al(mapObj);
+    };
+
+    //订单总计信息
+    function indentTotalIdenx(id){
+        var goodsTotalP;
+        var coupPrice;
+        var useSPrice;
+        var postAgeP;
+        var payPrice;
+        var useSP;
+        if(id >= 0){
+            goodsTotalP = mapObj[id].goodsTotalPrice;//总金额
+            coupPrice = mapObj[id].coupP;//优惠券抵扣金额
+            if(mapObj[id].coupP>= mapObj[id].goodsTotalPrice){
+                mapObj[id].coupP =  mapObj[id].goodsTotalPrice;
+                coupPrice =  mapObj[id].goodsTotalPrice;
+            }
+            useSPrice = mapObj[id].useScorePrice;//积分抵扣金额
+            postAgeP = mapObj[id].postagePrice; // 邮费金额
+            payPrice = goodsTotalP + postAgeP - coupPrice - useSPrice;
+            useSP = parseInt(payPrice * mapObj[id].discount); //
+            if(useSP <=0){
+                useSP = 1;
+            }
+            if(payPrice - useSP <=0){
+                mapObj[id].discountPrice = 0;
+            }else{
+                mapObj[id].discountPrice = payPrice - useSP;
+            }
+            mapObj[id].totalPrice = useSP;
+            document.getElementById('subPrice'+id).innerHTML = '￥' + quakooUtils.formatMoney(useSP/100, 2);
+        }
+
+        goodsTotalP = 0;//总金额
+        coupPrice = 0;//优惠券抵扣金额
+        useSPrice = 0;//积分抵扣金额
+        postAgeP = 0; // 邮费金额
+        var dPrice = 0;//折扣金额
+
+        var allTotalPrice = 0;
+        for(var i in mapObj){
+            allTotalPrice += mapObj[i].totalPrice;
+            goodsTotalP += mapObj[i].goodsTotalPrice;
+            coupPrice += mapObj[i].coupP;
+            useSPrice += mapObj[i].useScorePrice;
+            postAgeP += mapObj[i].postagePrice;
+            dPrice += mapObj[i].discountPrice;
+        };
+        //需要支付的金额
+        // payPrice = goodsTotalP + postAgeP - coupPrice - useSPrice - dPrice;
+
+        document.getElementById('goodsPrice').innerHTML = '￥' + quakooUtils.formatMoney(goodsTotalP / 100, 2);
+        document.getElementById('coup').innerHTML = '-￥' + quakooUtils.formatMoney(coupPrice / 100, 2);
+        document.getElementById('jifen').innerHTML = '-￥' + quakooUtils.formatMoney(useSPrice / 100, 2);
+        document.getElementById('postAge').innerHTML = '+￥' + quakooUtils.formatMoney(postAgeP / 100, 2);
+        document.getElementById('discountPrice').innerHTML = '-￥' + quakooUtils.formatMoney(dPrice / 100, 2);
+        document.getElementById('totalPrice').innerHTML = '￥' + quakooUtils.formatMoney(allTotalPrice / 100, 2);
+        totalP = allTotalPrice;
+    };
+    // 打开发票
+    function openBill() {
+        quakooApp.openNewWindow('bill','bill.html',{billData:billData});
+    };
+
+    //打开地址 及更换地址
+    function openAddr(addrId) {
+        quakooApp.openNewWindow('addr','addr.html',{addrId:addrId});
+    };
+
+    //查看可用优惠券
+    function openShoppingsCoupon(id,ucid) {
+        couponId = id;
+        quakooApp.openNewWindow('shoppingsCoupon','shoppingsCoupon.html',{id:id,Price:mapObj[id].totalPrice,ucid:ucid});
+    };
+
+    //提交订单
+    var orderFlag = true;
+    function subOrder(){
+        if(quakooUtils.isBlack(reqOrder.userAddressId)){
+            quakooMsg.toast('请先添加地址，才能购买哟！');
+            return;
+        };
+        if(orderFlag){
+            orderFlag = false;
+            reqOrder.subs = [];
+            reqOrder.uid = quakooUser.getUserInfo().id;
+            reqOrder.number = indexIndex.data.number;
+            for (var i in mapObj){
+                reqOrder.subs.push(mapObj[i]);
+            };
+            // 获取订单id (在服务器生成订单)
+
+            quakooMsg.showProgress()
+            quakooData.ajaxSubmitData(config.getUrl_web_mall_postIndent(),{reqOrder:JSON.stringify(reqOrder),checkTotalPrice:totalP},function(ret,err){
+                quakooMsg.hideProgress()
+                if(ret.success == true){
+                    quakooMsg.toast('生成订单成功，正在打开支付');
+                    var oids = ret.data.join(',');
+                    openPay(oids,totalP);// 打开付钱
+                    api.execScript({
+                        name:'main',
+                        frameName:'shoppings',
+                        script:'apiready()',
+                    });
+                    api.execScript({
+                        name:'shoppings',
+                        script:'apiready()',
+                    });
+                }else {
+                    quakooMsg.toast('生成订单失败，请重试！')
+                }
+            });
+        }else{
+            quakooMsg.toast('订单已生成');
+        }
+    };
+
+    //打开支付
+    function openPay(id,m){
+        var strDM = api.systemType;//系统
+        var strSV = parseFloat(api.systemVersion,10);//版本
+        var titleHeight = 0;
+        if(strDM == 'ios' && strSV > 7){
+            titleHeight = api.safeArea.top;
+        }else if(strDM == 'android' && strSV >= 4.4){
+            titleHeight = api.safeArea.top;
+        }
+        var obj = {
+            animation:{
+                type:"movein",
+                subType:"from_bottom",
+                duration:300
+            },
+            rect:{
+                x:'0',
+                y:0,
+                marginBottom:0,
+                w:'auto'
+            },
+            bgColor : "rgba(0,0,0,0.3)"
+        }
+        quakooApp.openFrame("pay","../shoppings/pay.html",{top:titleHeight,id:id,m:m,payType:0},0,0,obj);
+    };
+</script>
+</html>

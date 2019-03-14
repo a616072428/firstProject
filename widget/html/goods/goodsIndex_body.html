@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commonWindow.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css" />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
+        /*轮播*/
+        .swiper-goods {
+            width: 100%;
+            height: 414px;
+        }
+        .swiper-goods .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .swiper-goods .swiper-slide div{
+            width: 100%;
+            height: 414px;
+            overflow: hidden;
+        }
+        .swiper-goods .swiper-pagination-bullet {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            opacity: 1;
+            background: #b6b6b6;
+            vertical-align: middle;
+            box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+        }
+        .swiper-goods .swiper-pagination-bullet-active {
+            border: 1px solid #222222;
+            background: #222222;
+        }
+        /*简介 轮播图下面*/
+        #brief{
+            height: 175px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        #brief > :nth-child(1){
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #9E7443;
+            letter-spacing: 0;
+            text-align: center;
+            padding-top: 16px;
+        }
+        #brief > :nth-child(2){
+            font-family: TeluguMN-Bold;
+            font-size: 15px;
+            color: #111111;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 9px;
+        }
+        #brief > :nth-child(3){
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 7px;
+        }
+        #brief > :nth-child(4){
+            font-family: STHeitiSC-Medium;
+            font-size: 18px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+            margin-top: 13px;
+        }
+        #size,#synthesize{
+            width: 100%;
+            overflow: hidden;
+            padding:0 19px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        #synthesize{
+            padding: 0;
+        }
+        #size p{
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            clear: both;
+            margin-bottom: 12px;
+        }
+        #size p em{
+            font-family: PingFangSC-Light;
+            font-size: 16px;
+            color: #717171;
+            letter-spacing: 0;
+            margin-left: 21px;
+        }
+        #size div div{
+            width: 43px;
+            height: 43px;
+            box-sizing: border-box;
+            float: left;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+        #size div{
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        #size #color div.active{
+            border: 2px solid #ccc;
+        }
+        #size #color div.none:before{
+            display: block;
+            content: '';
+            position: absolute;top: 0;left: 0;z-index: 1;
+            width: 100%;height: 100%;
+            background: rgba(0,0,0,0.2) url("../../image/noColor.png") no-repeat center;
+            background-size: 50%;
+        }
+        #size p:nth-of-type(2),#size p:nth-of-type(3){
+            margin-top: 12px;
+        }
+        .sizeXS{
+            float: left;
+            text-align: center;
+            line-height: 43px;
+            background: #fff;
+            border: 1px solid #D2D2D2;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #555555;
+            letter-spacing: 0;
+            margin-right: 8px;
+        }
+        .sizeXS.active{
+            background: #282828;
+            color: #fff;
+        }
+        .sizeXS.none{
+            background: #ccc;
+            color: #999;
+        }
+        #size div.active{
+            background: #222222;
+            border: 1px solid #222222;
+            font-family: PingFangSC-Semibold;
+            font-size: 16px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+        }
+        #synthesizeFix{
+            position: fixed;
+            /*height: 66px;overflow: hidden;*/
+            top: 0;left: 0;width: 100%;
+            z-index: 99;background: #fff;
+        }
+        #synthesizeFix div{
+            display: none;
+        }
+
+        #synthesize > div,#synthesizeFix div{
+            clear: both;
+            /*height: 66px;*/
+            line-height: 66px;
+            width: 100%;
+            border-bottom: 1px solid #F5F5F5;
+            transition: .3s;
+        }
+        #synthesizeFix div{
+            width: 100%;
+            padding: 0 19px;box-sizing: border-box;
+        }
+        #synthesize > div > div{
+            width: 100%;
+            padding: 0 19px;box-sizing: border-box;
+        }
+
+        #synthesize .syn-tip,#synthesizeFix .syn-tip{
+            width: 15px;
+            height: 15px;
+            background: url("../../icon/down.png") no-repeat;
+            background-size: 100%;
+            float: right;
+            margin-top:27px;
+        }
+        #synthesize .syn-tip.active,#synthesizeFix .syn-tip.active{
+            background: url("../../icon/up.png") no-repeat;
+            background-size: 100%;
+        }
+        /*#synthesize > ul > li > div{
+            display: none;
+        }*/
+        /*.lookAll{
+            display: none;
+        }*/
+        .allPinlun{
+            width: 100%;
+            height: 60px;
+            background: #fff;
+            margin-bottom: 5px;
+        }
+        .allPinlun > div{
+            width: 87px;
+            height: 35px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 13px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 35px;
+            float: right;
+            margin-top: 21px;
+        }
+
+        .pinlun > :nth-child(2){
+            clear: both;
+            box-sizing: border-box;
+        }
+        .icon{
+            line-height: 29px;
+        }
+        .icon > .img{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            float: left;
+            overflow: hidden;
+        }
+        .icon  .img img{
+            display: block;
+        }
+        .icon > p{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #5E5E5E;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 12px;
+            margin-right:6px;
+            float: left;
+            line-height: 29px;
+        }
+        .icon > p > em{
+            width: 17px;
+            height: 10px;
+            background: #9E7443;
+            border-radius: 1.25px;
+            font-family: PingFangSC-Regular;
+            font-size: 5px;
+            color: #FAFAFA;
+            text-align: center;
+            line-height: 10px;
+            vertical-align: top;
+            margin-top: 10px;
+        }
+        .icon > p > span,.icon > p > i{
+            font-family: PingFangSC-Regular;
+            font-size: 10px;
+            color: #5E5E5E;
+            letter-spacing: -0.24px;
+            text-align: center;
+        }
+        .icon > p > span{
+            margin: 0 8px 0 18px;
+        }
+        .pinlun-item{
+            background: #fff;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            padding-top: 16px;
+            border-bottom: 12px solid #F5F5F5;
+            box-sizing: border-box;
+        }
+        .pinlun-item div:nth-of-type(1){
+            margin-bottom: 3px;
+        }
+        .pinlun-item > :nth-child(1) > p{
+            clear: both;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #7F7F7F;
+            letter-spacing: 0;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        .pinlun-size{
+            clear: both;
+            overflow: hidden;
+        }
+        .pinlun-size > p{
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #A3A1A1;
+            letter-spacing: -0.27px;
+            padding-top: 7px;
+            float: left;
+        }
+        .pinlun-item > :nth-child(3) > p > span{
+            margin-left: 26px;
+        }
+        .pinglun-dianzan{
+            padding-bottom: 10px;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        /* .pinglun-dianzan :nth-child(1){
+             float: left;
+             height: 18px;
+             width: 20%;
+             line-height: 18px;
+         }*/
+        .pinglun-dianzan >:nth-child(1) > p,
+        .pinglun-dianzan >:nth-child(2) > p{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #D2D2D2;
+            letter-spacing: 0;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+        .pinglun-dianzan >:nth-child(1) > p > span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #C4C4C4;
+            letter-spacing: 0;
+            text-align: right;
+            float: right;
+            width: auto;
+        }
+        .imgList{
+            overflow: hidden;
+        }
+        .imgList .imgImg{
+            width: 32%;
+            height: 109px;
+            overflow: hidden;
+            float: left;
+            margin-bottom: 11px;
+        }
+        .imgList img{
+            display: block;
+        }
+        .imgList > :nth-child(3n+2){
+            margin: 0 2%;
+        }
+
+
+        #recommend{
+            padding:0 19px;
+            box-sizing: border-box;
+            height: 400px;
+        }
+        #recommend > p{
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            padding-top:88px;
+            margin-bottom: 25px;
+        }
+        .recommend-item{
+            width: 100%;
+            height: 215px;
+        }
+        .recommend-item > .item{
+            width: 127px;
+            height: 215px;
+            float: left;
+            box-sizing: border-box;
+        }
+        .item > div{
+            width: 127px;
+            height: 156px;
+            overflow: hidden;
+        }
+        .item p{
+            width: 127px;
+        }
+        .item > :nth-child(2){
+            font-family: TeluguMN-Bold;
+            font-size: 13px;
+            color: #111111;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 16px;
+            margin-bottom:3px;
+            margin-top: 5px;
+        }
+        .item > :nth-child(3){
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #717171;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 16px;
+            margin-bottom:5px;
+        }
+        .item > :nth-child(4){
+            font-family: STHeitiSC-Medium;
+            font-size: 14px;
+            color: #2E2E2E;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 14px;
+            margin:0;
+        }
+
+        #buy-bottom{
+            width: 100%;
+            /*height: 48px;*/
+            border-top: 1px solid #BFBFBF;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            background: #fff;
+            z-index: 999;
+        }
+        #buy-bottom > div{
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+        }
+
+        .dianpu,.kefu,.share{
+            width: 25px;
+            height: 25px;
+            background: url('../../icon/storeIcon.png') no-repeat;
+            background-size: 100%;
+            margin-top: 8px;
+            box-sizing: border-box;
+        }
+        .kefu{
+            background: url('../../icon/kefu.png') no-repeat;
+            background-size: 100%;
+        }
+        .share{
+            background: url('../../image/share.png') no-repeat;
+            background-size: 100%;
+        }
+        .bottom-left{
+            display: flex;
+            padding: 0 8px;
+            justify-content: space-around;
+        }
+        .bottom-left > div{
+            height: 49px;
+            text-align: center;
+            float: left;
+        }
+        .bottom-left > div > p{
+            font-family: PingFangSC-Regular;
+            font-size: 9px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: center;
+            margin:0;
+            line-height: 9px;
+        }
+
+        #buy-bottom > div:nth-child(2){
+            background: #222222;
+        }
+        #buy-bottom > div:last-of-type{
+            background: #9E7443;
+        }
+        #buy-bottom > div:nth-child(2),
+        #buy-bottom > div:last-of-type{
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 48px;
+        }
+
+        .index-detail,
+        .shopingsNeed,
+        .sizeBox,
+        .nurse,
+        .commentBox{
+            width: 100%;
+            display: block;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #7F7F7F;
+            letter-spacing: 0;
+            line-height: 16px;
+            /*padding-bottom: 10px;*/
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        pre{
+            overflow: hidden;
+        }
+        pre img{
+            width: 100%!important;
+            height: auto!important;
+            /*font-size: 0!important;*/
+            float: left!important;
+        }
+        .pinlun{
+            display: block;
+            box-sizing: border-box;width: 100%;
+        }
+        .pinlun-size .del{
+            width: 25px;
+            height: 21px;
+            float: right;
+            background: url("../../icon/del.png") no-repeat center 7px;
+            background-size: 14px;
+        }
+
+
+        .operationInfo{
+            width: 100%;
+            background: #F9F9F9;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #646464;
+            letter-spacing: 0;
+            text-align: left;
+            margin-top: 16px;
+            padding: 10px;box-sizing: border-box;
+        }
+        .operationContent{
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        .operationContent>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #828282;
+            letter-spacing: 0;
+            text-align: left;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            box-sizing: border-box;
+            word-break:break-all;
+            white-space:pre-warp;
+            word-wrapL:break-word;
+            text-overflow: -o-ellipsis-lastline;
+        }
+        .operationElse>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #578FE0;
+            letter-spacing: 0;
+            text-align: left;
+            display: inline-block;
+        }
+        .operationElse>em{
+            width: 12px;
+            height: 12px;
+            background: url("../../icon/more_bottom.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            line-height: 12px;
+            margin-left: 4px;
+            margin-bottom: -3px;
+        }
+        #commentDom{
+            line-height: normal;
+        }
+    </style>
+    <title>商品详情</title>
+</head>
+
+<body>
+<div id="main" style="display:block !important">
+
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/javascript" src="../../script/swiper-3.3.1.min.js"></script>
+<script type="text/html" id="indexTmp">
+    <%if(list){%>
+        <div class="swiper-container swiper-goods">
+            <div class="swiper-wrapper" id="bannerSwiper">
+                <%for(var i = 0; i < list.covers.length; i++){%>
+                <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+                <div class="swiper-slide" onclick="openPhotoBrowser('<%=i%>')">
+                    <div>
+                        <img src="<%=list.newCovers[i]%>" style="<%=list.style[i]%>">
+                    </div>
+                </div>
+                <%}%>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <!--详情-->
+        <div id="brief">
+            <%if(list.type!=1){%>
+            <p>包税</p>
+            <%}else{%>
+            <p></p>
+            <%}%>
+            <p><%=list.name%></p>
+            <p><%=list.title%></p>
+            <p id="price"><%=list.showPrice%></p>
+        </div>
+        <!--颜色-->
+        <div id="size">
+
+        </div>
+
+        <div id="synthesize">
+            <div>
+                <div class="syn-list" onclick="lookDetail(this)">商品描述<em class="syn-tip active"></em></div>
+                <pre class="index-detail" id="detail" onclick="quakooUtils.stopEventBubble()"><%=list.detail%></pre>
+            </div>
+            <div>
+                <div class="syn-list" onclick="lookDetail(this)">尺码<em class="syn-tip active"></em></div>
+                <div class="sizeBox" onclick="quakooUtils.stopEventBubble()"><%=list.size%></div>
+            </div>
+            <div>
+                <div onclick="lookDetail(this)">评论(<span id="commentNumber"><%=list.commentNum%></span>)<em id="commentNum" class="syn-tip active"></em></div>
+                <div id="pinlun" class="lookAll pinlun">
+                    <div class="allPinlun">
+                        <div onclick="toAllComment('<%=list.id%>')">全部评论</div>
+                    </div>
+                    <div id="commentDom">
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div onclick="lookDetail(this)">成分与护理<em class="syn-tip active"></em></div>
+                <pre class="nurse" onclick="quakooUtils.stopEventBubble()"><%=list.elementAndNurse%></pre>
+            </div>
+            <div>
+                <div onclick="lookDetail(this)">购物须知<em class="syn-tip active"></em></div>
+                <pre class="shopingsNeed" onclick="quakooUtils.stopEventBubble()"><%=list.buyReading%></pre>
+            </div>
+        </div>
+        <div id="synthesizeFix">
+            <div onclick="lookDetailFix(this,0)">商品描述<em class="syn-tip active"></em></div>
+            <div onclick="lookDetailFix(this,1)">尺码<em class="syn-tip active"></em></div>
+            <div onclick="lookDetailFix(this,2)">评论<em class="syn-tip active"></em></div>
+            <div onclick="lookDetailFix(this,3)">成分与护理<em class="syn-tip active"></em></div>
+            <div onclick="lookDetailFix(this,4)">购物须知<em class="syn-tip active"></em></div>
+        </div>
+
+        <div id="recommend"  style="display: none; z-index: 1">
+
+        </div>
+        <div style="<%=list.botDivStyle%>"></div>
+        <div id="buy-bottom" style="<%=list.botStyle%>">
+            <%if(thirdId==undefined){%>
+                <div class="bottom-left">
+                    <div onclick="openStore('<%=list.sid%>');">
+                        <em class="dianpu"></em>
+                        <p>店铺</p>
+                    </div>
+                    <div onclick="openChat()">
+                        <em class="kefu"></em>
+                        <p>联系客服</p>
+                    </div>
+                    <div onclick="openShareIndex()">
+                        <em class="share"></em>
+                        <p>分享</p>
+                    </div>
+                </div>
+                <div onclick="addShoppingCar('<%=list.id%>')">加入购物袋</div>
+            <%}%>
+
+            <div onclick="purchase();">立即购买</div>
+        </div>
+    <%}%>
+</script>
+<script type="text/html" id="sizeTmp">
+    <p>颜色<em id="colorName"><%=list.colorName%></em></p>
+    <div id="color">
+        <%for(var i = 0; i < list.allColors.length; i++){%>
+        <%if(list.allColors[i].color==list.color){%>
+        <div class="active" onclick="callBack('<%=list.allColors[i].name%>','<%=list.allColors[i].color%>',this)" style="background:<%=list.allColors[i].color%>"></div>
+        <%}else{%>
+            <div onclick="callBack('<%=list.allColors[i].name%>','<%=list.allColors[i].color%>',this)" style="background:<%=list.allColors[i].color%>"></div>
+        <%}%>
+        <%}%>
+    </div>
+
+    <p>尺寸<em id="sName"><%=list.size%></em></p>
+    <div>
+        <%for(var i = 0; i < list.allSizes.length; i++){%>
+            <%if(list.allSizes[i]==list.size){%>
+                <div class="sizeXS active"  onclick="selcts(this,'<%=list.allSizes[i]%>')"><%=list.allSizes[i]%></div>
+            <%}else{%>
+                <div class="sizeXS" onclick="selcts(this,'<%=list.allSizes[i]%>')"><%=list.allSizes[i]%></div>
+            <%}%>
+        <%}%>
+    </div>
+
+</script>
+<script type="text/html" id="sizeTmp1">
+    <p>颜色<em id="colorName"><%=list.colorName%></em></p>
+    <div id="color">
+        <%for(var i = 0; i < list.allColors.length; i++){%>
+        <%if(list.allColors[i].color==list.color){%>
+        <div class="active" onclick="callBack('<%=list.allColors[i].name%>','<%=list.allColors[i].color%>',this)" style="background:<%=list.allColors[i].color%>"></div>
+        <%}else{%>
+            <%if(list.colorsName.indexOf(list.allColors[i].name)<0 && list.size!=''){%>
+                <div class="none" style="background:<%=list.allColors[i].color%>"></div>
+            <%}else{%>
+                <div onclick="callBack('<%=list.allColors[i].name%>','<%=list.allColors[i].color%>',this)" style="background:<%=list.allColors[i].color%>"></div>
+            <%}%>
+        <%}%>
+        <%}%>
+    </div>
+
+    <p>尺寸<em id="sName"><%=list.size%></em></p>
+    <div>
+        <%for(var i = 0; i < list.allSizes.length; i++){%>
+            <%if(list.allSizes[i]==list.size){%>
+                <div class="sizeXS active"  onclick="selcts(this,'<%=list.allSizes[i]%>')"><%=list.allSizes[i]%></div>
+            <%}else{%>
+                <%if(list.sizes.indexOf(list.allSizes[i])<0 && list.color!=''){%>
+                    <div class="sizeXS none" ><%=list.allSizes[i]%></div>
+                <%}else{%>
+                    <div class="sizeXS" onclick="selcts(this,'<%=list.allSizes[i]%>')"><%=list.allSizes[i]%></div>
+                <%}%>
+            <%}%>
+        <%}%>
+    </div>
+
+</script>
+<script type="text/html" id="commentTmp">
+    <%for(var i = 0;i < list.length;i++){%>
+    <%if(i<3){%>
+    <div class="pinlun-item">
+        <div>
+            <div class="icon">
+                <div class="img">
+                    <img src="<%=list[i].user.icon%>" alt="" style="<%=list[i].user.style%>">
+                </div>
+                <p>
+                    <%=list[i].user.name%>
+                    <%if(list[i].userExpenseLevelInfo){%>
+                    <em><%=list[i].userExpenseLevelInfo.levelName%></em>
+                    <%}%>
+                    <%if(list[i].user.height){%>
+                    <span>身高 <%=list[i].user.height%></span>
+                    <%}%>
+                    <%if(list[i].user.weight){%>
+                    <i>体重 <%=list[i].user.weight%></i>
+                    <%}%>
+                </p>
+            </div>
+            <p><%=list[i].content%></p>
+        </div>
+        <%if(list[i].images){%>
+        <div class="imgList">
+            <%for(var j=0;j< list[i].images.length;j++){%>
+                <div class="imgImg"  onclick="openPhotoBrowserComment('<%=list[i].id%>','<%=j%>')">
+                    <img src="<%=list[i].newImages[j]%>" alt="" style="<%=list[i].styles[j]%>">
+                </div>
+            <%}%>
+        </div>
+        <%}%>
+        <div class="pinglun-dianzan">
+            <div>
+                <p><span><%=list[i].Ctime%></span></p>
+            </div>
+        </div>
+        <div class="pinlun-size">
+            <%if(list[i].goods){%>
+            <p>颜色 <%=list[i].goods.colorName%> &nbsp;<span>尺码 <%=list[i].goods.size%></span></p>
+            <%}%>
+            <%if(loginId==list[i].uid){%>
+                <div class="del" onclick="delComment('<%=list[i].id%>')"></div>
+            <%}%>
+        </div>
+
+        <%if(list[i].replyComments && list[i].replyComments.length>0){%>
+        <div class="operationInfo">
+            <div class="operationContent">
+                <span>
+                    <%if(list[i].replyComments[0].user.name){%>
+                        <%=list[i].replyComments[0].user.name%>
+                    <%}else{%>
+                        <%=list[i].replyComments[0].user.phone%>
+                    <%}%>
+                    <%if(list[i].replyComments[0].user.id == thirdId){%>(作者)<%}%>：<%=list[i].replyComments[0].content%>
+                </span>
+            </div>
+            <%if(list[i].lastNum>1){%>
+            <div class="operationElse ">
+                <span onclick="oneComment('<%=list[i].id%>')">共<%=list[i].lastNum%>条回复</span><em></em>
+            </div>
+            <%}%>
+        </div>
+        <%}%>
+    </div>
+    <%}%>
+    <%}%>
+</script>
+
+<script type="text/html" id="reTmp">
+    <%if(list.length){%>
+    <p>搭配推荐</p>
+    <div class="swiper-container swiper-recommend">
+        <div class="recommend-item swiper-wrapper" style="z-index: 1">
+            <%for(var i = 0; i < list.length; i++){%>
+            <div class="item swiper-slide" onclick="openIndex('<%=list[i].id%>','<%=list[i].title%>');" >
+                <div>
+                    <img src="<%=list[i].covers[0]%>" style="<%=list[i].style%>">
+                </div>
+                <p><%=list[i].name%></p>
+                <p><%=list[i].title%></p>
+                <p>￥<%=list[i].Price%></p>
+            </div>
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+</script>
+<script type="text/html" id="bannerTmp">
+    <%for(var i = 0; i < list.newCovers.length; i++){%>
+    <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+    <div class="swiper-slide" onclick="openPhotoBrowser('<%=i%>')">
+        <div>
+            <img src="<%=list.newCovers[i]%>" style="<%=list.style[i]%>">
+        </div>
+    </div>
+    <%}%>
+</script>
+<script type="text/javascript">
+    var color = '';
+    var rgbColor = '';
+    var size = '';
+    var goodsId;
+    var id;
+    var sid;
+    var skuid;//规格id
+    var commentData = {};//全部评论
+    var myswiper;//轮播swiper
+    //分享需要的参数
+    var shareDesc;//分享简介
+    var shareImg;//分享图
+
+    var imgs;
+    var oldImgs;
+    apiready = function() {
+        id = api.pageParam.id;
+        //获取商品详情
+        getGoodsIndex();
+        document.body.onscroll = function () {
+            var ele = document.querySelectorAll('#synthesize>div');
+            for(var i=0;i<ele.length;i++){
+                if(ele[0].offsetTop - quakooUtils.getScrollTop()>0){
+                    $('#synthesizeFix div').hide();
+                }else{
+                    if(ele[i].offsetTop - quakooUtils.getScrollTop()<30 && ele[i].offsetTop - quakooUtils.getScrollTop()>-ele[i].offsetHeight+66){
+                        $('#synthesizeFix div').eq(i).show().siblings().hide();
+                    }
+                }
+
+            }
+        }
+    };
+    //获取商品详情
+    function getGoodsIndex() {
+        quakooMsg.showProgress()
+        quakooData.ajaxGetData(config.getUrl_web_mall_getGoodsIndexs(),{id:id},function (ret,err) {
+            quakooMsg.hideProgress()
+            if(ret.success == true){
+                //异步调用显示商品名称
+                api.execScript({
+                    name:"goodsIndex",
+                    script:"editName('"+ret.data.title+"')"
+                })
+                imgs = ret.data.covers;
+                oldImgs = ret.data.covers;
+                //分享的参数
+                shareDesc = ret.data.title;
+                // shareImg = quakooImg.processImg(ret.data.covers[0],200,200).url;
+                if(ret.data.covers){
+                    shareImg = ret.data.covers[0];
+                }
+                //轮播图片的样式
+                ret.data.style = [];
+                ret.data.newCovers = [];
+                ret.data.price = quakooUtils.formatMoney(ret.data.price / 100, 2);
+                for(var i = 0; i < ret.data.covers.length; i++){
+                    var obj = quakooImg.processImg(ret.data.covers[i],document.body.offsetWidth,414);
+                    ret.data.style.push(obj.style);
+                    ret.data.newCovers.push(obj.url);
+                }
+                if(ret.data.showPrice.indexOf('-')>=0){
+                    ret.data.showPrice = '￥'+ret.data.showPrice.split('-')[0]+'-'+'￥'+ret.data.showPrice.split('-')[1];
+                }else{
+                    ret.data.showPrice = '￥'+ret.data.showPrice;
+                }
+               /* ret.data.Color = JSON.parse(ret.data.color);
+                ret.data.Size = ret.data.size.split(',');*/
+                goodsId = ret.data.id;
+                sid = ret.data.sid;
+                //兼容
+                var strSV = parseFloat(api.systemVersion,10);
+                ret.data.botStyle = '';
+                ret.data.botDivStyle = 'height:50px';
+                if(api.systemType=='ios' && strSV >= 12){
+                    if(api.pageParam.top>20){
+                        ret.data.botStyle = 'padding-bottom:34px';
+                        ret.data.botDivStyle = 'height:84px';
+                    }
+                }
+
+                //商品描述，购物须知，成分护理，图片点击查看大图
+                if(ret.data.detail){
+                    ret.data.detail = ret.data.detail.replaceAll('img','img onclick="openPhotoBrowserPre(this.src)"')
+                }
+                if(ret.data.elementAndNurse){
+                    ret.data.elementAndNurse = ret.data.elementAndNurse.replaceAll('img','img onclick="openPhotoBrowserPre(this.src)"')
+                }
+                if(ret.data.buyReading){
+                    ret.data.buyReading = ret.data.buyReading.replaceAll('img','img onclick="openPhotoBrowserPre(this.src)"')
+                }
+
+                var data = {list: ret.data,thirdId:api.pageParam.thirdId};
+                var html = template('indexTmp',data);
+                document.getElementById('main').innerHTML = html;
+
+
+                //延时调取评论及推荐
+                setTimeout(function () {
+                    //获取规格参数
+                    getSku(ret.data.property)
+                    getComment();
+                    getReLists();
+                })
+                /*if(ret.data.commentNum != 0){
+                    document.getElementById('commentNum').classList.add('active');
+                }else{
+                    document.getElementById('commentNum').classList.remove('active');
+                }*/
+            }
+        });
+        setTimeout(function() {
+            if(document.querySelector('.swiper-goods')){
+                myswiper = new Swiper('.swiper-goods', {
+                    loop: true,
+                    autoplay : 2000,
+                    pagination: '.swiper-pagination',
+                });
+            }
+        }, 500);
+    };
+
+    //获取规格参数
+    function getSku(ret) {
+        for(var j=0;j<ret.allColors.length;j++){
+            ret.allColors[j] = JSON.parse(ret.allColors[j]);
+            if(ret.colors[j]){
+                ret.colors[j] = JSON.parse(ret.colors[j]);
+            }
+        }
+        if(ret.covers){
+            imgs = ret.covers;
+            ret.newCovers = [];
+            ret.style = [];
+            for(var i=0;i<ret.covers.length;i++){
+                var obj = quakooImg.processImg(ret.covers[i],document.body.offsetWidth,414);
+                ret.newCovers.push(obj.url);
+                ret.style.push(obj.style);
+            }
+            document.getElementById('bannerSwiper').innerHTML = template('bannerTmp',{list:ret})
+            if(myswiper){
+                myswiper.destroy(false);
+                myswiper = new Swiper('.swiper-goods', {
+                    loop: true,
+                    autoplay : 2000,
+                    pagination: '.swiper-pagination',
+
+                });
+            }
+        }
+        ret.colorsName = [];
+        for(var i=0;i<ret.colors.length;i++){
+            ret.colorsName.push(ret.colors[i].name);
+        }
+
+        skuid = ret.skuid;
+        /*if(skuid>0){
+            color = ret.colors[0].name;
+            rgbColor = ret.colors[0].color;
+            size = ret.sizes[0];
+        }*/
+        ret.colorName = color;
+        ret.color = rgbColor;
+        ret.size = size;
+        if(ret.price>0){
+            document.getElementById('price').innerHTML = '￥'+quakooUtils.formatMoney(ret.price/100,2);
+        }
+        var data = {list: ret};
+        var html = template('sizeTmp',data);
+        document.getElementById('size').innerHTML = html;
+    }
+    //得到商品评论
+    function getComment() {
+        quakooData.ajaxGetData(config.getUrl_web_system_commentPager(),{type:1,typeId:id},function (ret,err) {
+            if(ret){
+                if(ret.data.length){
+                    for(var i = 0; i  < ret.data.length; i++){
+                        ret.data[i].Ctime = quakooUtils.getDateDiff(ret.data[i].ctime);
+                        if(ret.data[i].user.icon){
+                            var obj = quakooImg.processImg(ret.data[i].user.icon,29,29)
+                            ret.data[i].user.style = obj.style;
+                            ret.data[i].user.icon = obj.url;
+                        }
+                        commentData[ret.data[i].id]=ret.data[i];
+
+                        if(ret.data[i].user.height==undefined){
+                            ret.data[i].user.height = '未知';
+                        }else{
+                            ret.data[i].user.height += 'cm';
+                        }
+                        if(ret.data[i].user.weight==undefined){
+                            ret.data[i].user.weight = '未知';
+                        }else{
+                            ret.data[i].user.weight += 'kg';
+                        }
+                        if(ret.data[i].user.name==undefined){
+                            ret.data[i].user.name = '暂无昵称';
+                        }
+                        if(ret.data[i].goods){
+                            ret.data[i].goods.colorName = ret.data[i].goods.color.split('"')[7];
+                        }
+                        if(ret.data[i].images){
+                            ret.data[i].styles = [];
+                            ret.data[i].newImages = [];
+                            for(var j=0;j<ret.data[i].images.length;j++){
+                                if(ret.data[i].images[j]){
+                                    var obj1 = quakooImg.processImg(ret.data[i].images[j],109,109)
+                                    ret.data[i].styles.push(obj1.style);
+                                    ret.data[i].newImages.push(obj1.url);
+                                }
+
+                            }
+                        }
+                    }
+                    var html = template('commentTmp',{list:ret.data,loginId:quakooUser.getUserInfo().id})
+                    document.getElementById('commentDom').innerHTML = html;
+                }else{
+                    document.getElementById('commentDom').innerHTML = '';
+                }
+            }else{
+                quakooMsg.toast(err.msg)
+            }
+        })
+    };
+    //获取推荐
+    function getReLists() {
+        quakooData.ajaxGetData(config.getUrl_web_mall_getRe(),{goodsId:id}, function(ret,err) {
+            if(ret && ret.success){
+                if(quakooUtils.isNotBlack(ret.data)){
+                    for(var i = 0; i < ret.data.length; i++){
+                        ret.data[i].Price = quakooUtils.formatMoney(ret.data[i].price / 100, 2);
+                        if(ret.data[i].covers[0]){
+                            var obj = quakooImg.processImg(ret.data[i].covers[0],127,156);
+                            ret.data[i].style = obj.style;
+                            ret.data[i].covers[0] = obj.url;
+                        }
+                    }
+                    var html = template('reTmp',{list:ret.data});
+                    document.getElementById('recommend').style.display = 'block';
+                    document.getElementById('recommend').innerHTML = html;
+                }else{
+                    document.getElementById('recommend').style.display = 'none';
+                }
+            }else{
+                quakooMsg.toast(err.msg);
+            }
+        })
+        setTimeout(function () {
+            if(document.querySelector('.swiper-recommend')){
+                var swiper = new Swiper('.swiper-recommend', {
+                    slidesPerView: 'auto',
+                    spaceBetween:23,
+                });
+            }
+        },500)
+    };
+    //删除自己发表的评论
+    function delComment(id) {
+        quakooMsg.showDialog('提示','确认删除该评论吗？','取消','确认',function () {
+            quakooData.ajaxSubmitData(config.getUrl_web_system_commentDel(),{id:id},function (ret) {
+                if(ret && ret.success){
+                    quakooMsg.toast('删除成功');
+                    getComment()
+                    document.getElementById('commentNumber').innerHTML = parseInt(document.getElementById('commentNumber').innerHTML)-1;
+                }
+            })
+        })
+    }
+    function editNum(){
+        document.getElementById('commentNumber').innerHTML = parseInt(document.getElementById('commentNumber').innerHTML)-1;
+    }
+    //打开详情
+    function openIndex(newid,title) {
+        id = newid;
+        color = '';
+        rgbColor = '';
+        size = '';
+        skuid=0;//规格id
+        shareDesc='';//分享简介
+        shareImg='';//分享图
+        getGoodsIndex()
+
+        document.body.scrollTop =0;
+    }
+    //颜色名字回调
+    function callBack(name,Color) {
+        var oldColor = color;
+        var oldRgbColor = rgbColor;
+        if(rgbColor==Color){
+            color = '';
+            rgbColor = '';
+        }else{
+            color = name;
+            rgbColor = Color;
+        }
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_selectSKU(),{gid:id,color:rgbColor,size:size},function (ret) {
+            if(ret && ret.success){
+                if(rgbColor && size && ret.data.skuid<=0){
+                    quakooMsg.toast('暂无库存');
+                    color = oldColor;
+                    rgbColor = oldRgbColor;
+                }else{
+                    getSku(ret.data)
+                }
+            }
+        })
+    };
+    //选中
+    function selcts(self,name){
+        var oldSize = size;
+        if(size == name){
+            size = '';
+        }else{
+            size = name;
+        }
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_selectSKU(),{gid:id,color:rgbColor,size:size},function (ret) {
+            if(ret && ret.success){
+                if(rgbColor && size && ret.data.skuid<=0){
+                    quakooMsg.toast('暂无库存');
+                    size = oldSize;
+                }else{
+                    getSku(ret.data)
+                }
+            }
+        })
+    };
+    //查看各项详情
+    function lookDetail(self) {
+        if($(self).find('em').eq(0).hasClass('active')){
+            $(self).find('em').eq(0).removeClass('active');
+            self.nextElementSibling.style.display = 'none';
+        }else{
+            $(self).find('em').eq(0).addClass('active');
+            self.nextElementSibling.style.display = 'block';
+        }
+    }
+    //查看各项详情
+    function lookDetailFix(self,index) {
+        if($(self).find('em').eq(0).hasClass('active')){
+            $(self).find('em').eq(0).removeClass('active');
+        }else{
+            $(self).find('em').eq(0).addClass('active');
+        }
+        lookDetail(document.querySelectorAll('#synthesize>div')[index].getElementsByTagName('div')[0]);
+    }
+
+    // 加入购物车
+    function addShoppingCar(id){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        var parmes = {};
+        parmes.goodsId = id;
+        // parmes.size = size;
+        // parmes.color = color;
+        parmes.skuid = skuid;
+        parmes.num = 1;
+        parmes.format = '';
+        if (skuid<=0) {
+            quakooMsg.toast('请选择颜色或者尺寸');
+            return;
+        };
+        quakooMsg.showProgress();
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_addToCar(),parmes,function(ret,err){
+            quakooMsg.hideProgress();
+            if(ret.success){
+                if(ret.data){
+                    api.execScript({
+                        name:'main',
+                        frameName:'shoppings',
+                        script:'getLit()',
+                    });
+                    quakooMsg.toast('添加成功');
+                }else{
+                    quakooMsg.toast('添加失败');
+                }
+            }else{
+                quakooMsg.toast('添加失败');
+            }
+        })
+    };
+    //支付订单
+    function purchase() {
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        if (skuid<=0) {
+            quakooMsg.toast('请选择颜色或者尺寸');
+            return;
+        };
+        var parame = {};
+        // parame.color = color;
+        // parame.size = size;
+        parame.skuid = skuid;
+        parame.num = 1;
+        parame.goodsId = goodsId;
+        parame.formats = '';
+        if(api.pageParam.thirdId){
+            parame.recommendId = api.pageParam.thirdId;
+        }
+        quakooMsg.showProgress();
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_createImmIndent(),parame,function(ret,err){
+            quakooMsg.hideProgress();
+            if(ret.success == true){
+                quakooMsg.toast('创建订单成功，请支付！');
+                setTimeout(function() {
+                    quakooApp.openNewWindow('indent','../shoppings/indent.html',{data:ret});
+                },300);
+            }else{
+                quakooMsg.toast('购买失败，请重试！')
+            }
+        });
+    };
+
+    //评论点赞
+    function commentSupport(id,self,type) {
+        /**
+         * type     1点赞
+         *          2取消点赞
+         */
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        if(type==1){
+            quakooMsg.showProgress();
+            quakooUser.ajaxGetData(config.getUrl_web_system_supportAdd(),{type:7,typeId:id},function (ret,err) {
+                quakooMsg.hideProgress()
+                if(ret){
+                    if(ret.success){
+                        quakooMsg.toast('点赞成功');
+                        self.classList.add('active')
+                        self.onclick = function () {
+                            commentSupport(id,self,2)
+                        }
+                        self.nextElementSibling.innerHTML = parseInt(self.nextElementSibling.innerHTML)+1;
+                    }
+                }else{
+                    quakooMsg.toast(err.msg)
+                }
+            })
+        }else{
+            quakooMsg.showProgress();
+            quakooUser.ajaxGetData(config.getUrl_web_system_supportDelete(),{type:7,typeId:id},function (ret,err) {
+                quakooMsg.hideProgress();
+                if(ret){
+                    if(ret.success){
+                        quakooMsg.toast('已取消点赞');
+                        self.classList.remove('active')
+                        self.onclick = function () {
+                            commentSupport(id,self,1)
+                        }
+                        self.nextElementSibling.innerHTML = parseInt(self.nextElementSibling.innerHTML)-1;
+                    }
+                }else{
+                    quakooMsg.toast(err.msg)
+                }
+            })
+        }
+
+    }
+    //获取全部评论
+    function toAllComment(id) {
+        var num = document.getElementById('commentNumber').innerHTML;
+        quakooApp.openNewWindow('allComment','./allComment.html',{id:id,num:num});
+    }
+
+    //打开店铺
+    function openStore(sid){
+        quakooApp.openNewWindow('store','../store/store.html',{id:sid});
+    };
+    //打开联系客服
+    function openChat(){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        var user = quakooUser.getUserInfo();
+        quakooData.ajaxSubmitData(config.getUrl_web_mall_subordinateLoadChatUid(),{id:sid},function(ret,err){
+            if(ret.success){
+                quakooApp.openNativePage('customerChat',{
+                    uid: user.id+'',
+                    uicon: user.icon,
+                    id: ret.data.uid+'',
+                    name: ret.data.name,
+                    icon: ret.data.icon
+                },1)
+            }
+        })
+    }
+    //分享商品
+    var shareFlag = true;
+    function openShareIndex() {
+        if(shareFlag){
+            shareFlag = false;
+            //获取图片本地路径
+            if(shareImg){
+                quakooMsg.showProgress();
+                var img = quakooImg.processImg(shareImg,80,80).url;
+                api.imageCache({
+                    url: img
+                }, function(ret, err) {
+                    quakooMsg.hideProgress();
+                    if (ret.status) {
+                        quakooShare.openShare('蜜柚时尚',shareDesc,ret.url,config.goodsShareUrl(),{id:id})
+                    }else{
+                        quakooShare.openShare('蜜柚时尚',shareDesc,'widget://icon/icon108.png',config.goodsShareUrl(),{id:id})
+
+                    }
+                    setTimeout(function () {
+                        shareFlag = true;
+                    },500)
+                });
+            }else{
+                quakooShare.openShare('蜜柚时尚',shareDesc,'widget://icon/icon108.png',config.goodsShareUrl(),{id:id})
+                setTimeout(function () {
+                    shareFlag = true;
+                },500)
+            }
+        }
+
+
+
+    }
+    //跳单个评论的全部回复
+    function oneComment(id) {
+        quakooApp.openNewWindow('goodsComment','./goodsComment.html',{parm:commentData[id],id:id});
+    }
+
+    //轮播点击查看大图
+    var bannerFlag = true;
+    function openPhotoBrowser (index){
+        if(bannerFlag){
+            bannerFlag = false;
+            quakooImg.photoBrowser('',api.winWidth,api.winHeight,imgs,index);
+        }
+        setTimeout(function () {
+            bannerFlag = true;
+        },2000)
+    }
+    //评论点击查看大图
+    var commentFlag = true;
+    function openPhotoBrowserComment (nowId,index){
+        if(commentFlag){
+            commentFlag = false;
+            quakooImg.photoBrowser('',api.winWidth,api.winHeight,commentData[nowId].images,index);
+        }
+        setTimeout(function () {
+            commentFlag = true;
+        },2000)
+    }
+    //商品描述查看大图
+    var infoFlag = true;
+    function openPhotoBrowserPre(imgs){
+        if(infoFlag){
+            infoFlag = false;
+            var img = [imgs];
+            quakooImg.photoBrowser('',api.winWidth,api.winHeight,img,0);
+        }
+        setTimeout(function () {
+            infoFlag = true;
+        },2000)
+    }
+</script>
+
+</body>
+
+</html>

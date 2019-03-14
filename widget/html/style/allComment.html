@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../../css/api.css">
+    <link rel="stylesheet" href="../../css/commonWindow.css">
+    <title>全部评论</title>
+    <style>
+        body{
+            width: 100%;
+            background: #F2F2F2;
+            position: relative;
+            overflow: hidden;
+        }
+        #topbar{
+            width: 100%;
+            background: #ffffff;
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+
+        }
+
+    </style>
+</head>
+<body tapmode="itemOn" >
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();"></div>
+    <div>全部评论</div>
+</div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+
+<script>
+    var type =0,typeId,uid;
+    var inputField;
+    apiready = function () {
+        typeId = api.pageParam.typeId;
+        initFrameInWindow(api.pageParam);
+        inputField = api.require('inputField');
+        inputField.open({
+            bgColor: '#fff',
+            lineColor: '#fff',
+            fileBgColor: '#fff',
+            borderColor: '#f5f5f5',
+            lineBottomColor: '#f5f5f5',
+            fixedOn: api.frameName,
+            autoFocus: false,
+            placeholder: '请输入评论',
+            sendBtn:{
+                bg: '#fff',          //字符串类型；发送按钮常态背景色
+                title: '发送',        //字符串类型；发送按钮的标题
+                titleSize: 14,    //数字类型；发送按钮的标题字体大小
+                titleColor: '#333',  //字符串类型；发送按钮标题文字颜色
+                corner: 2,            //数字类型；发送按钮圆角大小
+                sendW:40,             //数字类型；发送按钮的宽，本参数暂仅支持iOS平台
+                sendH:30,             //数字类型；发送按钮的高，本参数暂仅支持iOS平台
+                marginRight:10,       //数字类型；发送按钮距离屏幕右边的距离，本参数暂仅支持iOS平台；默认：10
+            }
+        }, function (ret, err) {
+            if (ret.msg != "") {
+                commentBtn(ret.msg)
+            } else {
+                quakooMsg.toast("请输入评论内容！")
+            }
+        });
+    };
+    function initFrameInWindow(pageParam,overload,height){
+        var header = $api.dom('#topbar');
+        $api.fixStatusBar(header);
+
+        $api.fixStatusBar(header);
+        header.style.paddingTop = api.safeArea.top + 'px';
+        header.style.display = 'block';
+        config.winHeadHeight = header.offsetHeight;
+        if(height){
+            config.winHeadHeight += height;
+        }
+        quakooApp.openFrameInWin(api.winName + '_body','./' + api.winName + '_body.html',pageParam,{
+            rect:{
+                x:0,
+                marginTop:header.offsetHeight,
+                w:'auto',
+                marginBottom:50
+            }
+        });
+    }
+    //发布评论
+    function commentBtn(text){
+        if(text.length>300){
+            quakooMsg.toast("评论最多可输入300个字符")
+        }else{
+            if(type==0){
+                quakooData.ajaxSubmitData(config.getUrl_web_system_comment(),{type:2,typeId:typeId,content:text},function(ret,err){
+                    if(ret.success){
+                        type=0;
+                        inputField.setMsg({
+                            msg: ''
+                        }, function(ret, err) {
+
+                        });
+                        inputField.resignFirstResponder();
+                        api.execScript({
+                            name:'allComment',
+                            frameName:'allComment_body',
+                            script:'apiready()'
+                        })
+                        api.execScript({
+                            name:'style_index',
+                            frameName:'style_index_body',
+                            script:'getComment()'
+                        })
+                    }
+                })
+            }else{
+                quakooData.ajaxSubmitData(config.getUrl_web_system_comment(),{type:7,typeId:uid,content:text,lastCommentId:uid},function(ret,err){
+                    if(ret.success){
+                        type=0;
+                        inputField.setMsg({
+                            msg: ''
+                        }, function(ret, err) {
+
+                        });
+                        inputField.resignFirstResponder();
+                        api.execScript({
+                            name:'allComment',
+                            frameName:'allComment_body',
+                            script:'apiready()'
+                        })
+                        api.execScript({
+                            name:'style_index',
+                            frameName:'style_index_body',
+                            script:'getComment()'
+                        })
+                    }
+                })
+            }
+        }
+    }
+    //调用发布评论
+    function diaoyongComment(userid){
+        inputField.becomeFirstResponder(function(ret, err) {
+
+        });
+        type=1;
+        uid=userid;
+    }
+</script>
+</body>
+</html>

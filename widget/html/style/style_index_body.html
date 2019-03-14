@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>时尚圈</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+
+            background: #ffffff;
+            overflow: hidden;
+        }
+        #main{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: auto;
+        }
+        /*轮播*/
+        #banner{
+            width: 100%;
+        }
+        #mui-slider{
+            width: 100%;
+            height: 100%;
+        }
+        #mui-slider{ touch-action: none; }
+        .mui-slider .mui-slider-group .mui-slider-item{
+            overflow: hidden;
+        }
+        .mui-slider .mui-slider-group .mui-slider-item img {
+            height: auto;
+            width: auto;
+        }
+        #banner .mui-slider-indicator{
+            bottom: 3px;
+        }
+
+        #userInfo{
+            width: 100%;
+            /*margin: 0 auto;*/
+            /*border-bottom: 15px solid #f9f9f9;*/
+        }
+        .contentTop{
+            width: 100%;
+            height: 68px;
+            padding: 0 19px;box-sizing: border-box;
+
+            border-bottom: 2px solid #F5F5F5;
+        }
+        #userIcon{
+            width: 44px;
+            height: 44px;
+            margin-top: 12px;
+            border-radius: 50%;
+            float: left;
+            overflow: hidden;
+        }
+        #nameInfo{
+            height: 40px;
+            float: left;
+            margin-top: 12px;
+            margin-left: 6px;
+        }
+        #nameInfo>span{
+            height: 18px;
+            line-height: 18px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #646464;
+            letter-spacing: 0;
+            text-align: left;
+            display: block;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        #nameInfo>span.active{
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        #nameInfo>em{
+            width: 28px;
+            height: 16px;
+            background: #9E7443;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 8px;
+            color: #FAFAFA;
+            letter-spacing: -0.19px;
+            text-align: center;
+            display: block;
+            margin-top: 6px;
+            line-height: 16px;
+        }
+        #guanzhuButton{
+            width: 89px;
+            height: 37px;
+            line-height: 37px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            margin-top: 16px;
+            font-family: PingFangSC-Medium;
+            font-size: 12px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            float: right;
+            font-weight: 700;
+        }
+        #guanzhuButton.active{
+            background: red;
+            color: #F5F5F5;
+        }
+        #content{
+            width: 100%;
+            padding: 14px 19px 0;box-sizing: border-box;
+            margin-bottom: 17px;
+        }
+        .labels{
+            height: 27px;
+            float: left;
+            line-height: 27px;
+            padding: 0 8px;
+            background: #222222;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            text-align: left;
+            margin-right: 12px;
+            margin-bottom: 10px;
+        }
+        .article{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #444444;
+            overflow: hidden;
+            letter-spacing: 0;
+            text-align: left;
+            white-space:normal;
+            word-break:break-all;
+            word-wrap:break-word;
+        }
+        #contentBottom{
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            margin-bottom: 10px;
+            padding: 0 19px;box-sizing: border-box;
+        }
+        #contentBottom>em:nth-child(1){
+            width: 17px;
+            height: 17px;
+            float: left;
+            background: url("../../icon/time.png") no-repeat;
+            background-size: cover;
+            display: block;
+        }
+        #contentBottom>span:nth-child(2){
+            height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #BBBBBB;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 7px;
+            display: block;
+            float: left;
+        }
+        #contentBottom>span:nth-child(3){
+            height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #BBBBBB;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 7px;
+            float: right;
+        }
+        #cmtSupport{
+            width: 17px;
+            height: 17px;
+            float: right;
+            background: url("../../icon/dianzan01.png") no-repeat center;
+            background-size: 17px;
+            display: block;
+        }
+        #cmtSupport.active{
+            background: url("../../icon/dianzan02.png") no-repeat center;
+            background-size: 17px;
+        }
+        .msg{
+            width: 100%;
+            height: 15px;
+            background: #F9F9F9;
+            /*margin-top: 10px;*/
+        }
+        #userComment{
+            width: 100%;
+
+            margin-bottom: 75px;
+        }
+        .commentTop{
+            width: 100%;
+            height: 47px;
+            display: none;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        .commentTop>span:nth-child(1){
+            margin-left: 19px;
+            margin-top: 15px;
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            font-weight: 700;
+            color: #222222;
+            letter-spacing: 0;
+        }
+        .commentTop>span:nth-child(2){
+            margin-left: 10px;
+            margin-top: 16px;
+            ont-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #BBBBBB;
+            letter-spacing: 0;
+        }
+        #commentList{
+            width: 100%;
+            height: 100%;
+            padding-bottom: 50px;
+        }
+        #commentList>li{
+            width: 100%;
+            max-height: 300px;
+            padding: 15px;
+            border-bottom: 1px solid #F5F5F5;
+        }
+        #noComment{
+            height: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #C1C1C1;
+            line-height: 30px;
+            display: none;
+        }
+        #commentList>li:last-child{
+            border-bottom: 0;
+        }
+        .iconInfo{
+            width: 100%;
+            height: 29px;
+        }
+        .commentIcon{
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            float: left;
+            overflow: hidden;
+        }
+        /*.commentIcon>img{*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*}*/
+        .commentName{
+            height: 20px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #5E5E5E;
+            letter-spacing: 0;
+            text-align: left;
+            float: left;
+            margin-left: 12px;
+            margin-top: 4px;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .commentName>em{
+            width: 18px;
+            height: 12px;
+            background: #9E7443;
+            border-radius: 1.25px;
+            font-family: PingFangSC-Regular;
+            font-size: 2vw;
+            color: #FAFAFA;
+            letter-spacing: -0.12px;
+            text-align: center;
+            margin-left: 6px;
+            margin-top: 4px;
+            line-height: 12px;
+            float: right;
+        }
+        .commentTime{
+            height: 18px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #C4C4C4;
+            letter-spacing: 0;
+            text-align: left;
+            float: right;
+            margin-top: 4px;
+        }
+        .commentInfo{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #7F7F7F;
+            letter-spacing: 0;
+            margin-top: 11px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            box-sizing: border-box;
+            word-break:break-all;
+            white-space:pre-warp;
+            word-wrapL:break-word;
+            text-overflow: -o-ellipsis-lastline;
+        }
+        .operation{
+            width: 100%;
+            height: 18px;
+            margin-top: 11px;
+        }
+        .del{
+            width: 14px;
+            height: 14px;
+            float: right;
+            background:url("../../icon/del.png") no-repeat center/cover;
+        }
+        #opaSupport{
+            width: 18px;
+            height: 18px;
+            background: url("../../icon/dianzan01.png") no-repeat center;
+            background-size: 18px;
+            float: left;
+        }
+        #opaSupport.active{
+            background: url("../../icon/dianzan02.png") no-repeat center;
+            background-size: 18px;
+        }
+        .operation>span:nth-child(2){
+            height: 17px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #D2D2D2;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 4px;
+            float: left;
+        }
+        .operation>em:nth-child(3){
+            width: 16px;
+            height: 12px;
+            margin-left: 23px;
+            background: url("../../icon/huifu.png") no-repeat;
+            background-size: cover;
+            float: left;
+            margin-top: 2px;
+        }
+        .operation>span:nth-child(4){
+            height: 17px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #D2D2D2;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 5px;
+            float: left;
+        }
+        .operationInfo{
+            width: 100%;
+            background: #F9F9F9;
+            border-radius: 2px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #646464;
+            letter-spacing: 0;
+            text-align: left;
+            margin-top: 16px;
+            padding: 10px;
+        }
+        .operationContent{
+            width: 100%;
+            margin-bottom: 4px;
+            overflow: hidden;
+        }
+        .operationContent>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #828282;
+            letter-spacing: 0;
+            text-align: left;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            box-sizing: border-box;
+            word-break:break-all;
+            white-space:pre-warp;
+            word-wrapL:break-word;
+            text-overflow: -o-ellipsis-lastline;
+            float: left;width: 94%;
+        }
+        .operationContent .del{
+            margin-top: 3px;
+        }
+        .operationElse>span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #578FE0;
+            letter-spacing: 0;
+            text-align: left;
+            display: inline-block;
+        }
+        .operationElse>em{
+            width: 12px;
+            height: 12px;
+            background: url("../../icon/more_bottom.png") no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            line-height: 12px;
+            margin-left: 4px;
+            margin-bottom: -3px;
+        }
+        #editComment{
+            width: 100%;
+            height: 49px;
+            border-top: 1px solid #f5f5f5;
+            background: #FFFFFF;
+            box-shadow: inset 0 0 0 0 rgba(0,0,0,0.25);
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            z-index:99;
+            padding: 10px;
+            display: none;
+        }
+        #editComment>input{
+            width: 70%;
+            height: 29px;
+            line-height: 29px;
+            border: 1px solid #f5f5f5;
+            float: left;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            letter-spacing: 0;
+            padding: 5px;
+        }
+        input::-webkit-input-placeholder { /* WebKit browsers */
+            color: #B8B8B8;
+        }
+        input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color: #B8B8B8;
+        }
+        input::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color: #B8B8B8;
+        }
+        input:-ms-input-placeholder { /* Internet Explorer 10+ */
+            color: #B8B8B8;
+        }
+        #editSupport{
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            background: url("../../icon/dianzan01.png") no-repeat;
+            background-size: 100%;
+            margin-top: 8px;
+            float: left;
+        }
+        #editSupport.active{
+            background: url("../../icon/dianzan02.png") no-repeat;
+            background-size: 100%;
+        }
+        .leftButton{
+            width: 20px;
+            height: 20px;
+            background: url("../../icon/back.png") no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: 30px;
+            left: 20px;
+            z-index: 999999;
+            display: none;
+        }
+        .button{
+            width: 60px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 2px;
+            border: 1px solid #f5f5f5;
+            text-align: center;
+            font-size: 14px;
+            float: left;
+            margin-left: 10px;
+        }
+        #openAllComment{
+            background: #ffffff;
+            padding: 0;
+            height: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #9F79EE;
+            margin-top: 10px;
+            line-height: 20px;
+            text-decoration: underline;
+
+        }
+        #topbar{
+            width: 100%;
+            height: 65px;
+            background: #ffffff;
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99999999;
+        }
+
+        #iconTop{
+            width: 40px;
+            height: 40px;
+            margin-top: 12px;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            margin-left: -20px;
+            bottom: 2px;
+        }
+        #iconTop>img{
+            width: 100%;
+            height: 100%;
+        }
+        #guanzhuTop{
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #EEEEEE;
+            border-radius: 2px;
+            font-family: PingFangSC-Medium;
+            font-size: 12px;
+            color: #282828;
+            letter-spacing: 0;
+            text-align: center;
+            float: right;
+            font-weight: 700;
+            position: absolute;
+            right:19px;
+            bottom:7px;
+        }
+        .tagsSpan{
+            height: 20px;
+            line-height: 20px;
+            background: #CCCCCC;
+            border-radius: 50px;
+            border: 1px solid #ffffff;
+            padding: 0 5px;
+            font-size: 12px;
+            text-align: center;
+            color: #ffffff;
+            float: left;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            white-space:nowrap;
+            overflow:hidden;
+            opacity: 0;
+            position: absolute;
+        }
+
+        .tagsEm{
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            float: left;
+            margin-top: 7px;
+            opacity: 0;
+            position: relative;
+            z-index: 999;
+            position: absolute;
+        }
+        .tagsEm>em{
+            width: 12px;
+            height: 12px;
+            position: absolute;
+            top: 50%;
+            margin-top: -6px;
+            margin-left: -3px;
+            left: 0;
+            background: #f0f0f0;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        .tagsI{
+            width: 0px;
+            height: 1px;
+            margin-top: 9px;
+            background: #ffffff;
+            float: left;
+            position: absolute;
+        }
+        /*.tagsSpan.active{*/
+            /*float: right;*/
+        /*}*/
+        /*.tags>em.active{*/
+            /*float: right;*/
+        /*}*/
+        /*.tagsI.active{*/
+            /*float: right;*/
+        /*}*/
+        .imgBody{
+            width: 100%;
+            height: 375px;
+            overflow:  hidden;
+            position:relative;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <!-- 轮播 -->
+    <div id="banner" onclick="closeBanner()" ontouchmove="clearAllTable()" ontouchend="showOneTable()">
+
+    </div>
+    <!--动态详情-->
+    <div id="userInfo">
+
+    </div>
+    <div id="userComment">
+
+        <div id="comTop" class="commentTop">
+            <span>用户评论</span>
+            <span id="commentId">0</span>
+        </div>
+        <ul id="commentList">
+
+        </ul>
+    </div>
+</div>
+<!--<div id="editComment">
+    <input id="pinglun" type="text" placeholder="写评论..."/>
+    <div class="button" onclick="commentBtn()">发送</div>
+    <em id="editSupport"></em>
+</div>-->
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../../script/mui.min.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/html" id="bannerTmp">
+    <%if(urlArr){%>
+    <div class="mui-slider" id="mui-slider">
+        <div class="mui-slider-group mui-slider-loop" style="width: 100%;height: 100%">
+            <!-- 额外增加的一个节点(循环轮播：第一张是最后一个节点轮播) -->
+            <div class="mui-slider-item mui-slider-item-duplicate" style="width: 100%;height: 100%">
+                <div  style="overflow: hidden;width: 100%;height: 100%">
+                    <img data-echo="<%=urlArr[urlArr.length-1]%>" real-style="width: 100%;height: 100%" />
+                    <%if(tags){%>
+                        <%for(var i =0;i< tags.length;i++){%>
+                            <%if(tags[i].index==0){%>
+                                <%if(tags[i].direction==1){%>
+                                    <em class="tagsEm tagsEm<%=urlArr.length-1%>" style="top:<%=tags[i].y%>;right: <%=tags[i].x;%>"><em class="tagsEms tagsEms0"></em></em>
+                                    <i class="tagsI tagsI<%=urlArr.length-1%>" style="top:<%=tags[i].xianY%>;right: <%=tags[i].xianX;%>"></i>
+                                    <span onclick="goToShopping('<%=tags[i].goodsId%>','<%=tags[i].title%>')"  class="tagsSpan tagsSpan<%=urlArr.length-1%>" style="top:<%=tags[i].kuaiY%>;right: <%=tags[i].kuaiX;%>"><%=tags[i].title%></span>
+                                <%}else{%>
+                                    <em class="tagsEm tagsEm<%=urlArr.length-1%>" style="top:<%=tags[i].y%>;left: <%=tags[i].x;%>"><em class="tagsEms tagsEms0"></em></em>
+                                    <i class="tagsI tagsI<%=urlArr.length-1%>" style="top:<%=tags[i].xianY%>;left: <%=tags[i].xianX;%>"></i>
+                                    <span onclick="goToShopping('<%=tags[i].goodsId%>','<%=tags[i].title%>')"  class="tagsSpan tagsSpan<%=urlArr.length-1%>" style="top:<%=tags[i].kuaiY%>;left: <%=tags[i].kuaiX;%>"><%=tags[i].title%></span>
+                                <%}%>
+                            <%}%>
+                        <%}%>
+                    <%}%>
+                </div>
+            </div>
+            <%for(var i = 0;i < urlArr.length; i++){%>
+            <div class="mui-slider-item" style="width: 100%;height: 100%">
+                <div  style="overflow: hidden;width: 100%;height: 100%">
+                    <img data-echo="<%=urlArr[i]%>" real-style="width: 100%;height: 100%" alt="">
+                    <%if(tags){%>
+                        <%for(var j =0;j< tags.length;j++){%>
+                            <%if(tags[j].index==i){%>
+                                <%if(tags[j].direction==1){%>
+                                    <em class="tagsEm tagsEm<%=i%>" style="top:<%=tags[j].y%>;right: <%=tags[j].x;%>"><em class="tagsEms tagsEms<%=i%>"></em></em>
+                                    <i class="tagsI tagsI<%=i%>" style="top:<%=tags[j].xianY%>;right: <%=tags[j].xianX;%>"></i>
+                                    <span onclick="goToShopping('<%=tags[j].goodsId%>','<%=tags[j].title%>')" class="tagsSpan tagsSpan<%=i%>" style="top:<%=tags[j].kuaiY%>;right: <%=tags[j].kuaiX;%>"><%=tags[j].title%></span>
+                                <%}else{%>
+                                    <em class="tagsEm tagsEm<%=i%>" style="top:<%=tags[j].y%>;left: <%=tags[j].x;%>"><em class="tagsEms tagsEms<%=i%>"></em></em>
+                                    <i class="tagsI tagsI<%=i%>" style="top:<%=tags[j].xianY%>;left: <%=tags[j].xianX;%>"></i>
+                                    <span onclick="goToShopping('<%=tags[j].goodsId%>','<%=tags[j].title%>')" class="tagsSpan tagsSpan<%=i%>" style="top:<%=tags[j].kuaiY%>;left: <%=tags[j].kuaiX;%>"><%=tags[j].title%></span>
+                                <%}%>
+                            <%}%>
+                        <%}%>
+                    <%}%>
+                </div>
+            </div>
+            <%}%>
+            <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+            <div class="mui-slider-item mui-slider-item-duplicate" style="width: 100%;height: 100%">
+                <div  style="overflow: hidden;width: 100%;height: 100%">
+                    <img real-style="width: 100%;height: 100%" data-echo="<%=urlArr[0]%>"/>
+                    <%if(tags){%>
+                        <%for(var i =0;i< tags.length;i++){%>
+                            <%if(tags[i].index==0){%>
+                                <%if(tags[i].direction==1){%>
+                                    <em class="tagsEm tagsEm0" style="top:<%=tags[i].y%>;right: <%=tags[i].x;%>"><em class="tagsEms tagsEms0"></em></em>
+                                    <i class="tagsI tagsI0" style="top:<%=tags[i].xianY%>;right: <%=tags[i].xianX;%>"></i>
+                                    <span onclick="goToShopping('<%=tags[i].goodsId%>','<%=tags[i].title%>')"  class="tagsSpan tagsSpan0" style="top:<%=tags[i].kuaiY%>;right: <%=tags[i].kuaiX;%>"><%=tags[i].title%></span>
+                                <%}else{%>
+                                    <em class="tagsEm tagsEm0" style="top:<%=tags[i].y%>;left: <%=tags[i].x;%>"><em class="tagsEms tagsEms0"></em></em>
+                                    <i class="tagsI tagsI0" style="top:<%=tags[i].xianY%>;left: <%=tags[i].xianX;%>"></i>
+                                    <span onclick="goToShopping('<%=tags[i].goodsId%>','<%=tags[i].title%>')"  class="tagsSpan tagsSpan0" style="top:<%=tags[i].kuaiY%>;left: <%=tags[i].kuaiX;%>"><%=tags[i].title%></span>
+                                <%}%>
+                            <%}%>
+                        <%}%>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="mui-slider-indicator">
+            <div class="mui-indicator mui-active"></div>
+            <%for(var i = 1;i < urlArr.length; i++){%>
+            <div class="mui-indicator"></div>
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+</script>
+<script type="text/html" id="userList">
+    <div class="contentTop">
+        <div id="userIcon" onclick="openUserInfo('<%=list.thirdId%>')">
+            <%if(list.thirdIcon){%>
+            <img src="<%=list.thirdIcon%>" style="<%=list.style%>" alt="">
+            <%}else{%>
+            <img src="../../image/styleIcon.png" style="width: 100%;height: 100%;" alt="">
+            <%}%>
+        </div>
+        <div id="nameInfo" onclick="openUserInfo('<%=list.thirdId%>')">
+            <!--<%if(favorited){%>
+            <span id="userName"><%=favorited%></span>
+            <em id="level">M1</em>
+            <%}else{%>-->
+            <span id="userName" class="active"><%=list.thirdName%></span>
+            <!--<%}%>-->
+        </div>
+        <%if(list.userOnOff=="off"){%>
+        <%if(list.thirdFocus){%>
+        <div id="guanzhuButton" class="active" onclick="addAttention(this)">已关注</div>
+        <%}else{%>
+        <div id="guanzhuButton" onclick="addAttention(this)">关注</div>
+        <%}%>
+        <%}%>
+    </div>
+    <div id="content">
+        <div class="article">
+            <%=list.content%>
+        </div>
+    </div>
+    <div id="contentBottom">
+        <em></em>
+        <span><%=list.ctime%></span>
+        <span id="supportNum"><%=list.supportNum%></span>
+        <%if(list.support){%>
+        <em id="cmtSupport" class="active" onclick="tagsDouble(this,'0',<%=list.id%>)"></em>
+        <%}else{%>
+        <em id="cmtSupport" onclick="tagsDouble(this,'0',<%=list.id%>)"></em>
+        <%}%>
+    </div>
+    <div class="msg"></div>
+
+</script>
+<script type="text/html" id="comment">
+    <%for(var i=0;i< list.length;i++){%>
+    <%if(list[i].lastCommentId == 0){%>
+    <li>
+        <div class="iconInfo">
+            <div class="commentIcon">
+                <%if(list[i].iconUrl){%>
+                    <img src="<%=list[i].iconUrl%>" style="<%=list[i].iconStyle%>" alt=""/>
+                <%}else{%>
+                    <img src="../../icon/icon108.png" style="width: 100%;height: 100%;" alt=""/>
+                <%}%>
+            </div>
+            <div class="commentName">
+                <%if(list[i].user.name){%>
+                    <%=list[i].user.name%>
+                <%}else{%>
+                    <%=list[i].user.phone%>
+                <%}%>
+                <%if(list[i].userExpenseLevelInfo){%>
+                <em><%=list[i].userExpenseLevelInfo.levelName%></em>
+                <%}%>
+            </div>
+            <div class="commentTime"><%=list[i].ctime%></div>
+        </div>
+        <div class="commentInfo"><%=list[i].content%></div>
+        <div class="operation">
+            <%if(list[i].support){%>
+            <em id="opaSupport" class="active" onclick="tagsDouble(this,'2',<%=list[i].id%>)"></em>
+            <%}else{%>
+            <em id="opaSupport" onclick="tagsDouble(this,'2',<%=list[i].id%>)"></em>
+            <%}%>
+            <span><%=list[i].supportNum%></span>
+            <em></em>
+            <span onclick="diaoyongComment('<%=list[i].id%>')">回复</span>
+            <%if(loginId==list[i].uid){%>
+            <div class="del" onclick="delComment('<%=list[i].id%>')"></div>
+            <%}%>
+        </div>
+        <%if(list[i].replyComments && list[i].replyComments.length>0){%>
+        <div class="operationInfo">
+            <div class="operationContent">
+                <span>
+                    <%if(list[i].replyComments[0].user.name){%>
+                        <%=list[i].replyComments[0].user.name%>
+                    <%}else{%>
+                        <%=list[i].replyComments[0].user.phone%>
+                    <%}%>
+                    <%if(list[i].replyComments[0].user.id == thirdId){%>(作者)<%}%>：<%=list[i].replyComments[0].content%>
+                </span>
+                <%if(loginId==list[i].replyComments[0].user.id){%>
+                <div class="del" onclick="delComment('<%=list[i].replyComments[0].id%>')"></div>
+                <%}%>
+            </div>
+            <%if(list[i].lastNum>1){%>
+            <div class="operationElse ">
+                <span onclick="oneComment('<%=list[i].id%>')">共<%=list[i].lastNum%>条回复</span><em></em>
+            </div>
+            <%}%>
+        </div>
+        <%}%>
+    </li>
+    <%}%>
+    <%}%>
+    <div id="openAllComment" onclick="allComment()">查看全部评论</div>
+</script>
+<script>
+    var typeId,uid,thirdId,userId,userData,commentData={},timer,nowBanner=0,type=0,userType;
+    var tableTimer;//显示标签定时器
+    var nowEvent = new Date().getTime(), nowIndex = 0, showSign = false, autoShow = true;
+    apiready = function() {
+        quakooMsg.showProgress();
+        typeId =api.pageParam.id;
+        document.getElementById("banner").style.height = api.winWidth+'px';
+        getContent(typeId);
+        //获得评论
+        getComment()
+        //评论框
+        inputField = api.require('inputField');
+        inputField.open({
+            bgColor: '#fff',
+            lineColor: '#fff',
+            fileBgColor: '#fff',
+            borderColor: '#f5f5f5',
+            lineBottomColor: '#f5f5f5',
+            fixedOn: api.frameName,
+            autoFocus: false,
+            placeholder: '请输入评论',
+            sendBtn:{
+                bg: '#fff',          //字符串类型；发送按钮常态背景色
+                title: '发送',        //字符串类型；发送按钮的标题
+                titleSize: 14,    //数字类型；发送按钮的标题字体大小
+                titleColor: '#333',  //字符串类型；发送按钮标题文字颜色
+                corner: 2,            //数字类型；发送按钮圆角大小
+                sendW:40,             //数字类型；发送按钮的宽，本参数暂仅支持iOS平台
+                sendH:30,             //数字类型；发送按钮的高，本参数暂仅支持iOS平台
+                marginRight:10,       //数字类型；发送按钮距离屏幕右边的距离，本参数暂仅支持iOS平台；默认：10
+            }
+        }, function (ret, err) {
+            if (ret.msg != "") {
+                inputField.resignFirstResponder();
+                commentBtn(ret.msg)
+            } else {
+                quakooMsg.toast("请输入评论内容！")
+            }
+        });
+
+    };
+//    window.addEventListener('touchmove', closeBanner, { passive: false })
+    //获取数据
+    function getContent(id){
+        quakooData.ajaxGetData(config.getUrl_web_mall_Load(),{id:id},function(ret,err) {
+            var urlArr = [];
+            var width = api.winWidth;
+            thirdId = ret.data.thirdId;
+            if(thirdId==quakooUser.getUserInfo().id){
+                ret.data.userOnOff = "on";
+            }else{
+                ret.data.userOnOff = "off";
+            }
+            userType = ret.data.type;
+            var userObj = quakooImg.processImg(ret.data.thirdIcon, 44, 44);
+            ret.data.thirdIcon = userObj.url;
+            ret.data.style = userObj.style;
+            if(ret.data.tags.length>0){
+                for(var j=0;j<ret.data.tags.length;j++){
+
+                    var dianY =((ret.data.tags[j].y/100)*width)-9;
+                    if(ret.data.tags[j].direction==1){
+                        var dianX = ((1-(ret.data.tags[j].x/100))*width)-6;
+                    }else{
+                        var dianX = ((ret.data.tags[j].x/100)*width);
+                    }
+                    var xianY = dianY;
+                    var xianX = dianX+3;
+                    var kuaiY = dianY;
+                    var kuaiX = xianX+10;
+                    ret.data.tags[j].x = dianX+"px";
+                    ret.data.tags[j].y = dianY+"px";
+                    ret.data.tags[j].xianX = xianX+"px";
+                    ret.data.tags[j].xianY = xianY+"px";
+                    ret.data.tags[j].kuaiX = kuaiX+"px";
+                    ret.data.tags[j].kuaiY = kuaiY+"px";
+                }
+                var img = {urlArr: ret.data.banners,tags:ret.data.tags};
+            }else{
+                var img = {urlArr: ret.data.banners};
+            }
+            var imgHtml = template("bannerTmp", img);
+            document.getElementById('banner').innerHTML = imgHtml;
+            tableTimer = setInterval(function () {
+                showTable();
+            },500);
+
+            if(ret.data.banners.length>1){
+                setTimeout(function () {
+                    var gallery = mui('.mui-slider');
+                    gallery.slider({
+                        interval: 0//自动轮播周期，若为0则不自动播放，默认为0；
+                    });
+                }, 500);
+            }
+
+
+            document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+                nowIndex = event.detail.slideNumber;
+                tableTimer = setInterval(function () {
+                    showTable();
+                },500);
+                clearInterval(timer);
+            });
+
+            ret.data.ctime = quakooUtils.formatTimeToDayDate(ret.data.ctime);
+            userData = ret.data;
+            var user = {list: ret.data};
+            var userHtml = template("userList", user);
+            document.getElementById("userInfo").innerHTML = userHtml;
+            document.getElementById("comTop").style.display="block";
+            /*document.getElementById("editComment").style.display="block";
+            document.getElementById("editSupport").setAttribute("onclick","tagsDouble(this,'1',typeId)");
+            if(ret.data.support){
+                document.getElementById("editSupport").setAttribute("class","active");
+            }else{
+                document.getElementById("editSupport").removeAttribute("class");
+            }*/
+            setTimeout(function(){
+                if(!echo.isInit()){
+                    echoExt.init({
+                        offset: 0,
+                        throttle: 0//设置图片延迟加载的时间
+                    });
+                }else{
+                    echo.render();
+                }
+
+            },100);
+        })
+    }
+    //显示标签
+    function showTable() {
+        if((new Date().getTime() - nowEvent) >=500 && autoShow){
+            showSign = true;
+            $(".tagsEm"+nowIndex).animate({opacity:'1'},500);
+            clearInterval(tableTimer)
+            timer = setInterval(function () {
+                $(".tagsEms"+nowIndex).animate({opacity:'0.7'},1000);
+                $(".tagsEms"+nowIndex).animate({opacity:'0.2'},1200);
+            },1000);
+            $(".tagsI"+nowIndex).animate({width:'10px'},200);
+            $(".tagsSpan"+nowIndex).animate({opacity:'1'},100);
+        }
+    }
+    //获取评论
+    function getComment(){
+        quakooData.ajaxGetData(config.getUrl_web_system_commentPager(),{type:2,typeId:typeId,size:5},function(ret,err){
+            if(quakooUtils.isNotBlack(ret.data)){
+                for(var i=0;i<ret.data.length;i++){
+                    ret.data[i].ctime = quakooUtils.getDateDiff(ret.data[i].ctime);
+                    var obj = quakooImg.processImg(ret.data[i].user.icon,29,29);
+                    ret.data[i].iconUrl = obj.url;
+                    ret.data[i].iconStyle = obj.style;
+                    commentData[ret.data[i].id]=ret.data[i];
+                }
+                if(ret.data.length<=0){
+                    document.getElementById("commentId").innerHTML=0;
+                    document.getElementById("commentList").innerHTML='<li id="noComment">暂时还没有用户评论</li>';
+
+                    quakooMsg.hideProgress();
+                }else{
+                    var data = {list:ret.data,thirdId:thirdId,loginId:quakooUser.getUserInfo().id};
+                    var html = template("comment",data);
+                    document.getElementById("commentId").innerHTML=ret.count;
+                    document.getElementById("commentList").innerHTML=html;
+                    quakooMsg.hideProgress();
+                }
+            }else{
+                document.getElementById("commentList").innerHTML='<li id="noComment">暂时还没有用户评论</li>';
+                document.getElementById("commentId").innerHTML=0;
+                quakooMsg.hideProgress();
+            }
+        })
+    }
+    //发布评论
+    var commentFlag = true;
+    function commentBtn(text){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        if(commentFlag){
+            commentFlag = false;
+            if(text.length>300){
+                quakooMsg.toast("评论最多可输入300个字符")
+                commentFlag = true;
+            }else{
+                if(type==0){
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_comment(),{type:2,typeId:typeId,content:text},function(ret,err){
+                        commentFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('评论成功')
+                            type=0;
+                            inputField.setMsg({
+                                msg: ''
+                            }, function(ret, err) {
+
+                            });
+                            inputField.resignFirstResponder();
+                            getComment()
+                        }
+                    })
+                }else{
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_comment(),{type:7,typeId:uid,content:text,lastCommentId:uid},function(ret,err){
+                        commentFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('评论成功')
+                            type=0;
+                            inputField.setMsg({
+                                msg: ''
+                            }, function(ret, err) {
+
+                            });
+                            inputField.resignFirstResponder();
+                            getComment()
+                        }
+                    })
+                }
+            }
+        }
+    }
+    //删除自己发表的评论
+    function delComment(id) {
+        quakooMsg.showDialog('提示','确认删除该评论吗？','取消','确认',function () {
+            quakooData.ajaxSubmitData(config.getUrl_web_system_commentDel(),{id:id},function (ret) {
+                if(ret && ret.success){
+                    quakooMsg.toast('删除成功');
+                    getComment();
+                }
+            })
+        })
+    }
+
+    //调用发布评论
+    function diaoyongComment(userid){
+        inputField.becomeFirstResponder()
+        type=1;
+        uid=userid;
+    }
+    //查看全部评论
+    function allComment() {
+        quakooApp.openNewWindow('allComment','./allComment.html',{typeId:typeId,thirdId:thirdId})
+    }
+    //跳单个评论的全部回复
+    function oneComment(id) {
+        quakooApp.openNewWindow('oneComment','./oneComment.html',{parm:commentData[id],id:id,thirdId:thirdId});
+    }
+    //点赞
+    var tag=true;
+    function tagsDouble(self,type,id) {
+        var className = $(self).attr("class");
+        if(tag){
+            tag=false;
+            if(className=='active'){
+                if(type=="0" || type=="1"){
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_supportDelete(),{type:2,typeId:id},function (ret,err) {
+                        if(ret){
+                            if(ret.success){
+                                quakooMsg.toast('取消点赞成功')
+                                tag=true;
+
+                                document.getElementById("cmtSupport").classList.remove('active');
+                                document.getElementById("supportNum").innerHTML = parseInt(document.getElementById("supportNum").innerHTML)-1;
+                                changeShow()
+                            }
+                        }
+                    });
+                }else{
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_supportDelete(),{type:7,typeId:id},function (ret,err) {
+                        if(ret){
+                            if(ret.success){
+                                quakooMsg.toast('取消点赞成功')
+                                tag=true;
+                                getComment()
+                            }
+                        }
+                    });
+                }
+            }else{
+                if(type=="0" || type=="1"){
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_supportAdd(),{type:2,typeId:id},function (ret,err) {
+                        if(ret){
+                            if(ret.success){
+                                quakooMsg.toast('点赞成功')
+                                tag=true;
+                                changeShow()
+                                document.getElementById("cmtSupport").classList.add('active');
+                                document.getElementById("supportNum").innerHTML = parseInt(document.getElementById("supportNum").innerHTML)+1;
+                            }
+                        }
+                    });
+                }else{
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_supportAdd(),{type:7,typeId:id},function (ret,err) {
+                        if(ret){
+                            if(ret.success){
+                                quakooMsg.toast('点赞成功')
+                                tag=true;
+                                getComment()
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    function changeShow() {
+        if(api.pageParam.jumpHtml=='faxian'){
+            api.execScript({
+                name:'main',
+                frameName:'style_faxian',
+                script:'changeSupport()'
+            });
+            api.execScript({
+                name:'main',
+                frameName:'style_guanzhu',
+                script:'apiready()'
+            });
+        }else if(api.pageParam.jumpHtml=='guanzhu'){
+            api.execScript({
+                name:'main',
+                frameName:'style_faxian',
+                script:'getData()'
+            });
+            api.execScript({
+                name:'main',
+                frameName:'style_guanzhu',
+                script:'changeSupport()'
+            });
+        }else if(api.pageParam.jumpHtml=='fujin'){
+            api.execScript({
+                name:'main',
+                frameName:'style_faxian',
+                script:'getData()'
+            });
+            api.execScript({
+                name:'main',
+                frameName:'style_guanzhu',
+                script:'apiready()'
+            });
+        }
+    }
+
+    //关注
+    var attendFlag = true;
+    function addAttention(self) {
+        if(attendFlag){
+            attendFlag = false;
+            var selfClass = document.getElementById(self.id).getAttribute("class");
+            if(selfClass=="active"){
+                if(userType==0){
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansDelete(),{type:5,thirdId:thirdId},function (ret,err) {
+                        attendFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('取消关注成功');
+                            document.getElementById(self.id).removeAttribute("class");
+                            document.getElementById(self.id).innerHTML = "关注";
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'apiready()'
+                            })
+                        }
+                    });
+                }else if(userType == 2){
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansDelete(),{type:6,thirdId:thirdId},function (ret,err) {
+                        attendFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('取消关注成功');
+
+                            document.getElementById(self.id).removeAttribute("class");
+                            document.getElementById(self.id).innerHTML = "关注";
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'apiready()'
+                            })
+                        }
+                    });
+                }else{
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansDelete(),{type:4,thirdId:thirdId},function (ret,err) {
+                        attendFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('取消关注成功');
+                            document.getElementById(self.id).removeAttribute("class");
+                            document.getElementById(self.id).innerHTML = "关注";
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'apiready()'
+                            })
+                        }
+                    });
+                }
+            }else{
+                if(userType==0){
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansAdd(),{type:5,thirdId:thirdId},function (ret,err) {
+                        attendFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('关注成功');
+                            document.getElementById(self.id).setAttribute("class","active");
+                            document.getElementById(self.id).innerHTML = "已关注";
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'apiready()'
+                            })
+                        }
+                    });
+                }else if(userType == 2){
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansAdd(),{type:6,thirdId:thirdId},function (ret,err) {
+                        attendFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('关注成功');
+                            document.getElementById(self.id).setAttribute("class","active");
+                            document.getElementById(self.id).innerHTML = "已关注";
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'apiready()'
+                            })
+                        }
+                    });
+                }else{
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_focusfansAdd(),{type:4,thirdId:thirdId},function (ret,err) {
+                        attendFlag = true;
+                        if(ret.success){
+                            quakooMsg.toast('关注成功');
+                            document.getElementById(self.id).setAttribute("class","active");
+                            document.getElementById(self.id).innerHTML = "已关注";
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'apiready()'
+                            })
+                        }
+                    });
+                }
+            }
+        }
+    }
+    //点击收起全部标签
+    function closeBanner() {
+        quakooUtils.stopEventBubble()
+        autoShow = false;
+        if(showSign){
+            $(".tagsEm"+nowIndex).animate({opacity:'0'},400);
+            $(".tagsEms"+nowIndex).animate({opacity:'0'},200);
+            $(".tagsI"+nowIndex).animate({width:'0'},200);
+            $(".tagsSpan"+nowIndex).animate({opacity:'0'},100);
+            showSign = false;
+            clearInterval(timer);
+        }else{
+            $(".tagsEm"+nowIndex).animate({opacity:'1'},500);
+            timer = setInterval(function () {
+                $(".tagsEms"+nowIndex).animate({opacity:'0.7'},1000);
+                $(".tagsEms"+nowIndex).animate({opacity:'0.2'},1200);
+            },1000)
+            $(".tagsI"+nowIndex).animate({width:'10px'},300);
+            $(".tagsSpan"+nowIndex).animate({opacity:'1'},200);
+            showSign = true;
+        }
+    }
+    //跳转个人主页
+    function openUserInfo(id) {
+        quakooApp.openNewWindow('myPage','../mine/myPage.html',{id:id});
+    }
+    //在个人主页中，关注之后的异步调用函数
+    function userAttention(isAttention) {
+        if(isAttention){
+            document.getElementById('guanzhuButton').classList.add('active');
+            document.getElementById('guanzhuButton').innerHTML = '已关注';
+        }else{
+            document.getElementById('guanzhuButton').classList.remove('active');
+            document.getElementById('guanzhuButton').innerHTML = '关注';
+        }
+    }
+
+    var sign = false;
+    //滑动清除标签
+    function clearAllTable() {
+
+        showSign = false;
+        autoShow = false;
+        sign = true;
+        $(".tagsEm").css("opacity","0");
+        $(".tagsEms").css("opacity","0");
+        $(".tagsI").css("width",'0');
+        $(".tagsSpan").css('opacity','0');
+        clearInterval(timer);
+    }
+    //停止滑动显示标签
+    function showOneTable() {
+
+        if(sign) {
+            tableTimer = setInterval(function () {
+                showTable();
+            },500);
+            clearInterval(timer);
+            nowEvent = new Date().getTime();
+            autoShow = true;
+
+            sign = false;
+        }
+    }
+
+    //跳转商品详情
+    function goToShopping(goodsId,title) {
+        if(quakooUtils.isNotBlack(goodsId) && goodsId != 0){
+            quakooApp.openNewWindow('goodsIndex','../goods/goodsIndex.html',{id:goodsId,title:title,thirdId:thirdId});
+        }else{
+            quakooMsg.toast("自定义标签无法点击哦");
+            closeBanner();
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>商品列表</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style type="text/css">
+        body{
+            min-width: 320px;
+            background: #fff;
+        }
+        #topbar{
+            position:relative;
+            border-bottom: 1px solid #F2F2F2;
+        }
+        #topName{
+            font-family: PingFangSC-Regular;
+            font-size: 20px;
+            color: #030303;
+            letter-spacing: -0.48px;
+            text-align: center;
+            padding:0 81px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #topbar > .sousuo > img{
+            position: absolute;
+            right:61px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+        }
+
+        #topbar > .shoppings > img{
+            position: absolute;
+            right:19px;
+            bottom:12px;
+            width:20px;
+            height:20px;
+        }
+
+        .sortBtn{
+            width: 100%;visibility: hidden;
+        }
+        .sortBtn ul{
+            width: 100%;
+            padding: 14px 19px;box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+        }
+        .sortBtn li{
+            padding-bottom: 3px;
+            font-size: 13px;
+            color: #9B9B9B;
+        }
+        .sortBtn li em{
+            width: 6px;height: 13px;
+            margin-left: 2px;
+            background: url("../../icon/sort3.png") no-repeat 0 0;
+            vertical-align: middle;
+            background-size: 100%;
+        }
+
+        .sortBtn li.active{
+            color: #505050;
+            border-bottom: 1px solid #505050;;
+        }
+
+    </style>
+</head>
+<body>
+<div id="topbar">
+    <div id="left" tapmode="itemOn"  onclick="quakooApp.closeWin();">
+    </div>
+    <div id="topName">连衣裙</div>
+    <div class="sousuo" onclick="jumpSeek();">
+        <img src="../../icon/sousuo.png" alt="">
+    </div>
+    <div class="shoppings" onclick="jumpShopping()">
+        <img src="../../icon/shopping_1.png" alt="">
+    </div>
+</div>
+<div class="sortBtn">
+    <ul>
+        <li class="active" onclick="editStyle(this,4);">新品</li>
+        <li onclick="editStyle(this,2);">综合</li>
+        <li onclick="editStyle(this,3);">销量</li>
+        <li onclick="editStyle(this,1);">价格<em></em></li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script>
+    apiready = function () {
+        quakooApp.initFrameInWin(api.pageParam,{ rect : {
+                x : 0,
+                marginTop : api.safeArea.top + config.headHeight + document.querySelector('.sortBtn').offsetHeight,
+                w : api.frameWidth,
+                marginBottom:0
+            }});
+        document.getElementById('topName').innerText = api.pageParam.name;
+        document.querySelector('.sortBtn').style.visibility = 'visible';
+    }
+    // 搜索跳转
+    function jumpSeek(){
+        quakooApp.openNewWindow('search','../search/search.html',{type:0});
+    }
+    // 购物车跳转
+    function jumpShopping(){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow('login','../login/login.html',{});
+            return ;
+        }
+        quakooApp.openNewWindow('shoppings','../shoppings/shoppingBag_body.html',{jumpType:'goods'});
+    }
+    //改变样式
+    function editStyle(self,num) {
+        //价格0降序，1升序，点击改变
+        if(num==1){
+            self.onclick = function () {
+                editStyle(self,0)
+            }
+        }else if(num==0){
+            self.onclick = function () {
+                editStyle(self,1)
+            }
+        }
+        for(var i=0;i<document.querySelectorAll('.sortBtn li').length;i++){
+            document.querySelectorAll('.sortBtn li')[i].classList.remove('active');
+        }
+        self.classList.add('active');
+        api.execScript({
+            name:"goodsList",
+            frameName:"goodsList_body",
+            script:"getData('"+num+"')"
+        })
+    }
+</script>
+</html>

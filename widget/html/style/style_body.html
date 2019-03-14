@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>时尚圈</title>
+    <link rel="stylesheet" href="../../css/api.css" />
+    <link rel="stylesheet" href="../../css/commonWindow.css" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #header{
+            width: 90%;
+            height: 100%;
+            line-height: 44px;
+            font-family: PingFangSC-Regular;
+            font-size: 18px;
+            color: #CACACA;
+            letter-spacing: 0;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .st-item{
+            margin-left: 15px;
+        }
+        .st-item.active{
+            font-size: 20px;
+            color: #222222;
+            text-decoration:underline;
+            margin-left: 13px;
+        }
+        #header>div{
+            width: 20px;
+            height: 100%;
+            line-height: 44px;
+            float: right;
+        }
+        #header>div img{
+            width: 20px;
+            height: 20px;
+            margin-top: 12px;
+        }
+
+        /*导航*/
+        #style-nav{
+            height: 45px;
+            border-bottom: 1px solid #f2f2f2;
+            display:box;
+            display: -webkit-box;
+            -webkit-box-orient: horizontal;/* 横排显示*/
+        }
+        #style-nav > div{
+            -webkit-box-flex: 1;
+                        -webkit-box-align: center;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #9B9B9B;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 45px;
+        }
+        #style-nav > div.active{
+            font-family: PingFangSC-Medium;
+            font-size: 14px;
+            color: #424242;
+            letter-spacing: 0;
+            text-align: center;
+        }
+        /*列表*/
+        #style-content{
+            margin-top: 90px;
+            padding:25px 19px;
+            box-sizing: border-box;
+        }
+        #style-content > div{
+            width: 43%;
+            height: 305px;
+            margin-right: 13px;
+            margin-bottom: 52px;
+        }
+        #style-content > div:nth-child(2n+1){
+            float: left;
+        }
+        #style-content > div:nth-child(2n){
+            float: right;
+        }
+        .imgWrap > div > div{
+            height: 204px;
+        }
+        #style-content > div > div > img{
+            width: 100%;
+            height: 204px;
+        }
+        #style-content > div > p{
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin:14px 0 20px 0;
+            box-sizing: border-box;
+        }
+        #style-bottom{
+            width: 100%;
+            height: 25px;
+        }
+        .left{
+            width: 65%;
+            height: 25px;
+            float: left;
+            line-height: 25px;
+            position: relative;
+        }
+        .right{
+            width: 35%;
+            height: 25px;
+            float: right;
+            line-height: 25px;
+        }
+        .bottom-imgWrap{
+            width: 25px;
+            height: 25px;
+            float: left;
+        }
+        .bottom-imgWrap > img{
+            width: 100%;
+            height: 100%;
+        }
+        .left > span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #444444;
+            letter-spacing: 0;
+            text-align: left;
+            margin-left: 4px;
+            display: inline-block;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+        }
+        .left > span > em{
+            position: absolute;
+            top:9px;
+            height: 10px;
+            width: 17px;
+            margin-left: 3px;
+            display: inline-block;
+            background: url('../../image/status.png') no-repeat;
+            background-size: 100%;
+        }
+        .right > span{
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #222222;
+            letter-spacing: 0;
+            text-align: left;
+        }
+        .right > span > em{
+            height: 18px;
+            width: 18px;
+            margin-right:4px;
+            display: inline-block;
+            background: url('../../image/dianzan02.png') no-repeat;
+            background-size: 100%;
+            float: left;
+            margin-top: 6px;
+        }
+        .topHeader{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div id="topbar" style="width: 100%;display: block;text-align: center;border-bottom: 0px">
+    <div id="header">
+        <span id="guanzhu" class="guanzhu st-item" onclick="switchFrameGroupIndex(0)">关注</span>
+        <span id="faxian" class="faxian st-item"  onclick="switchFrameGroupIndex(1)">发现</span>
+        <span id="fujin" class="fujin st-item"  onclick="switchFrameGroupIndex(2)">附近</span>
+        <div onclick="editDynamic()">
+            <img src="../../icon/edit.png" alt=""/>
+        </div>
+    </div>
+</div>
+<div id="main" style="overflow: auto"></div>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/template-native.js"></script>
+<script>
+    apiready = function(){
+        var titleHeight = api.safeArea.top;
+        var botHeight = 0;
+        var strDM = api.systemType;//系统
+        var strSV = parseFloat(api.systemVersion,10);//版本
+        if(strDM == 'ios' && strSV >= 12){
+            if(api.pageParam.titleHeight>22){
+                botHeight = 34;
+            }
+        }
+        window_width = api.winWidth;
+        api.openFrameGroup ({
+            name: 'style_body',
+            background:'#fff',
+            scrollEnabled:true,
+            preload:0,
+            rect : {
+                x : 0,
+                marginTop :document.getElementById("topbar").offsetHeight + api.pageParam.titleHeight,
+                w : 'auto',
+                marginBottom : 50 + botHeight
+            },
+            index:1,
+            frames: [{
+                name: 'style_guanzhu',
+                url: 'style_guanzhu_body.html', //关注
+                bgColor :'rgba(0,0,0,0)'
+            },{
+                name: 'style_faxian',
+                url: 'style_faxian_body.html', //发现
+                bgColor :'rgba(0,0,0,0)'
+            },{
+                name: 'style_fujin',
+                url: 'style_fujin_body.html', //附近
+                bgColor :'rgba(0,0,0,0)'
+            }]
+        }, function(ret, err){
+            switchFrameCallback(ret.index);
+        });
+
+        setTimeout(function(){
+            switchFrameGroupIndex(1)
+        },200)
+    }
+
+    function switchFrameGroupIndex(index){
+        api.setFrameGroupIndex({
+            name : "style_body",
+            index : index,
+            scroll : true
+        });
+    }
+    function switchFrameCallback(index) {
+        var stitem = document.querySelectorAll(".st-item");
+        for (var i = 0; i < stitem.length; i++) {
+            if (i == index) {
+                stitem[i].classList.add("active")
+            } else {
+                stitem[i].classList.remove("active")
+            }
+        }
+    };
+    function closeFrameopen(){
+        api.closeFrameGroup({
+            name: 'style_body'
+        });
+    }
+
+    function editDynamic(dataContent){
+        if(!quakooUser.isLoginUser()){
+            quakooApp.openNewWindow("login","../login/login.html",{});
+        }else{
+            quakooDb.setItem('refreshOk','publishing');
+            refreshStyle()
+            api.accessNative({
+                name: "ImageLab",
+                extra: {
+                    search:config.getUrl_web_mall_goodsSearch(),
+                    hot:config.getUrl_web_mall_hotSearchAll(),
+                    imgNum:0
+                }
+            }, function (ret, err) {
+            });
+
+        }
+    }
+    function refreshStyle(){
+        if(quakooDb.getItem('refreshOk')==true){
+            api.execScript({
+                name:"main",
+                frameName:"style_faxian",
+                script:"getData()"
+            })
+            api.execScript({
+                name:"main",
+                frameName:"style_fujin",
+                script:"apiready()"
+            })
+            api.execScript({
+                name:"main",
+                frameName:"style_guanzhu",
+                script:"apiready()"
+            })
+            quakooDb.removeItem('refreshOk')
+        }else if(quakooDb.getItem('refreshOk') == 'publishing'){
+            setTimeout(function () {
+                refreshStyle()
+            },300)
+        }
+    }
+</script>
+</body>
+</html>

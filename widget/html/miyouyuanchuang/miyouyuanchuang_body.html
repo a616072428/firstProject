@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    	<meta name="apple-mobile-web-app-capable" content="yes">
+    	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>蜜柚原创</title>
+		<link rel="stylesheet" href="../../css/api.css" />
+		<link rel="stylesheet" href="../../css/commonWindow.css" />
+		<style type="text/css">
+			body{
+				min-width: 320px;
+                background: #fff;
+				position: relative;
+			}
+            .yc-class{
+                width: 20px;
+                height: 69px;
+                background: url('../../image/classify.png') no-repeat;
+                background-size: 100%;
+                /*position: fixed;*/
+                /*right:0;*/
+                /*top:148px;*/
+            }
+
+			/*优惠券*/
+			.ticket{
+				width: 100%;
+				height: 32px;
+				background: #000;
+				padding:0 19px;
+				box-sizing: border-box;
+				display: none;
+				/*position: fixed;*/
+				/*top: 0;left: 0;*/
+				z-index: 10;
+			}
+			/*.ticket.active{
+				position: fixed;
+				top: 0;left: 0;
+			}*/
+			.ticket > div:nth-child(1){
+				line-height: 32px;
+				font-size: 12px;
+				color:#fff;
+				float: left;
+			}
+			.ticket > div:nth-child(2){
+				line-height: 17px;
+				text-align: center;
+				color: #9E7443;
+				font-size: 8px;
+				background: #fff;
+				height: 16px;
+				width: 25px;
+				margin-top: 8px;
+				float: right;
+			}
+			/*品牌*/
+			.pinpai{
+				height: 141px;
+				padding: 0 19px;
+				box-sizing: border-box;
+			}
+			.pinpai-more{
+				height: 37px;
+			}
+			.pinpai-more > p{
+				width: 87px;
+				height: 27px;
+				float: right;
+				text-align: center;
+				line-height: 27px;
+				margin-top: 8px;
+				border: 1px solid #EEEEEE;
+				border-radius: 2px;
+				font-family: PingFangSC-Regular;
+				font-size: 12px;
+				color: #C1C1C1;
+				letter-spacing: 0;
+				text-align: center;
+			}
+			.pinpai-content{
+				width: 100%;
+				padding: 10px 0;
+				box-sizing: border-box;
+				overflow: hidden;
+			}
+			.pinpai-content > div{
+				width: 24%;float: left;
+				text-align: center;
+				text-align: -webkit-center;
+				margin-right: 1.333%;
+			}
+			.pinpai-content > div:last-of-type{
+				margin-right: 0;
+			}
+			.pinpai-content .img{
+				width: 65px;
+				height: 65px;
+				overflow: hidden;
+			}
+			.pinpai-content > div > span{
+				font-family: PingFangSC-Regular;
+				font-size: 12px;
+				color: #AEAEAE;
+				letter-spacing: 0;
+				text-align: center;
+			}
+			/*搜索样式*/
+			.sortBtn{
+				width: 100%;
+				background: #fff;
+			}
+			.sortBtn ul{
+				width: 100%;
+				padding: 8px 19px 14px;box-sizing: border-box;
+				display: flex;
+				justify-content: space-between;
+			}
+			.sortBtn li{
+				padding-bottom: 3px;
+				font-size: 13px;
+				color: #9B9B9B;
+			}
+			.sortBtn li em{
+				width: 6px;height: 13px;
+				margin-left: 2px;
+				background: url("../../icon/sort3.png") no-repeat 0 0;
+				vertical-align: middle;
+				background-size: 100%;
+			}
+
+			.sortBtn li.active{
+				color: #505050;
+				border-bottom: 1px solid #505050;;
+			}
+
+
+            /*品牌列表*/
+            .tabs-content{
+                margin-top: 17px;
+                padding:0 19px;
+                box-sizing: border-box;
+				overflow: hidden;
+			}
+            .tabs-content li{
+				width:43%;
+                margin-right: 16px;
+                margin-bottom: 40px;
+				overflow: hidden;
+                /*height: 400px;*/
+				position: relative;
+            }
+            .tabs-content li:nth-of-type(2n+1){
+                float: left;
+            }
+            .tabs-content li:nth-of-type(2n){
+                float: right;
+            }
+
+            .tabs-content li > div{
+                width: 160px;
+                height: 160px;
+                overflow: hidden;
+            }
+            .tabs-content li > p{
+                margin-top: 19px;
+                font-family: TeluguMN-Bold;
+                font-size: 15px;
+                color: #111111;
+                letter-spacing: 0;
+                text-align: center;
+				white-space: nowrap;
+				overflow: hidden;
+				line-height: 18px;
+				text-overflow: ellipsis;
+            }
+            .tabs-content li > span{
+                display: block;
+				line-height: 18px;
+                font-family: PingFangSC-Regular;
+                font-size: 13px;
+                color: #717171;
+                letter-spacing: 0;
+                text-align: center;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+            }
+            .tabs-content li > i{
+                margin-top: 9px;
+                display: block;
+                font-family: STHeitiSC-Medium;
+                font-size: 17px;
+                color: #2E2E2E;
+                letter-spacing: 0;
+                text-align: center;
+            }
+			.collect{
+				position: absolute;
+				width: 20px;height: 20px;
+				right: 12px;top: 14px;
+				background: url("../../icon/collectno.png") no-repeat center;
+				background-size: 100%;
+			}
+			.collect.active{
+				background: url("../../icon/collectyes.png") no-repeat center;
+				background-size: 100%;
+			}
+			#yc-wrap{
+				width: 100%;
+				/*position: fixed;*/
+				/*top: 0;left: 0;*/
+				z-index: 9;
+				background: #fff;
+			}
+			#pinpaiDom{
+				width: 100%;
+				overflow: hidden;
+				transition: .5s;
+				box-sizing: border-box;
+				border-bottom: 1px solid #f5f5f5;
+			}
+			.sortBtn.active{
+				position: fixed;
+				top: 0;left: 0;
+				z-index: 10;
+			}
+		</style>
+	</head>
+	<body>
+	<!-- 领券 -->
+		<div class="ticket" id="ticket">
+			<div>领取优惠券</div>
+			<div onclick="getC()">领券</div>
+		</div>
+		<div id="yc-wrap">
+			<!-- 品牌 -->
+			<div class="pinpai" id="pinpaiDom" >
+
+			</div>
+			<!--搜索条件-->
+			<div class="sortBtn">
+				<ul>
+					<li class="active" onclick="editStyle(this,4);">新品</li>
+					<li onclick="editStyle(this,2);">综合</li>
+					<li onclick="editStyle(this,3);">销量</li>
+					<li onclick="editStyle(this,1);">价格<em></em></li>
+				</ul>
+			</div>
+			<!--搜索条件-->
+			<div class="sortBtn active sortBtn1" style="display: none">
+				<ul>
+					<li class="active" onclick="editStyle(this,4);">新品</li>
+					<li onclick="editStyle(this,2);">综合</li>
+					<li onclick="editStyle(this,3);">销量</li>
+					<li onclick="editStyle(this,1);">价格<em></em></li>
+				</ul>
+			</div>
+		</div>
+
+        <!-- 分类 -->
+        <!--<div class="yc-class"></div>-->
+        <ul class="tabs-content" id="contentDom" >
+
+        </ul>
+	</body>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBase-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooConfig-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseApp-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakooLib/QuakooBaseAppBusiness-1.0.0.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/Config.js"></script>
+	<script type="text/javascript" src="../../lib/script/quakoo/project.js"></script>
+
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/template-native.js"></script>
+	<script type="text/javascript" src="../../script/echo.min.js"></script>
+	<script type="text/html" id="pinpaiTmp">
+		<%if(list){%>
+		<div class="pinpai-more">
+			<p onclick="openMore();">更多</p>
+		</div>
+		<div class="pinpai-content">
+			<%for(var i = 0; i < list.length; i++){%>
+			<div onclick="openStoreIndex('<%=list[i].id%>','<%=list[i].name%>')">
+				<div class="img">
+					<img src="<%=list[i].icon%>" alt="" style="<%=list[i].style%>">
+				</div>
+				<span><%=list[i].name%></span>
+			</div>
+			<%}%>
+		</div>
+		<%}%>
+	</script>
+    <script type="text/html" id="contentTmp">
+        <%if(list){%>
+            <%for(var i = 0; i < list.length; i++){%>
+                <li onclick="lookIndex('<%=list[i].id%>','<%=list[i].name%>')">
+                    <div>
+                        <img data-echo="<%=list[i].covers[0]%>" real-style="<%=list[i].style%>">
+                    </div>
+                    <p><%=list[i].name%></p>
+                    <span><%=list[i].title%></span>
+                    <i>￥<%=list[i].price%></i>
+					<%if(list[i].favorite){%>
+					<em class="collect active" onclick="toCollect('<%=list[i].id%>',1,this)"></em>
+					<%}else{%>
+					<em class="collect" onclick="toCollect('<%=list[i].id%>',2,this)"></em>
+					<%}%>
+                </li>
+            <%}%>
+        <%}%>
+    </script>
+	<script>
+        var sort = 4;
+        var couponFlag = false;
+        var pinpaiHeight = 0;
+        var sortBtnTop = document.querySelector('.sortBtn').offsetTop;
+        var scrollFlag = true;
+        var couponHeight = 0;
+
+		apiready = function () {
+
+
+            //获取可领优惠券
+            getCoupon();
+            //获取推荐品牌
+            getRecommend();
+            // 获取商品
+            getData(sort)
+			pageScroll()
+		};
+
+		function pageScroll() {
+            document.onscroll = function(){
+                if(sortBtnTop - quakooUtils.getScrollTop()<=0){
+                    if(scrollFlag){
+                        scrollFlag = false;
+                        document.querySelector('.sortBtn.active').style.display = 'block';
+                    }
+                }else{
+                    if(!scrollFlag){
+                        document.querySelector('.sortBtn.active').style.display = 'none';
+                        scrollFlag = true;
+                    }
+                }
+            }
+        }
+
+        //获取数据
+		function getData(num){
+		    sort = num;
+            new QuakooPage(addHtml,config.getUrl_web_mall_getPagerByType(),{type:1,sort:sort})
+        }
+        function addHtml(result,append) {
+            for(var i = 0; i < result.length; i++){
+                if(result[i].covers[0]){
+                    var obj = quakooImg.processImg(result[i].covers[0],160,160);
+                    result[i].style = obj.style;
+                    result[i].covers[0] = obj.url;
+                }
+                result[i].price = quakooUtils.formatMoney(result[i].price/100, 2);
+            }
+            var data = {list: result};
+            var html = template('contentTmp',data);
+            if(append){
+                var div = document.createElement("div");
+                div.innerHTML = html;
+                document.getElementById('contentDom').appendChild(div);
+            }else{
+                document.getElementById('contentDom').innerHTML = html;
+            }
+            setTimeout(function(){
+                echoExt.init({
+                    offset: 0,
+                    throttle: 0//设置图片延迟加载的时间
+                });
+            },100)
+        }
+        //查看商品详情
+        function lookIndex(id,name) {
+            quakooApp.openNewWindow('goodsIndex','../goods/goodsIndex.html',{id:id,title:name});
+        };
+        //获取推荐品牌
+        function getRecommend(){
+            quakooMsg.showProgress();
+            quakooData.ajaxGetData(config.getUrl_web_mall_getRecommendBrand(),{type:1},function(ret,err){
+                quakooMsg.hideProgress();
+                if(ret){
+                    if(ret.success == true){
+                        for(var i=0;i<ret.data.length;i++){
+                            if(ret.data[i].icon){
+                                var obj = quakooImg.processImg(ret.data[i].icon,63,63)
+                                ret.data[i].style = obj.style;
+                                ret.data[i].icon = obj.url;
+							}
+                        }
+                        var html = template('pinpaiTmp',{list: ret.data});
+                        document.getElementById('pinpaiDom').innerHTML = html;
+
+                        pinpaiHeight  = document.getElementById('pinpaiDom').offsetHeight;
+                    }
+                }else{
+                    quakooMsg.toast(err.msg)
+                }
+            })
+        };
+        //查看是否有优惠券
+        function getCoupon() {
+            if(!quakooUser.isLoginUser()){
+                return ;
+			}
+            quakooData.ajaxGetData(config.getUrl_web_mall_getCanGet(),{},function (ret,err) {
+                if(ret){
+                    if(ret.success == true){
+                        if(ret.data == ''){
+                            couponFlag  = false;
+                            document.getElementById('ticket').style.display = 'none';
+                        }else{
+                            couponFlag = true;
+                            document.getElementById('ticket').style.display = 'block';
+                            couponHeight = 32;
+                            sortBtnTop = document.querySelector('.sortBtn').offsetTop;
+                        }
+                    }else{
+                        couponFlag  = false;
+                        document.getElementById('ticket').style.display = 'none';
+					}
+                }else{
+                    quakooMsg.toast(err.msg)
+                }
+            })
+        };
+        //领取优惠券
+        function getC(){
+            quakooApp.openFrame("couponList","couponList.html",{},0,0,{bgColor : "rgba(0,0,0,0.3)"});
+        };
+
+        //打开原创商品列表
+        function openStoreIndex(id,name){
+            quakooApp.openNewWindow('pinpaiGoodsList','../goods/pinpaiGoodsList.html',{id:id,name:name});
+        }
+        //	打开更多
+        function openMore() {
+            quakooApp.openNewWindow('yuanchuangMore','yuanchuangMore.html')
+        };
+        //改变条件样式，并搜索
+        function editStyle(self,num) {
+            //价格0降序，1升序，点击改变
+            if(num==1){
+                self.onclick = function () {
+                    editStyle(self,0)
+                }
+            }else if(num==0){
+                self.onclick = function () {
+                    editStyle(self,1)
+                }
+            }
+            for(var i=0;i<document.querySelectorAll('.sortBtn1 li').length;i++){
+                document.querySelectorAll('.sortBtn li')[i].classList.remove('active');
+                document.querySelectorAll('.sortBtn1 li')[i].classList.remove('active');
+                if(document.querySelectorAll('.sortBtn1 li')[i].innerHTML==self.innerHTML){
+                    document.querySelectorAll('.sortBtn1 li')[i].classList.add('active');
+				}
+                if(document.querySelectorAll('.sortBtn li')[i].innerHTML==self.innerHTML){
+                    document.querySelectorAll('.sortBtn li')[i].classList.add('active');
+				}
+            }
+            getData(num)
+            /*api.execScript({
+                name:"miyouyuanchuang",
+                frameName:"miyouyuanchuang_body",
+                script:"getData('"+num+"')"
+            })*/
+        }
+        // 2 收藏     1取消收藏
+        var flag = true;
+        function toCollect(id,favoriteFlag,self,e) {
+            quakooUtils.stopEventBubble(e)
+            if(flag){
+                flag = false;
+                if(!quakooUser.isLoginUser()){
+                    quakooApp.openNewWindow('login','../login/login.html',{});
+                    flag = true;
+                    return ;
+                }
+                if(favoriteFlag==1){
+                    quakooMsg.showProgress();
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_favoriteDelete(),{typeId:id,type:1},function (ret,err) {
+                        flag = true;
+                        quakooMsg.hideProgress();
+                        if(ret && ret.success){
+                            quakooMsg.toast('取消成功');
+                            self.classList.toggle('active');
+                            self.onclick = function () {
+                                toCollect(id,2,self)
+                            }
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'editCollectNum("-")'
+                            });
+                        }else{
+                            quakooMsg.toast(err.msg)
+                        }
+                    })
+                }else{
+                    quakooMsg.showProgress();
+                    quakooData.ajaxSubmitData(config.getUrl_web_system_favoriteAdd(),{typeId:id,type:1},function (ret,err) {
+                        flag = true;
+                        quakooMsg.hideProgress();
+                        if(ret && ret.success){
+                            quakooMsg.toast('收藏成功');
+                            self.classList.toggle('active');
+                            self.onclick = function () {
+                                toCollect(id,1,self)
+                            }
+                            api.execScript({
+                                name:'main',
+                                frameName:'my',
+                                script:'editCollectNum("+")'
+                            });
+                        }else{
+                            quakooMsg.toast(err.msg)
+                        }
+                    })
+                }
+            }
+
+        }
+	</script>
+</html>
